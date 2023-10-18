@@ -1,56 +1,48 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import logo from "../../src/logo.png";
-import { BiSupport } from "react-icons/bi";
-import { IoIosNotifications } from "react-icons/io";
-import axios from "axios";
-import { loginAdmin } from "../service/apiService";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import  "./Login.css";
+import logo from '../../src/logo.png'
+import { BiSupport } from 'react-icons/bi';
+import { IoIosNotifications } from 'react-icons/io';
+import axios from 'axios';
+import { login } from '../Components/Student/apiServices';
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [auth, setAuth] = useState(false);
 
   const handleLogin = async () => {
+    const data = { email: email, password: password };
     try {
-      const response = await loginAdmin(email, password);
-      let jsonTOKEN = response.token;
-      console.log(jsonTOKEN, "cookie");
-      localStorage.setItem("token", jsonTOKEN);
-      let token = localStorage.getItem("token");
-      console.log(token,);
-      if(token){
-        navigate("/admin/dash");
+      const response = await login(data);
+      console.log(response, 'responses');
+      if (response && response.token) {
+        navigate('/student/dash');
+      } else {
+        setAuth(true);
       }
     } catch (error) {
-      console.error("Login failed:", error.message);
+      setAuth(true);
     }
   };
 
-
   return (
     <>
-      <div className="flex flex-wrap bottom justify-between pl-20 pr-24 items-center">
-        <Link to="/">
-          <img src={logo} width="150px" alt="" />
-        </Link>
-        <div className="flex items-center ">
-          <BiSupport className="pr-5 bg " size={50} />
-          <IoIosNotifications className="pr-5 bg" size={50} />
-          {/* <button className='login'>Login</button> */}
+      <div className='flex flex-wrap bottom justify-between pl-20 pr-24 items-center'>
+        <Link to='/'><img src={logo} width="150px" alt="" /></Link>
+        <div className='flex items-center '>
+          <BiSupport className='pr-5 bg ' size={50} />
+          <IoIosNotifications className='pr-5 bg' size={50} />
         </div>
       </div>
 
       <div className="min-h-screen margin flex flex-wrap justify-evenly items-center  bg-ash-400">
-        {/* <img className="logo" src={logo} alt="" /> */}
         <div class="box">
           <div class="form">
-            <h2 className="text-2xl font-bold mb-4 font text-center mt-4">
-              Login
-            </h2>
-            <form className="loginHome">
+            <h2 className="text-2xl font-bold mb-4 text-center mt-4">Login</h2>
+            <form className='loginHome'>
               <div className="mb-4">
                 <input
                   type="email"
@@ -66,9 +58,7 @@ const Login = () => {
                   placeholder="Password"
                   className="w-full p-2 loginInput rounded"
                   value={password}
-                  onChange={(e) => {
-                    return setPassword(e.target.value);
-                  }}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <button
@@ -78,7 +68,16 @@ const Login = () => {
               >
                 Login
               </button>
+              <Link to='/forgetpass'>
+              <button className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
+              </Link>
+              
+              
             </form>
+
+            {auth && (
+              <p className="text-red-500 text-center">Invalid password or username</p>
+            )}
           </div>
         </div>
       </div>
