@@ -1,0 +1,27 @@
+.card {
+  background-color: #666d71;
+  padding: 0.7rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, border 0.3s;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+
+.card:hover {
+  border: 2px solid rgb(224, 144, 64);
+  animation: pulse .5s forwards;
+}
+
+@keyframes pulse {
+  0% {
+    margin-top: 0px;
+  }
+  50% {
+    margin-top: -20px;
+  }
+  100%{
+    margin-top: 0px;
+  }
+}
