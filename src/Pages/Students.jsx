@@ -88,7 +88,7 @@ const Students = () => {
 
   const filteredStudents = debouncedSearchTerm
     ? students.filter((student) =>
-        student.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+        student?.name?.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       )
     : students;
 
@@ -168,7 +168,7 @@ const Students = () => {
   }, []);
 
   const handleUpdateStudent = () => {
-    const updatedStudents = students.map((student, index) => {
+    const updatedStudents = students?.map((student, index) => {
       if (index === editingIndex) {
         return { ...student, ...newStudent };
       }
@@ -246,7 +246,7 @@ const Students = () => {
   ];
   
 
-  const gridData = students.map((student, index) => ({
+  const gridData = students?.map((student, index) => ({
     ...student,
     id: index + 1,
   }));
@@ -333,7 +333,7 @@ const Students = () => {
               onChange={handleInputChange}
             >
               <option value="">Select Trainer</option>
-              {trainers.map((item) => {
+              {trainers?.map((item) => {
                 return <option value={item._id}>{item.name}</option>;
               })}
             </select>
@@ -344,7 +344,7 @@ const Students = () => {
               onChange={handleInputChange}
             >
               <option value="">Select Branch</option>
-              {branches.map((branch) => (
+              {branches?.map((branch) => (
                 <option key={branch._id} value={branch._id}>
                   {branch.name}
                 </option>
@@ -360,7 +360,7 @@ const Students = () => {
               <option value="" disabled>
                 Select Course
               </option>
-              {course_data.map((item) => {
+              {course_data?.map((item) => {
                 return (
                   <option key={item._id} value={item._id}>
                     {item.name}
@@ -403,7 +403,7 @@ const Students = () => {
           }}
         >
           <ColumnsDirective>
-            {gridColumns.map((item, index) => (
+            {gridColumns?.map((item, index) => (
               <ColumnDirective key={index} {...item} />
             ))}
           </ColumnsDirective>

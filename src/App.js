@@ -44,6 +44,7 @@ import AdminDash from "./Components/AdminDashboardd";
 import Branch from "./Pages/Branch";
 import SubmitForm from "./Components/Student/SubmitForm";
 import Task from "./Components/Student/Task";
+import AdminLogin from "./auth/AdminLogin";
 
 
 
@@ -58,6 +59,7 @@ const App = () => {
           <Route index element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path='/forgetpass' element={<StudentForgetPass/>}/>
+          <Route path="adminlogin" element={<AdminLogin />} />
 
           <Route path="*" element={<NotFound />} />
           {/* Admin routes */}
