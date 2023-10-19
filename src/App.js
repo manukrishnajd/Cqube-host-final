@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
+import StudentProfile from './Components/Student/StudentProfile'
 
 import Students from './Pages/Students'
 
@@ -39,7 +40,6 @@ import { ViewCourses } from "./Trainer/ViewCourses";
 
 
 import './App.css'
-import StudentProfile from "./Pages/StudentProfile";
 import AdminDash from "./Components/AdminDashboardd";
 import Branch from "./Pages/Branch";
 import SubmitForm from "./Components/Student/SubmitForm";

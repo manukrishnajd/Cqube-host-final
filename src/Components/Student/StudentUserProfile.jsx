@@ -9,6 +9,7 @@ import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
 import {studentbyid} from './apiServices'
+import { GiCaptainHatProfile } from 'react-icons/gi';
 
 const StudentUserProfile = () => {
   const { currentColor } = useStateContext();
@@ -39,7 +40,16 @@ const StudentUserProfile = () => {
     navigate('/login'); // Navigate to the login page
   };
 
- 
+let userProfiles = [
+    {
+      icon: <GiCaptainHatProfile />,
+      title: 'My Profile',
+      desc: 'Account Settings',
+      iconColor: 'orange',
+      iconBg: 'gray',
+    }
+  
+  ];
 
   return (
     <div
@@ -64,7 +74,7 @@ const StudentUserProfile = () => {
         </div>
       </div>
       <div>
-        {userProfileData.map((item, index) => (
+        {userProfiles.map((item, index) => (
           <Link to='/student/profile'>
           <div
             key={index}
