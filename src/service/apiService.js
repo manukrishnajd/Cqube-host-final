@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { errorToastify } from "../Components/Student/toastify";
 
 const BASE_URL = "http://localhost:4000/api/";
 
@@ -12,6 +13,7 @@ const API_ROUTES = {
   NOTIFICATIONS: "notification",
   AUTH: "auth",
   TRAINER: "trainer",
+  LOGIN: "adminlogin",
 };
 
 const buildUrl = (route) => `${BASE_URL}${route}`;
@@ -23,18 +25,21 @@ let token =
 
 export const loginAdmin = async (email, password) => {
   try {
-    const response = await axios.post(buildUrl(`${API_ROUTES.AUTH}/login`), {
+    console.log(email,password);
+    const response = await axios.post(`http://localhost:4000/api/auth/login`, 
       email,
       password,
-    });
-    console.log(
-      "🚀 ~ file: apiService.js:74 ~ loginAdmin ~ response:",
-      response.data.token
     );
-    token = response.data.token; // Set the token
+
+    localStorage.setItem("token", response?.data?.token);
+    localStorage.setItem("id",response?.data?.otherDetails?._id);
+
+
+
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch login: " + error.message);
+    throw new Error("Failed to fetch student: " + error.response.data.message);
+
   }
 };
 

@@ -47,6 +47,11 @@ import Task from "./Components/Student/Task";
 
 
 
+// admin login
+import AdminLogin from "./auth/AdminLogin";
+
+
+
 
 
 const App = () => {
@@ -61,8 +66,10 @@ const App = () => {
 
           <Route path="*" element={<NotFound />} />
           {/* Admin routes */}
+          <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin" element={<Layout />}>
             <Route path="dash" element={<AdminDash />} />
+           
             <Route path="studentview" element={<StudentProfile/>} />
             <Route path="student" element={<Students />} />
             <Route path="student/viewpage" element={<ViewPage/>} />
