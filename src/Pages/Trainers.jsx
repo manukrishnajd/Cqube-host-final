@@ -24,6 +24,8 @@ const Trainers = () => {
   const [gridData, setGridData] = useState();
   const [joinedDate, setJoinedDate] = useState();
 
+  const [data, setdata] = useState([]);
+
   const handleAddTrainer = () => {
     const newTrainer = {
       name,
@@ -57,7 +59,6 @@ const Trainers = () => {
     { field: "course", headerText: "Course", width: 100 },
   ];
 
-  const [data, setdata] = useState([]);
 
   useEffect(() => {
     viewbranch().then((res) => {
@@ -76,7 +77,7 @@ const Trainers = () => {
   } ,[]);
   
   console.log("vimalresponse",course_data);
-  console.log(data._id, "datas");
+  // console.log(data._id, "datas");
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
@@ -132,11 +133,11 @@ const Trainers = () => {
               <option value="" disabled>
                 Select Branch
               </option>
-              {data.map((item) => (
+              {/* {data?.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
-              ))}
+              ))} */}
             </select>
 
             <select
@@ -147,15 +148,15 @@ const Trainers = () => {
               <option value="" disabled>
                 Select Course
               </option>
-              {
-                course_data.map((item)=>{
+              {/* {
+                course_data?.map((item)=>{
                   return(
                     <>
                       <option key={item?._id}   value={item?._id}>{item?.name}</option>
                     </>
                   )
                 })
-              }
+              } */}
               {/* <option value="Course 2">Course 2</option> */}
             </select>
           </div>
@@ -176,7 +177,7 @@ const Trainers = () => {
           width="auto"
         >
           <ColumnsDirective>
-            {gridColumns.map((item, index) => (
+            {gridColumns?.map((item, index) => (
               <ColumnDirective key={index} {...item} />
             ))}
           </ColumnsDirective>

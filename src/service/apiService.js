@@ -18,30 +18,78 @@ const API_ROUTES = {
 
 const buildUrl = (route) => `${BASE_URL}${route}`;
 
-let token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWU5YzRkODU1OTZiODNjMjAyMWVjNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY5Njg2NTU1MH0.16BKbHUnWWzCJGPB7u5sTlEFzUvLj5nszGutRtMHGBg"; // Variable to store the token
+// let token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWU5YzRkODU1OTZiODNjMjAyMWVjNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY5Njg2NTU1MH0.16BKbHUnWWzCJGPB7u5sTlEFzUvLj5nszGutRtMHGBg"; // Variable to store the token
+
+
+  const token = localStorage.getItem("token")
+
+
 
 // login section
-
 export const loginAdmin = async (email, password) => {
   try {
-    console.log(email,password);
-    const response = await axios.post(`http://localhost:4000/api/auth/login`, 
-      email,
-      password,
-    );
-
+    const response = await axios.post(`http://localhost:4000/api/auth/login`, email,  password );
     localStorage.setItem("token", response?.data?.token);
-    localStorage.setItem("id",response?.data?.otherDetails?._id);
-
-
-
+    localStorage.setItem("id", response?.data?.otherDetails?._id);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch student: " + error.response.data.message);
-
+    throw new Error(error.response.data.message);
   }
 };
+
+//  create branch
+export const createBranch = async (name) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/api/branch",
+      {name},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+// view all branchs
+
+export const getAllBranches = async () => {
+  try {
+    const response = await axios.get("http://localhost:4000/api/branch");
+    return response.data.result;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+
+
+
+
+export const viewbranch = async () => {
+  try {
+    const response = await axios.get("http://localhost:4000/api/branch", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.message);
+  }
+};
+
+
+
+// ------------------------
+
 
 //studennt
 
@@ -266,19 +314,7 @@ export const addbranch = async (branch) => {
     throw new Error("Failed to add student: " + error.message);
   }
 };
-export const viewbranch = async () => {
-  try {
-    const response = await axios.get("http://localhost:4000/api/branch", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
-  }
-};
+
 
 
 //view all branches
