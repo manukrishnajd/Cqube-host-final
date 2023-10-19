@@ -18,8 +18,6 @@ const API_ROUTES = {
 
 const buildUrl = (route) => `${BASE_URL}${route}`;
 
-// let token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWU5YzRkODU1OTZiODNjMjAyMWVjNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY5Njg2NTU1MH0.16BKbHUnWWzCJGPB7u5sTlEFzUvLj5nszGutRtMHGBg"; // Variable to store the token
 
 
   const token = localStorage.getItem("token")

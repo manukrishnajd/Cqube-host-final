@@ -12,7 +12,15 @@ import {
 } from "@syncfusion/ej2-react-grids";
 import { Header } from "../Components";
 import { useEffect } from "react";
-import { addTrainer, viewbranch ,getCourse, getAllTrainers, updateTrainer } from "../service/apiService";
+import {
+  addTrainer,
+  viewbranch,
+  getCourse,
+  getAllTrainers,
+  updateTrainer,
+  getBranch,
+  getAllBranches,
+} from "../service/apiService";
 
 const Trainers = () => {
   const [name, setName] = useState("");
@@ -25,6 +33,10 @@ const Trainers = () => {
   const [joinedDate, setJoinedDate] = useState();
 
   const [data, setdata] = useState([]);
+
+  // branches
+
+  const [getBranch, setGetBranch] = useState([]);
 
   const handleAddTrainer = () => {
     const newTrainer = {
@@ -59,24 +71,33 @@ const Trainers = () => {
     { field: "course", headerText: "Course", width: 100 },
   ];
 
-
   useEffect(() => {
     viewbranch().then((res) => {
-      console.log("res", res);
+     
       setdata(res);
     });
   }, []);
 
+  const fetchAllDetails = async () => {
+    try {
+      const result = await getAllBranches();
+
+      setGetBranch(result);
+    } catch (error) {}
+  };
+
   const [course_data, setCourseData] = useState([]);
 
-  useEffect(() =>{
-    getCourse().then((res)=>{
-      setCourseData(res)
-    })
-    getAllTrainers()
-  } ,[]);
-  
-  console.log("vimalresponse",course_data);
+  useEffect(() => {
+    getCourse().then((res) => {
+      setCourseData(res);
+    });
+    // getAllTrainers()
+
+    fetchAllDetails();
+  }, []);
+
+  console.log("vimalresponse", course_data);
   // console.log(data._id, "datas");
 
   return (
@@ -133,11 +154,17 @@ const Trainers = () => {
               <option value="" disabled>
                 Select Branch
               </option>
-              {/* {data?.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))} */}
+
+              {getBranch?.map((item) => {
+                return (
+                  <>
+                    {console.log(item, "dddd")}
+                    <option key={item._id} value={item._id}>
+                      {item.name}
+                    </option>
+                  </>
+                );
+              })}
             </select>
 
             <select
