@@ -13,20 +13,20 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(false);
 
   const handleLogin = async () => {
     const data = { email: email, password: password };
     try {
       const response = await loginAdmin(data);
-  
+      console.log(response, 'responses');
       if (response && response.token) {
-        navigate('/admin');
+        navigate('/student/dash');
       } else {
-        
+        setAuth(true);
       }
     } catch (error) {
-      errorToastify(error?.message)
+      setAuth(true);
     }
   };
 
@@ -71,9 +71,16 @@ const AdminLogin = () => {
                 Login
               </button>
           
+              <Link to='/forgetpass'>
+              <button className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
+              </Link>
               
               
             </form>
+
+            {auth && (
+              <p className="text-red-500 text-center">Invalid password or username</p>
+            )}
           </div>
         </div>
       </div>

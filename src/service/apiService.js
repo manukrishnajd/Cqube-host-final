@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { errorToastify } from "../Components/Student/toastify";
 
 const BASE_URL = "http://localhost:4000/api/";
 
@@ -12,6 +13,7 @@ const API_ROUTES = {
   NOTIFICATIONS: "notification",
   AUTH: "auth",
   TRAINER: "trainer",
+  LOGIN: "adminlogin",
 };
 
 const buildUrl = (route) => `${BASE_URL}${route}`;
