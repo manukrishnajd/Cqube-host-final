@@ -100,9 +100,10 @@ export const notification=async ()=>{
 
 }
 
-export const studentbycourse=async (courseid,id)=>{
+export const studentbycourse=async (id,courseid)=>{
+  console.log(courseid,id,'courses id');
   try {
-    const response = await axios.get(`http://localhost:4000/studentsby/${id}/${courseid}`, {
+    const response = await axios.get(`http://localhost:4000/api/student/studentsby/${courseid}/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // Use the token for authorization

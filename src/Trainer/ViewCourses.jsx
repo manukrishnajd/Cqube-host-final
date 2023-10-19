@@ -2,7 +2,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import Students from "./View_student";
 import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
-import Course, { coursebyid, trainerdetail } from "../service/trainerService";
+import Course, { coursebyid, studentbycourse, trainerdetail } from "../service/trainerService";
  
 const TABLE_HEAD = ["Name", "Job", "Employed", ""];
 
@@ -54,7 +54,9 @@ console.log(data,'datas');
 
   const [stud, setstud]=useState(false)
 
-  const student=()=>{
+  const student=(courseid,id)=>{
+    console.log(courseid,id,'bhjnk');
+    studentbycourse(courseid,id)
     setstud(!stud)
   }
   return (
@@ -62,7 +64,10 @@ console.log(data,'datas');
     <div className="flex gap-4 flex-wrap">
       {data.map((item)=>{
         return(
-          <CourseCard course={item.name} description={item.details} syllabus={item.syllabus  } st={student}/>
+          <>
+          <h3>{item._id}hbjnkm</h3>
+          <CourseCard course={item.name} description={item.details} syllabus={item.syllabus  } st={() => student(item._id,id)} />
+          </>
           )
       })}
    {/* <CourseCard course="DSA" description="DSA Description" st={student}/> */}
