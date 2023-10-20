@@ -7,11 +7,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { FaEye } from 'react-icons/fa';
+import { FaEye } from "react-icons/fa";
 import { button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { BsPenFill } from "react-icons/bs";
-
 
 const columns = [
   { id: "sino", label: "SI-no" },
@@ -100,8 +99,7 @@ const rows = [
     "online",
     "sneha",
     "Verified",
-    10,
-    
+    10
   ),
   createData(
     "1",
@@ -111,8 +109,7 @@ const rows = [
     "online",
     "sneha",
     "Verified",
-    10,
-    
+    10
   ),
   createData(
     "1",
@@ -122,8 +119,7 @@ const rows = [
     "online",
     "sneha",
     "Verified",
-    10,
-    
+    10
   ),
   createData(
     "1",
@@ -133,8 +129,7 @@ const rows = [
     "online",
     "sneha",
     "pending",
-    10,
-    
+    10
   ),
   createData(
     "1",
@@ -144,8 +139,7 @@ const rows = [
     "online",
     "sneha",
     "Verified",
-    10,
-    
+    10
   ),
   createData(
     "1",
@@ -155,8 +149,7 @@ const rows = [
     "online",
     "sneha",
     "Verified",
-    10,
-    
+    10
   ),
   createData(
     "1",
@@ -166,8 +159,7 @@ const rows = [
     "online",
     "sneha",
     "hello",
-    10,
-    
+    10
   ),
 
   // Add more rows here with values for all properties.
@@ -195,73 +187,72 @@ export default function AssignmentDetails() {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-  <TableContainer sx={{ maxHeight: 440 }}>
-    <Table stickyHeader aria-label="sticky table">
-      <TableHead>
-        <TableRow>
-          {columns.map((column) => (
-            <TableCell
-              key={column.id}
-              align={column.align}
-              style={{ minWidth: column.minWidth }}
-            >
-              {column.label}
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map((row) => {
-            return (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                {columns.map((column) => {
-                  const value = row[column.id];
-                  if (column.id === "activity") {
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {row.status === "Verified" ? (
-                          <Link to='/student/scorecard'>
-                          <button onClick={() => handleViewActivity(row)}>
-                            <FaEye />
-                          </button>
-                          </Link>
-                          
-                        ) : (
-                          <Link to='/student/submitForm'>
-                          <button><BsPenFill/></button>
-                          </Link>
-                          
-                        )}
-                      </TableCell>
-                    );
-                  } else {
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === "number"
-                          ? column.format(value)
-                          : value}
-                      </TableCell>
-                    );
-                  }
-                })}
-              </TableRow>
-            );
-          })}
-      </TableBody>
-    </Table>
-  </TableContainer>
-  <TablePagination
-    rowsPerPageOptions={[10, 25, 100]}
-    component="div"
-    count={rows.length}
-    rowsPerPage={rowsPerPage}
-    page={page}
-    onPageChange={handleChangePage}
-    onRowsPerPageChange={handleChangeRowsPerPage}
-  />
-</Paper>
-
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      if (column.id === "activity") {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {row.status === "Verified" ? (
+                              <Link to="/student/scorecard">
+                                <button onClick={() => handleViewActivity(row)}>
+                                  <FaEye />
+                                </button>
+                              </Link>
+                            ) : (
+                              <Link to="/student/submitForm">
+                                <button>
+                                  <BsPenFill />
+                                </button>
+                              </Link>
+                            )}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      }
+                    })}
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 }

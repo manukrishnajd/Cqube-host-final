@@ -11,11 +11,11 @@ const StudentProfile = () => {
   useEffect(() => {
     if (stdid) {
       studentbyid(stdid, { token })
-        .then(data => {
+        .then((data) => {
           setStudentData(data);
-          console.log(data, 'dd');
+          console.log(data, "dd");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Failed to fetch student data: " + error.message);
         });
     }
@@ -27,8 +27,8 @@ const StudentProfile = () => {
     course: "Bachelor of Science",
     contact: "123-456-7890",
     email: "john.doe@example.com",
-    gitLink: 'studentData.github',
-    linkedinLink: 'studentData.linkedin',
+    gitLink: "studentData.github",
+    linkedinLink: "studentData.linkedin",
   });
 
   const [newGitLink, setNewGitLink] = useState("");
@@ -116,7 +116,7 @@ const StudentProfile = () => {
                 <div>
                   <input
                     type="text"
-                    value={studentData.github}
+                    value={newGitLink}
                     onChange={(e) => setNewGitLink(e.target.value)}
                     className="w-full px-3 py-2 mt-3 text-gray-700 rounded-lg border-2 border-blue-300 focus:outline-none focus:border-blue-500"
                   />
@@ -126,12 +126,12 @@ const StudentProfile = () => {
                 </div>
               ) : (
                 <a
-                  href={studentData?.github}
+                  href={student.gitLink} // Use the state variable for displaying the link
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  {studentData?.github}
+                  {student.gitLink}
                 </a>
               )}
             </li>
@@ -151,12 +151,12 @@ const StudentProfile = () => {
                 </div>
               ) : (
                 <a
-                  href={studentData?.linkedin}
+                  href={student.linkedinLink} // Use the state variable for displaying the link
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  {studentData?.linkedin}
+                  {student.linkedinLink}
                 </a>
               )}
             </li>
@@ -167,7 +167,7 @@ const StudentProfile = () => {
               color="primary"
               onClick={handleUpdate}
               className="float-right"
-              style={{ marginTop: '20px' }}
+              style={{ marginTop: "20px" }}
             >
               Update
             </Button>
@@ -177,9 +177,9 @@ const StudentProfile = () => {
               color="primary"
               onClick={() => setIsEditing(true)}
               className="float-right"
-              style={{ marginTop: '20px' }}
+              style={{ marginTop: "20px" }}
             >
-              Update
+              Edit
             </Button>
           )}
         </div>
