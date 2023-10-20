@@ -7,43 +7,49 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  IconButton,
+  Button,
 } from "@material-ui/core";
-import { Header } from "../Components";
 import { GiBrassEye } from "react-icons/gi";
-import FormPop from "../Components/studentComponent/Formpopup";
 import { Link } from "react-router-dom";
 import { viewstudent } from "../service/trainerService";
 
 const Students = () => {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
   const id = localStorage.getItem('id');
-  console.log(id);
-  // const id = "651e9217bfc133e09c62e6ae"
 
   useEffect(() => {
     viewstudent(id)
       .then((res) => {
-        console.log(res,'responses');
-        setData(res); // Set the fetched data into the 'data' state
+        setData(res);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
-  // Define the table headers and initial data
   const tableHeaders = [
     "Name",
-    "Course",
     "Phone Number",
-    "Branch",
     "Email",
-    "Status",
     "Action",
   ];
 
   const handleViewRow = (student) => {
     // Handle viewing a row (if needed)
+  };
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
   };
 
   return (
@@ -70,21 +76,20 @@ const Students = () => {
               </TableRow>
             </TableHead>
             <TableBody className="text-lg">
-              {data.map((student) => (
+              {currentData.map((student) => (
                 <TableRow key={student._id}>
                   <TableCell>{student.name}</TableCell>
-                  <TableCell>{student.courseRef.name}</TableCell>
                   <TableCell>{student.phoneNumber}</TableCell>
-                  <TableCell>{student.branch}</TableCell>
                   <TableCell>{student.email}</TableCell>
-                  <TableCell>{student.status}</TableCell>
                   <TableCell>
                     <Link to="/trainer/detail">
-                      <GiBrassEye
-                        size={25}
+                      <IconButton
+                        size="small"
                         title="View more"
                         onClick={() => handleViewRow(student)}
-                      />
+                      >
+                        <GiBrassEye size={25} />
+                      </IconButton>
                     </Link>
                   </TableCell>
                 </TableRow>
@@ -92,6 +97,22 @@ const Students = () => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <div className="pagination-container text-black">
+          <Button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span className="page-number">Page {currentPage} of {totalPages}</span>
+          <Button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
