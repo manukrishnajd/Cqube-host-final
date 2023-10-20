@@ -110,127 +110,119 @@
 
 // export default Branch;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import {
-  GridComponent,
-  ColumnsDirective,
-  ColumnDirective,
-  Page,
-  Inject,
-  Edit,
-  Toolbar,
-  Sort,
-} from "@syncfusion/ej2-react-grids";
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Button,
+} from "@material-ui/core";
+import { GiBrassEye } from "react-icons/gi";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { createBranch, getAllBranches } from "../service/apiService";
+import { createBranch, deleteBranch, getAllBranches } from "../service/apiService";
 import { errorToastify, successToastify } from "../Components/Student/toastify";
 import { Filter } from "@mui/icons-material";
+import { AiFillDelete } from "react-icons/ai";
 
 const Trainers = () => {
   const [name, setName] = useState("");
   const [gridData, setGridData] = useState();
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
   const [data, setdata] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
-  const handleBranch = async() => {
-
+  const handleBranch = async () => {
     try {
       const response = await createBranch(name);
-      successToastify('Create branch')
+      successToastify("Create branch");
     } catch (error) {
-      errorToastify(error?.message)
+      errorToastify(error?.message);
     }
-    getBranches()
-    setGridData(data);
-    clearFields();
+    getBranches();
   };
 
-  const clearFields = () => {
-    setName("");
-  };
-
-  const getBranches = async()=>{
+  const getBranches = async () => {
     try {
       const response = await getAllBranches();
       setdata(response);
     } catch (error) {
-      errorToastify(error?.message)
+      errorToastify(error?.message);
     }
-  
-
-  }
-
-
+  };
 
   useEffect(() => {
-  
-getBranches()
-   
-// setGridData(data); //
+    getBranches();
 
-
-  }, []);
+    // setGridData(data); //
+  }, [refresh]);
 
   const EditButtonComponent = () => {
-    return <button onClick={() => {
-      // Open an edit dialog
-    }}>Edit</button>;
+    return (
+      <button
+        onClick={() => {
+          // Open an edit dialog
+        }}
+      >
+        Edit
+      </button>
+    );
   };
+
+
+const handledelete=async(id)=>{
+  // window.location.reload()
+  try {
+    const response = await deleteBranch(id)
+    setRefresh(!refresh)
+
+    successToastify(response.message);
+  } catch (error) {
+    console.log(error,'--err');
+    errorToastify(error?.message);
+  }
   
+
+}
+
+
   const DeleteButtonComponent = () => {
-    return <button onClick={() => {
-      // Delete the selected row
-    }}>Delete</button>;
+    return (
+      <button
+        onClick={() => {
+          // Delete the selected row
+        }}
+      >
+        Delete
+      </button>
+    );
   };
- 
-  
+
+  const tableHeaders = ["Name", "Created date", "Updated date", "Action"];
+
+  const handleViewRow = (student) => {
+    // Handle viewing a row (if needed)
+  };
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
-
       <div className="mb-8">
         <div className="mb-4">
           <h2 className="text-xl font-bold mb-2">Add Branch</h2>
@@ -242,7 +234,6 @@ getBranches()
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            
           </div>
           <button
             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
@@ -251,33 +242,71 @@ getBranches()
             Add Branch
           </button>
         </div>
+      </div>
 
-{
-  console.log(gridData,'---data')
-}
-        <GridComponent
-          dataSource={gridData}
-          allowPaging
-          allowSorting
-          toolbar={["Delete"]}
-          editSettings={{ allowDeleting: true, allowEditing: true }}
+      <div className="container mx-auto p-3 text-white rounded-3xl">
+        <div className="container mx-auto p-4">
+          <h1 className="text-2xl text-black font-bold mb-4">Student</h1>
 
-          width="auto"
-          allowEditing={true}
-          allowDeleting={true}
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow className="h-fit">
+                  {tableHeaders.map((header, index) => (
+                    <TableCell
+                      key={index}
+                      style={{
+                        backgroundColor: "#475569",
+                        fontSize: "17px",
+                        color: "white",
+                      }}
+                    >
+                      {header}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody className="text-lg">
+                {currentData.map((student) => (
+                  <TableRow key={student._id}>
+                    <TableCell>{student.name}</TableCell>
+                    <TableCell>{student.createdAt}</TableCell>
+                    <TableCell>{student.updatedAt}</TableCell>
+                    <TableCell>
+                    
+                        <IconButton
+                          size="small"
+                          title="Delete"
+                          onClick={() => handledelete(student._id)}
+                        >
+                          <AiFillDelete size={25}/>
+                        </IconButton>
+                    
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-
-
-
-          
-          
-
-        >
-          <a href="">zdfsdf</a>
-            {/* <ColumnDirective field="ete={<DeleteButtonComponent />} /> */}
-          <Inject services={[Page, Toolbar, Edit, Sort]} />
-        
-        </GridComponent>
+          <div className="pagination-container text-black">
+            <Button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <span className="page-number">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

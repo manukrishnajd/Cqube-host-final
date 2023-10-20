@@ -20,9 +20,10 @@ export const AddActivity=()=>{
 
 
 export const viewstudent=async (id)=>{
+  console.log(id,'viewstudent')
   try {
     console.log(token,'after login');
-    const response = await axios.get(`http://localhost:4000/api/student/students/${id}?status=true`, {
+    const response = await axios.get(`http://localhost:4000/api/student/studentsby/${id}?status=true`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // Use the token for authorization

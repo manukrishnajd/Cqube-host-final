@@ -1,81 +1,136 @@
-import { Card, Typography } from "@material-tailwind/react";
-import Students from "./View_student";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Button } from "@material-ui/core";
+import { GiBrassEye } from "react-icons/gi";
+import { Link } from "react-router-dom";
+import { trainerdetail, studentbycourse } from "../service/trainerService";
 import CourseCard from "./CourseCard";
-import Course, { coursebyid, studentbycourse, trainerdetail } from "../service/trainerService";
- 
-const TABLE_HEAD = ["Name", "Job", "Employed", ""];
-
-
-
 const id = localStorage.getItem('id');
 console.log(id);
- 
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
+
+const tableHeaders = [
+  "Name",
+  "Phone Number",
+  "Email",
+  "Status",
+  ""
 ];
- 
+
 export function ViewCourses() {
-  
-  const [data,setdata]=useState([])
- 
-useEffect(()=>{
-  trainerdetail(id).then((res)=>{
-    console.log(res,'responsekjn');
-    setdata(res.courseRef)
-  })
-},[])
+  const [data, setdata] = useState([]);
+  const [studentdata, setstudent] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
 
-console.log(data,'datas');
+  useEffect(() => {
+    trainerdetail(id).then((res) => {
+      console.log(res, 'responsekjn');
+      setdata(res.courseRef);
+    });
+  }, []);
 
-  const [stud, setstud]=useState(false)
+  console.log(data, 'datas');
 
-  const student=(courseid,id)=>{
-    console.log(courseid,id,'bhjnk');
-    studentbycourse(courseid,id)
-    setstud(!stud)
-  }
+  const [stud, setstud] = useState(false);
+
+  const student = (courseid, id) => {
+    console.log(courseid, id, 'bhjnk');
+    studentbycourse(courseid, id).then((res) => {
+      console.log(res, 'responses ghjn');
+      setstudent(res);
+    });
+    setstud(!stud);
+  };
+
+  const handleViewRow = (studentid) => {
+    // Handle viewing a row (if needed)
+  };
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentStudentData = studentdata.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(studentdata.length / rowsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   return (
     <>
-    <div className="flex gap-4 flex-wrap">
-      {data.map((item)=>{
-        return(
-          <>
-          <h3>{item._id}hbjnkm</h3>
-          <CourseCard course={item.name} description={item.details} syllabus={item.syllabus  } st={() => student(item._id,id)} />
-          </>
-          )
-      })}
-   {/* <CourseCard course="DSA" description="DSA Description" st={student}/> */}
-    </div>
-  {stud &&
-  <Students/>
-  }
+      <div className="flex gap-4 flex-wrap">
+        {data.map((item) => {
+          return (
+            <CourseCard course={item.name} description={item.details} syllabus={item.syllabus} st={() => student(item._id, id)} />
+          );
+        })}
+      </div>
 
-  </>
+      {stud && (
+        <div className="container mx-auto p-3 text-white rounded-3xl">
+          <div className="container mx-auto p-4">
+            <h1 className="text-2xl text-black font-bold mb-4">Student</h1>
+
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow className="h-fit">
+                    {tableHeaders.map((header, index) => (
+                      <TableCell
+                        key={index}
+                        style={{
+                          backgroundColor: "#475569",
+                          fontSize: "17px",
+                          color: "white",
+                        }}
+                      >
+                        {header}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody className="text-lg">
+                  {currentStudentData.map((student) => (
+                    <TableRow key={student._id}>
+                      <TableCell>{student.name}</TableCell>
+                      <TableCell>{student.phoneNumber}</TableCell>
+                      <TableCell>{student.email}</TableCell>
+                      <TableCell>{student.phoneNumber}</TableCell>
+                      <TableCell>
+                        <Link to="/trainer/detail">
+                          <IconButton
+                            size="small"
+                            title="View more"
+                            onClick={() => handleViewRow(student._id)}
+                          >
+                            <GiBrassEye size={25} />
+                          </IconButton>
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            <div className="pagination-container text-black">
+              <Button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span className="page-number">Page {currentPage} of {totalPages}</span>
+              <Button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -68,6 +68,23 @@ export const getAllBranches = async () => {
   }
 };
 
+// delete branch
+
+
+//view all branches
+export const deleteBranch = async (id) => {
+  try {
+    const response = await axios.delete(`http://localhost:4000/api/branch/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
 
 
 
@@ -333,18 +350,4 @@ export const getBranch = async (pageNo) => {
 };
 
 
-//view all branches
-export const deleteBranch = async (id) => {
-  try {
-    const response = await axios.delete(`http://localhost:4000/api/branch/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to get branch: " + error.message);
-  }
-};
 
