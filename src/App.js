@@ -42,6 +42,7 @@ import { ViewCourses } from "./Trainer/ViewCourses";
 import './App.css'
 import AdminDash from "./Components/AdminDashboardd";
 import Branch from "./Pages/Branch";
+import Subcourse from "./Pages/Subcourse";
 import SubmitForm from "./Components/Student/SubmitForm";
 import Task from "./Components/Student/Task";
 
@@ -69,6 +70,7 @@ const App = () => {
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin" element={<Layout />}>
             <Route path="dash" element={<AdminDash />} />
+            <Route path="subcourse" element={<Subcourse />} />
            
             <Route path="studentview" element={<StudentProfile/>} />
             <Route path="student" element={<Students />} />

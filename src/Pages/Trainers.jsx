@@ -2,17 +2,6 @@ import React, { useState } from "react";
 
 import { Header } from "../Components";
 import { useEffect } from "react";
-<<<<<<< HEAD
-import {
-  addTrainer,
-  viewbranch,
-  getCourse,
-  getAllTrainers,
-  updateTrainer,
-  getBranch,
-  getAllBranches,
-} from "../service/apiService";
-=======
 import { addTrainer, viewbranch ,getCourse, getAllTrainers, updateTrainer, getAllBranches } from "../service/apiService";
 import {
   Paper,
@@ -28,7 +17,6 @@ import {
 import { AiFillDelete } from "react-icons/ai";
 import { errorToastify } from "../Components/Student/toastify";
 
->>>>>>> fe58dfb92ebe5b3212a980c0dd2b2c3aca94f589
 
 const Trainers = () => {
   const [name, setName] = useState("");
@@ -100,13 +88,6 @@ const [viewCourse, setviewCourse] = useState([]);
     { field: "course", headerText: "Course", width: 100 },
   ];
 
-<<<<<<< HEAD
-  useEffect(() => {
-    viewbranch().then((res) => {
-     
-      setdata(res);
-    });
-=======
   const fetchData = async () => {
     try {
       const response = await getAllBranches();
@@ -122,7 +103,6 @@ const [viewCourse, setviewCourse] = useState([]);
   useEffect(() => {
     fetchData();
 
->>>>>>> fe58dfb92ebe5b3212a980c0dd2b2c3aca94f589
   }, []);
 
   const fetchAllDetails = async () => {
@@ -210,25 +190,11 @@ const [viewCourse, setviewCourse] = useState([]);
               <option value="" disabled>
                 Select Branch
               </option>
-<<<<<<< HEAD
-
-              {getBranch?.map((item) => {
-                return (
-                  <>
-                    {console.log(item, "dddd")}
-                    <option key={item._id} value={item._id}>
-                      {item.name}
-                    </option>
-                  </>
-                );
-              })}
-=======
               {viewBranch?.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
               ))}
->>>>>>> fe58dfb92ebe5b3212a980c0dd2b2c3aca94f589
             </select>
 
             <select
