@@ -36,6 +36,11 @@ export const loginAdmin = async (email, password) => {
   }
 };
 
+
+
+
+
+
 //  create branch
 export const createBranch = async (name) => {
   try {
@@ -54,9 +59,7 @@ export const createBranch = async (name) => {
     throw new Error(error.response.data.message);
   }
 };
-
 // view all branchs
-
 export const getAllBranches = async () => {
   try {
     const response = await axios.get("http://localhost:4000/api/branch");
@@ -65,11 +68,7 @@ export const getAllBranches = async () => {
     throw new Error(error.response.data.message);
   }
 };
-
 // delete branch
-
-
-//view all branches
 export const deleteBranch = async (id) => {
   try {
     const response = await axios.delete(`http://localhost:4000/api/branch/${id}`, {
@@ -83,6 +82,9 @@ export const deleteBranch = async (id) => {
     throw new Error(error.response.data.message);
   }
 };
+
+//branch api end
+
 
 
 
@@ -127,6 +129,8 @@ export const addStudent = async (studentData) => {
     throw new Error("Failed to add student: " + error.message);
   }
 };
+
+//student get
 export const getStudent = async () => {
   try {
     const response = await axios.get(
@@ -139,6 +143,8 @@ export const getStudent = async () => {
     throw new Error("Failed to add student: " + error.message);
   }
 };
+
+//update student
 
 export const updateStudentById = async (studentId, updatedStudentData) => {
   try {
@@ -182,30 +188,7 @@ export const deleteStudentById = async (studentId) => {
 // ```````````````````````````````````````````````````````````````````````````````
 
 //Course
-
 // ```````````````````````````````````````````````````````````````````````````````
-
-
-
-export const addcourse = async (newCourse) => {
-  try {
-    const response = await axios.post(
-      "http://localhost:4000/api/course",
-      newCourse,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log(response);
-    // console.log(response);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
-  }
-};
 export const getCourse = async () => {
   try {
     const response = await axios.get(
@@ -221,9 +204,33 @@ export const getCourse = async () => {
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+    throw new Error(error.response.data.message);
+    }
+};
+
+
+
+//add course
+
+export const addcourse = async (newCourse) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/api/course",
+      newCourse,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.response.data.message);
   }
 };
+
 
 // Function to update a course by ID
 export const updateCourse = async (courseId, courseData) => {
@@ -255,7 +262,7 @@ export const deleteCourse = async (courseId) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to delete course: " + error.message);
+    throw new Error("Failed to delete course: " + error.response.data.message);
   }
 };
 

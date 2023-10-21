@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
-  GridComponent,
-  ColumnsDirective,
-  ColumnDirective,
-  Page,
-  Inject,
-  Edit,
-  Toolbar,
-  Sort,
-  Filter,
-} from "@syncfusion/ej2-react-grids";
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Button,
+} from "@material-ui/core";
+import { AiFillDelete } from "react-icons/ai";
+import { errorToastify, successToastify } from "../Components/Student/toastify";
+
 import { Header } from "../Components";
 import CourseDetailsModal from "./CourseDetailsModal"; // Assuming you have a modal component for displaying course details
 import {
@@ -19,9 +22,44 @@ import {
   getCourse,
 } from "../service/apiService";
 
+
 const Courses = () => {
-  const [gridKey, setGridKey] = useState(0);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
+  const [refresh, setRefresh] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [data, setdata] = useState([]);
+  const tableHeaders = ["Name", "Created date", "Updated date", "Action"];
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentData = courses.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(courses.length / rowsPerPage);
+  
+  
+  const handledelete=async(id)=>{
+
+   try {
+    const response = await deleteCourse(id)
+    setRefresh(!refresh)
+
+    successToastify(response.message);
+  } catch (error) {
+    console.log(error,'--err');
+    errorToastify(error?.message);
+  }
+  
+
+}
+  
+
+  const [gridKey, setGridKey] = useState(0);
 
   const [newCourse, setNewCourse] = useState({
     name: "",
@@ -29,16 +67,19 @@ const Courses = () => {
     courseMaterialFile: null,
   });
   const [editingIndex, setEditingIndex] = useState(null);
-
+console.log(newCourse,'-courseee by typing');
   // Function to fetch courses and update the state
   const fetchCourses = async () => {
     try {
       const coursesData = await getCourse();
-      setCourses(coursesData);
+      setCourses(coursesData.result);
     } catch (error) {
       console.error("Failed to fetch courses: ", error.message);
     }
   };
+
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,31 +97,14 @@ const Courses = () => {
     });
   };
 
-  const handleAddCourse = () => {
-    const { name } = newCourse;
-    addcourse(newCourse);
-
-    if (name) {
-      // Assuming you want to store the course data with files in state
-      const newCourseData = {
-        name,
-        // syllabusFile,
-        // courseMaterialFile,
-        id: courses.length + 1,
-      };
-
-      const updatedCourses = [...courses, newCourseData];
-      setCourses(updatedCourses);
-      setGridKey((prevKey) => prevKey + 1);
-      setNewCourse({
-        name: "",
-        syllabusFile: null,
-        courseMaterialFile: null,
-      });
-      setEditingIndex(null);
-    } else {
-      alert("Please fill all the fields.");
-    }
+  const handleAddCourse = async(e) => {
+   try{
+    const response = await addcourse(newCourse);
+    successToastify('Created course')
+    setRefresh(!refresh)
+   }catch(err){
+    errorToastify(err.message)
+   }
   };
 
   const handleUpdateCourse = async () => {
@@ -132,7 +156,7 @@ const Courses = () => {
 
   useEffect(() => {
     fetchCourses();
-  }, []);
+  }, [refresh]);
 
   const gridColumns = [
     { field: "name", headerText: "Course Name", width: 200 },
@@ -172,10 +196,10 @@ const Courses = () => {
     },
   ];
 
-  const gridData = courses.map((course, index) => ({
-    ...course,
-    id: index + 1,
-  }));
+  // const gridData = courses.map((course, index) => ({
+  //   ...course,
+  //   id: index + 1,
+  // }));
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
@@ -195,18 +219,7 @@ const Courses = () => {
               value={newCourse.name}
               onChange={handleInputChange}
             />
-            <input
-              type="file"
-              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-              name="syllabusFile"
-              onChange={handleFileInputChange}
-            />
-            <input
-              type="file"
-              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-              name="courseMaterialFile"
-              onChange={handleFileInputChange}
-            />
+            
           </div>
 
           {editingIndex !== null ? (
@@ -226,35 +239,74 @@ const Courses = () => {
           )}
         </div>
 
-        <GridComponent
-          key={gridKey}
-          dataSource={gridData}
-          allowPaging
-          allowSorting
-          editSettings={{ allowEditing: true }}
-          width="auto"
-          actionBegin={(args) => {
-            if (args.requestType === "rowclick") {
-              const selectedCourse = courses[args.rowIndex];
-              setSelectedCourse(selectedCourse);
-              setIsModalVisible(true);
-            }
-          }}
-        >
-          <ColumnsDirective>
-            {gridColumns.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-          <Inject services={[Page, Toolbar, Edit, Sort, Filter]} />
-        </GridComponent>
 
-        {selectedCourse && (
+        <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow className="h-fit">
+                  {tableHeaders?.map((header, index) => (
+                    <TableCell
+                      key={index}
+                      style={{
+                        backgroundColor: "#475569",
+                        fontSize: "17px",
+                        color: "white",
+                      }}
+                    >
+                      {header}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody className="text-lg">
+                {currentData.map((student) => (
+                  <TableRow key={student._id}>
+                    <TableCell>{student.name}</TableCell>
+                    <TableCell>{student.createdAt}</TableCell>
+                    <TableCell>{student.updatedAt}</TableCell>
+                    <TableCell>
+                    
+                        <IconButton
+                          size="small"
+                          title="Delete"
+                          onClick={() => handledelete(student._id)}
+                        >
+                          <AiFillDelete size={25}/>
+                        </IconButton>
+                    
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <div className="pagination-container text-black">
+            <Button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <span className="page-number">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+
+       
+
+        {/* {selectedCourse && (
           <CourseDetailsModal
             selectedCourse={selectedCourse}
             toggleModal={toggleModal}
           />
-        )}
+        )} */}
       </div>
     </div>
   );

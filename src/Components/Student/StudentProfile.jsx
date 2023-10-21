@@ -27,8 +27,8 @@ const StudentProfile = () => {
     course: "Bachelor of Science",
     contact: "123-456-7890",
     email: "john.doe@example.com",
-    gitLink: "studentData.github",
-    linkedinLink: "studentData.linkedin",
+    gitLink: studentData.github,
+    linkedinLink: studentData.linkedin,
   });
 
   const [newGitLink, setNewGitLink] = useState("");

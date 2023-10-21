@@ -133,8 +133,13 @@ import { AiFillDelete } from "react-icons/ai";
 const Trainers = () => {
   const [name, setName] = useState("");
   const [gridData, setGridData] = useState();
+
+//reuse
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+
+//reuse
+
   const [data, setdata] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
