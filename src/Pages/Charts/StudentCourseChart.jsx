@@ -3,8 +3,9 @@ import React from 'react';
 import { StudentCourseChart } from '../../Data/dummy';
 import { ChartsHeader, Pie as PieChart } from '../../Components';
 
-const Pie = () => (
+const Pie = (props) => (
 
+  
 
   
   <div className=" bg-white dark:bg-secondary-dark-bg rounded-3xl">

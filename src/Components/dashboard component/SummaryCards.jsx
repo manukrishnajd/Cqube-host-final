@@ -1,15 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './PresentAbsent.css';  // Import the CSS for styling
 import { GiBlood } from 'react-icons/gi';
 import { HiOutlineCode } from 'react-icons/hi';
 import { BiArrowFromLeft } from 'react-icons/bi';
+import { getCountOfSubCourse, getCountOfstudent, getCountOftrainer } from '../../service/apiService';
+import { errorToastify } from '../Student/toastify';
 
 
 const SummaryCards = () => {
   // Replace these with actual data from your application
-  const totalStudents = 100;
-  const totalTrainers = 20;
-  const totalCourses = 50;
+  // const totalStudents = 100;
+  const [totalStudents,setTotalStudents] = useState(0)
+  const [totalTrainers,setTotalTrainers] = useState(0)
+  const [totalCourses,setTotalCourses] = useState(0)
+
+  // 
+  useEffect(() => {
+    getCounts();
+
+    
+  }, []);
+
+
+  const getCounts = async () => {
+    try {
+      const response = await getCountOfSubCourse();
+      const studentres = await getCountOfstudent();
+      const trainerres = await getCountOftrainer();
+      setTotalCourses(response?.result);
+      setTotalStudents(studentres?.result);
+      setTotalTrainers(trainerres?.result);
+      console.log('count of subcourse', response)
+    } catch (error) {
+      console.log(error,'error')
+      errorToastify(error?.message);
+    }
+  };
+
+
+ 
 
   return (
     <div className="grid grid-cols-4 md:grid-cols-4 gap-4">

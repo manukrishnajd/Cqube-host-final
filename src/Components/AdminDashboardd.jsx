@@ -83,10 +83,10 @@ const AdminDash = () => {
             <CoursesChart width="300px" height="300px" data={coursesData} />
             <StudentChart width="300px" height="300px" data={studentData} />
           </div>
-          <div className=" grid grid-cols-3">
+          <div className=" grid grid-cols-3 gap-10">
             <SummaryCards />
-            <Pie />
-            <PresentAbsent />
+            <Pie  />
+            {/* <PresentAbsent /> */}
           </div>
 
           <div></div>

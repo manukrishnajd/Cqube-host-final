@@ -239,153 +239,157 @@ const [selectedCourse, setSelectedCourse] = useState(null);
       case "presentation":
         return (
           <div className="bg-white text-white p-4 rounded-lg shadow-md">
-           
-
-          <h2 className="text-lg font-semibold mb-2 text-black">Presentation </h2>
+          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
           <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-              {/* <label className="block text-lg font-medium text-gray-800">
-                Topic :
-              </label> */}
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-black">Type:</label>
+              <input type="text" value={type} readOnly placeholder="Test"
+              className="h-3"
+                                />
+            </div>
+            <div className="mb-4">
               <input
                 type="text"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                value={duedate}
-                onChange={(e) => setDueDate(e.target.value)}
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
                 placeholder="Topic"
-                required
+                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
               />
             </div>
-            {/* <div className="mb-4">
-              <label className="block text-lg font-medium text-gray-800">
-                Student:
-              </label>
-              <input
-                type="text"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                value={
-                  students.find((student) => student.id === selectedStudentId)
-                    ?.name || ""
-                }
-                readOnly
-              />
-            </div> */}
             <div className="mb-4">
-              {/* <label className="block text-lg font-medium text-gray-800">
-                Test Description:
-              </label> */}
               <textarea
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              rows="3"
-                placeholder="Enter task description"
-                value="Test Description"
-                onChange={(e) => setTaskDescription(e.target.value)}
-                required
-                
+                rows="3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Notes"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
               ></textarea>
             </div>
             <div className="mb-4">
-              <label className="block text-lg font-medium text-black">
-                Due Date:
-              </label>
+              <label className="block text-lg font-medium text-black">Due Date:</label>
               <input
                 type="datetime-local"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 value={duedate}
                 onChange={(e) => setDueDate(e.target.value)}
-                required
+                placeholder="Due Date"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
               />
             </div>
             <div className="mb-4">
-              <button
-                type="submit"
-                className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded"
-              >
-                <span className="text-white font-lg margin-auto">Assign</span>
-              </button>
+              <input
+                type="number"
+                value={mark}
+                onChange={(e) => setMark(e.target.value)}
+                placeholder="Total mark"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
             </div>
+    
+            <div className="mb-4">
+              <select
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              >
+                <option value="">Select a student</option>
+                {data.map((student) => (
+                  <option key={student._id} value={student._id}>
+                    {student.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <button
+              type="submit"
+              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
+            >
+              <span className="text-white font-lg margin-auto">Submit</span>
+            </button>
           </form>
-        </div>
+          </div>
         );
       case "task":
         return (
           <div className="bg-white text-white p-4 rounded-lg shadow-md">
-           
-
-            <h2 className="text-lg font-semibold text-black mb-2">Task Assignment:</h2>
-            <form onSubmit={handleSubmit}>
+          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-white">
-                  Topic :
-                </label> */}
-                <input
-                  type="text"
-                    className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  placeholder="Topic"
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              {/* <div className="mb-4">
-                <label className="block text-lg font-medium text-gray-800">
-                  Student:
-                </label>
-                <input
-                  type="text"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={
-                    students.find((student) => student.id === selectedStudentId)
-                      ?.name || ""
-                  }
-                  readOnly
-                />
-              </div> */}
-              <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-white">
-                  Task Description:
-                </label> */}
-                <textarea
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              rows="3"
-                  placeholder="Enter task description"
-                  value={taskDescription}
-                  onChange={(e) => setTaskDescription(e.target.value)}
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-black">
-                  Due Date:
-                </label>
-                <input
-                  type="datetime-local"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={duedate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-white">
-                  Attachment:
-                </label> */}
-                <input
-                  type="file"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={duedate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <button
-                  type="submit"
-                  className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
-                >
-                  <span className="text-white font-lg margin-auto">Assign</span>
-                </button>
-              </div>
-            </form>
+              <label className="block text-lg font-medium text-black">Type:</label>
+              <input type="text" value={type} readOnly placeholder="Test"
+              className="h-3"
+                                />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                placeholder="Topic"
+                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+            <div className="mb-4">
+              <textarea
+                rows="3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Notes"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-black">Due Date:</label>
+              <input
+                type="datetime-local"
+                value={duedate}
+                onChange={(e) => setDueDate(e.target.value)}
+                placeholder="Due Date"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="number"
+                value={mark}
+                onChange={(e) => setMark(e.target.value)}
+                placeholder="Total mark"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+    
+            <div className="mb-4">
+              <select
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              >
+                <option value="">Select a student</option>
+                {data.map((student) => (
+                  <option key={student._id} value={student._id}>
+                    {student.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <button
+              type="submit"
+              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
+            >
+              <span className="text-white font-lg margin-auto">Submit</span>
+            </button>
+          </form>
           </div>
         );
       case "test":
