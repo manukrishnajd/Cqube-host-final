@@ -246,6 +246,27 @@ export const getCountOftrainer = async () => {
     }
 };
 
+//student count by course
+export const studentCountbyCourse = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/counts/piecoursecount",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+
 
 
 

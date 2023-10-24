@@ -138,17 +138,17 @@ export const activityadd=async (activitydata)=>{
 
 }
 
-export const viewactivity=async (activitydata)=>{
+export const viewactivity=async ()=>{
 
   try {
-    const response = await axios.get(`http://localhost:4000/api/activity`,activitydata, {
+    const response = await axios.get(`http://localhost:4000/api/activity`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}` // Use the token for authorization
       }
      
     });
-    console.log("response",response);
+    console.log("rrr",response);
     // console.log(response);
     return response.data;
   } catch (error) {

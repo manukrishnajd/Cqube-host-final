@@ -9,10 +9,12 @@ console.log(id);
 
 const tableHeaders = [
   "Name",
-  "Phone Number",
+  "Course",
   "Email",
   "Status",
-  ""
+  "Phone Number",
+  "",
+  
 ];
 
 export function ViewCourses() {
@@ -93,6 +95,10 @@ export function ViewCourses() {
                   {currentStudentData.map((student) => (
                     <TableRow key={student._id}>
                       <TableCell>{student.name}</TableCell>
+                      <TableCell>{student.courses.map((course, index) => (
+                      <span key={index}>{course.assignedCourseRef.name}</span>
+                    ))}</TableCell>
+
                       <TableCell>{student.phoneNumber}</TableCell>
                       <TableCell>{student.email}</TableCell>
                       <TableCell>{student.phoneNumber}</TableCell>

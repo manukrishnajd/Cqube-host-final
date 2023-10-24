@@ -13,6 +13,7 @@ import {
 import Modal from "react-modal";
 import { activityadd, viewactivity, viewstudent } from "../service/trainerService";
 import { useEffect } from "react";
+import { errorToastify } from "../Components/Student/toastify";
 
 
 
@@ -30,25 +31,41 @@ const TrainerTask = () => {
 const [selectedCourse, setSelectedCourse] = useState(null);
 
 
-  useEffect(() => {
-    viewstudent(id)
-      .then((res) => {
-        setData(res);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   viewstudent(id)
+  //     .then((res) => {
+  //       setData(res);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   viewactivity()
+  //     .then((res) => {
+  //       setactivityData(res);
+  //       console.log(activitydata,'activities');
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
+
+  const getactivity = async () => {
+    try {
+      const response = await viewactivity();
+      setactivityData(response.result);
+    } catch (error) {
+      errorToastify(error?.message);
+    }
+  };
+  console.log(activitydata,'datas of activity');
 
   useEffect(() => {
-    viewactivity()
-      .then((res) => {
-        setactivityData(res);
-        console.log(activitydata,'activities');
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    getactivity();
+
+    // setGridData(data); //
   }, []);
 
   
@@ -137,8 +154,8 @@ const [selectedCourse, setSelectedCourse] = useState(null);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * itemsPerPage;
-  const currentStudents = activitydata.slice(offset, offset + itemsPerPage);
-  const totalPages = Math.ceil(activitydata.length / itemsPerPage);
+  const currentStudents = activitydata?.slice(offset, offset + itemsPerPage);
+  const totalPages = Math.ceil(activitydata?.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
@@ -498,25 +515,14 @@ const [selectedCourse, setSelectedCourse] = useState(null);
 
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
-      <div className="flex gap-3">
-
-        <button className="assign text-white bg-slate-600" onClick={() => openModal("task")}>
-          Task
-        </button>
-        <button className="assign  text-white bg-slate-600" onClick={() => openModal("presentation")}>
-          Presentation
-        </button>
-        <button className="assign  text-white bg-slate-600" onClick={() => openModal("test")}>
-          Test
-        </button>
-      </div>
+     
       
 
       <TableContainer  component={Paper}>
         <Table>
           <TableHead>
             <TableRow className="h-2">
-              <TableCell
+              {/* <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",  }}
               >
                 <input
@@ -524,7 +530,7 @@ const [selectedCourse, setSelectedCourse] = useState(null);
                   checked={selectAll}
                   onChange={toggleSelectAll}
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
@@ -548,18 +554,18 @@ const [selectedCourse, setSelectedCourse] = useState(null);
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
-                Evaluated by
+                Total Mark
               </TableCell>
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
                 Status
               </TableCell>
-              <TableCell
+              {/* <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",color:"white" }}
               >
                 Mark
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",color:"white" }}
               ></TableCell>
@@ -568,19 +574,18 @@ const [selectedCourse, setSelectedCourse] = useState(null);
           <TableBody>
             {currentStudents.map((student, index) => (
               <TableRow key={index} className="h-2">
-                <TableCell className="h-2">
+                {/* <TableCell className="h-2">
                   <input
                     type="checkbox"
                     checked={selectedStudents.includes(student._id)}
                     onChange={() => toggleStudentSelection(student._id)}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.Course}</TableCell>
-                <TableCell>{student.phoneNumber}</TableCell>
-                <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.email}</TableCell>
+                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{student.type}</TableCell>
+                <TableCell>{student.mark}</TableCell>
                 <TableCell>{student.status}</TableCell>
                 <TableCell>
                   <button onClick={() => openModal("evaluate")} className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400">

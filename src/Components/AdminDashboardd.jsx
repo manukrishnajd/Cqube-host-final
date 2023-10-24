@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SummaryCards from "./dashboard component/SummaryCards";
 import PresentAbsent from "./dashboard component/PresentAbsent";
 import { GoPrimitiveDot } from "react-icons/go";
@@ -7,6 +7,8 @@ import TrainerChart from "./dashboard component/TrainersChart";
 import CoursesChart from "./dashboard component/CoursesChart";
 import { useStateContext } from "../Contexts/ContextProvider";
 import Pie from "../Pages/Charts/StudentCourseChart";
+import { studentCountbyCourse } from "../service/apiService";
+import { errorToastify } from "./Student/toastify";
 
 const AdminDash = () => {
   const { } = useStateContext();
@@ -55,6 +57,8 @@ const AdminDash = () => {
     { month: "Dec", count: 220 },
   ];
 
+  
+
   return (
     <div className=" gap-1 flex-wrap justify-center  grid grid-cols-1">
       <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-700">
@@ -85,7 +89,7 @@ const AdminDash = () => {
           </div>
           <div className=" grid grid-cols-3 gap-10">
             <SummaryCards />
-            <Pie  />
+            <Pie/>
             {/* <PresentAbsent /> */}
           </div>
 

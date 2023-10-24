@@ -61,7 +61,7 @@ import { useStateContext } from '../../Contexts/ContextProvider';
 
 const Doughnut = ({ id, data, legendVisiblity, height }) => {
   const { currentMode } = useStateContext();
-
+console.log(data,'dougnutdata');
   // Validate data
   if (!Array.isArray(data) || data.length === 0) {
     return <div>No data to display</div>;
@@ -78,7 +78,7 @@ const Doughnut = ({ id, data, legendVisiblity, height }) => {
       <Inject services={[AccumulationLegend, PieSeries, AccumulationDataLabel, AccumulationTooltip]} />
       <AccumulationSeriesCollectionDirective>
         <AccumulationSeriesDirective
-          name="Attendance"
+          name="Students"
           dataSource={data}
           xName="x"
           yName="y"
