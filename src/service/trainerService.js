@@ -120,3 +120,39 @@ export const studentbycourse=async (id,courseid)=>{
 }
 
 
+export const activityadd=async (activitydata)=>{
+
+  try {
+    const response = await axios.post(`http://localhost:4000/api/activity`,activitydata, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    console.log("response",response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.message);
+  }
+
+}
+
+export const viewactivity=async (activitydata)=>{
+
+  try {
+    const response = await axios.get(`http://localhost:4000/api/activity`,activitydata, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` // Use the token for authorization
+      }
+     
+    });
+    console.log("response",response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.response.data.message);
+  }
+
+}
