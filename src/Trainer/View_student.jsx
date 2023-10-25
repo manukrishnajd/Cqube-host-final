@@ -13,9 +13,12 @@ import {
 } from "@material-ui/core";
 import { GiBrassEye } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import { activityadd, viewstudent } from "../service/trainerService";
+import { activityadd, useTokenVerification, viewstudent } from "../service/trainerService";
 import Modal from "react-modal";
 const Students = () => {
+
+  useTokenVerification()
+  
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
@@ -589,7 +592,7 @@ const Students = () => {
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>
-                    <Link to="/trainer/detail">
+                    <Link to={`/trainer/detail/${student._id}`}>
                       <IconButton
                         size="small"
                         title="View more"

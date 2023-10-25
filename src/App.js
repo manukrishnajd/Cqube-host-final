@@ -83,7 +83,7 @@ const App = () => {
           {/* trainer */}
           <Route path="/trainer" element={<TrainerLayout />}>
             <Route path="student" element={<StudentTable />} />
-            <Route path="detail" element={<Studentdetail />} />
+            <Route path="detail/:studentid" element={<Studentdetail />} />
             <Route path="activity" element={<TrainerTask />} />
             <Route path="course" element={<ViewCourses />} />
           </Route>

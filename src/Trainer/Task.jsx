@@ -11,13 +11,15 @@ import {
   TableRow,
 } from "@material-ui/core";
 import Modal from "react-modal";
-import { activityadd, viewactivity, viewstudent } from "../service/trainerService";
+import { Verified, activityadd, useTokenVerification, viewactivity, viewstudent } from "../service/trainerService";
 import { useEffect } from "react";
 import { errorToastify } from "../Components/Student/toastify";
 
 
 
 const TrainerTask = () => {
+
+  useTokenVerification();
   const id = localStorage.getItem('id');
   const [type, setType] = useState(""); // Define and initialize 'type' state
   const [topic, setTopic] = useState(""); // Define and initialize 'topic' state

@@ -1,7 +1,23 @@
 import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const token=localStorage.getItem("token")
+
+export const useTokenVerification = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      // Token doesn't exist, navigate to the login page
+      navigate('/trainerlogin');
+    }
+  }, [navigate]);
+};
+
 
 
 // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWZmMzQ4YjkyNTUwYThlY2Y0YzQ3NSIsImlzVHJhaW5lciI6dHJ1ZSwiaWF0IjoxNjk2NTkyOTE4fQ.MR1jDj3QPzwGVZGPl-J24KuCLlw4DcjkI_FhDJbQK_0"
@@ -37,6 +53,27 @@ export const viewstudent=async (id)=>{
   }
 
 }
+
+//view student by student id
+export const viewstudentbyid=async (id)=>{
+  console.log(id,'viewstudent')
+  try {
+    console.log(token,'after login');
+    const response = await axios.get(`http://localhost:4000/api/student/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    console.log("response",response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.message);
+  }
+
+}
+
 
 
 export const trainerdetail=async (id)=>{

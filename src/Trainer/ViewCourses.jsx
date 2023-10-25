@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Button } from "@material-ui/core";
 import { GiBrassEye } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import { trainerdetail, studentbycourse } from "../service/trainerService";
+import { trainerdetail, studentbycourse, useTokenVerification } from "../service/trainerService";
 import CourseCard from "./CourseCard";
 const id = localStorage.getItem('id');
 console.log(id);
@@ -18,6 +18,9 @@ const tableHeaders = [
 ];
 
 export function ViewCourses() {
+
+  useTokenVerification()
+
   const [data, setdata] = useState([]);
   const [studentdata, setstudent] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
