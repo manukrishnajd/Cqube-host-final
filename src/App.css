@@ -60,7 +60,7 @@ body{
  
 }
 .bottom{
-  border-bottom: 1px solid;
+  /* border-bottom: 1px solid; */
 }
 .font{
   font-size: 30px;
