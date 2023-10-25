@@ -272,7 +272,7 @@ animation: animate 2s infinite;
       width: 400px;
       height: 450px;
       background: linear-gradient(20deg,transparent,transparent, #f06b18,#f06b18);
-      animation:animate 6s linear infinite;
+      animation:rot 6s linear infinite;
       transform-origin:bottom right
 
   }
@@ -285,7 +285,7 @@ animation: animate 2s infinite;
       width: 380px;
       height: 420px;
       background: linear-gradient(20deg,transparent,transparent, #f06b18,#f06b18);
-      animation:animate 6s linear infinite;
+      animation:rot 6s linear infinite;
       transform-origin:bottom right;
       animation-delay:-3s
 
@@ -781,15 +781,13 @@ animation: animate 2s infinite;
 }
 
 @keyframes rot{
-  0%{
-    transform: rotate(0deg)
-  
+  0%
+  {
+      transform: rotate(0deg);
   }
-  50%{
-    transform: rotate(180deg)
-  }
-  100%{
-    transform: scale(360deg);
+  100%
+  {
+      transform: rotate(360deg);
   }
 }
 .rot{
@@ -825,7 +823,7 @@ animation: animate 2s infinite;
     width: 400px;
     height: 450px;
     background: linear-gradient(0deg,transparent,transparent, #f06b18,#f06b18);
-    animation:animate 6s linear infinite;
+    /* animation:animate 6s linear infinite; */
     transform-origin:bottom right
 
   }
@@ -838,7 +836,7 @@ animation: animate 2s infinite;
     width: 380px;
     height: 420px;
     background: linear-gradient(0deg,transparent,transparent, #f06b18,#f06b18);
-    animation:animate 6s linear infinite;
+    /* animation:animate 6s linear infinite; */
     transform-origin:bottom right;
     animation-delay:-3s
 
