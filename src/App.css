@@ -325,7 +325,7 @@ animation: animate 2s infinite;
 
 @media only screen and (max-width: 600px) {
   body {
-    background-image: url('');
+    background-image: url('/src/Landing_pageBack.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   width: 100%;
