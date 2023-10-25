@@ -11,7 +11,6 @@ import { useTokenVerification, viewstudentbyid } from '../service/trainerService
 
 const Studentdetail = () => {
 
-  useTokenVerification()
 
   const [studentdata,setstudentdata]=useState([])
 
@@ -32,7 +31,7 @@ useEffect(()=>{
       ];
   return (
     <div className='bg-white p-5'>
-        <h1 className='font-bold text-2xl mt-3 mb-5 text-slate-600 m-auto'>Progress of {studentdata.name} - {studentdata.courses[0].name} <br />
+        <h1 className='font-bold text-2xl mt-3 mb-5 text-slate-600 m-auto'>Progress of {studentdata.name}  <br />
         </h1>
   <p className='text-2xl font-bold m-auto w-fit'>Attendance</p>
   <Doughnut data={doughnutData}/>

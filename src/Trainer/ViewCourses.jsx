@@ -106,7 +106,7 @@ export function ViewCourses() {
                       <TableCell>{student.email}</TableCell>
                       <TableCell>{student.phoneNumber}</TableCell>
                       <TableCell>
-                        <Link to="/trainer/detail">
+                        <Link to={`/trainer/detail/${student._id}`}>
                           <IconButton
                             size="small"
                             title="View more"
