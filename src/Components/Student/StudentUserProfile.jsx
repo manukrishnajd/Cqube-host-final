@@ -10,6 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
 import {studentbyid} from './apiServices'
 import { GiCaptainHatProfile } from 'react-icons/gi';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StudentUserProfile = () => {
   const { currentColor } = useStateContext();
@@ -36,8 +38,22 @@ const StudentUserProfile = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = () => {
-    navigate('/login'); // Navigate to the login page
+  const handleLogout = (event) => {
+
+    event.preventDefault();
+    localStorage.removeItem("id");
+    localStorage.removeItem("token");
+
+
+    toast.success('You have been logged out', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000, // Optional: Close the message after 3 seconds
+    });
+
+
+    // Navigate to the login page
+    navigate('/login');
+    
   };
 
 let userProfiles = [
@@ -99,7 +115,7 @@ let userProfiles = [
       </div>
       <div className="mt-5">
         <a href="/login" className="text-orange-400">
-          <AiOutlineLogout style={{ fontSize: '30px' }} />
+          <AiOutlineLogout style={{ fontSize: '30px' }} onClick={handleLogout} />
         </a>
       </div>
     </div>

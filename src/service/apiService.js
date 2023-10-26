@@ -18,8 +18,6 @@ const API_ROUTES = {
 
 const buildUrl = (route) => `${BASE_URL}${route}`;
 
-// let token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWU5YzRkODU1OTZiODNjMjAyMWVjNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY5Njg2NTU1MH0.16BKbHUnWWzCJGPB7u5sTlEFzUvLj5nszGutRtMHGBg"; // Variable to store the token
 
 
   const token = localStorage.getItem("token")
@@ -276,10 +274,28 @@ export const studentCountbyCourse = async () => {
 
 //Course
 // ```````````````````````````````````````````````````````````````````````````````
-export const getCourse = async () => {
+export const getCourse = async () => { // getAllCourses
   try {
     const response = await axios.get(
       "http://localhost:4000/api/course?ismaincourse=true",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+export const getSubcourse = async () => { // getAllCourses
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/course?ismaincourse=false",
       {
         headers: {
           "Content-Type": "application/json",
@@ -298,7 +314,6 @@ export const getCourse = async () => {
 
 
 //add course
-
 export const addcourse = async (newCourse) => {
   try {
     const response = await axios.post(
@@ -317,6 +332,44 @@ export const addcourse = async (newCourse) => {
     throw new Error("Failed to add student: " + error.response.data.message);
   }
 };
+//add course
+export const addSubcourse = async ({name},id) => {
+  console.log(name,id,'inside api');
+  try {
+    const response = await axios.post(
+      `http://localhost:4000/api/subcourse/${id}`,
+      {name:name},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.response.data.message);
+  }
+};
+export const deleteSubcourse = async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:4000/api/subcourse/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to delete course: " + error.response.data.message);
+  }
+};
+
 
 
 // Function to update a course by ID

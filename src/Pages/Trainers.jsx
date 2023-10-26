@@ -51,6 +51,10 @@ const [viewCourse, setviewCourse] = useState([]);
     }
   };
 
+  // branches
+
+  const [getBranch, setGetBranch] = useState([]);
+
   const handleAddTrainer = () => {
     const newTrainer = {
       name,
@@ -101,16 +105,26 @@ const [viewCourse, setviewCourse] = useState([]);
 
   }, []);
 
+  const fetchAllDetails = async () => {
+    try {
+      const result = await getAllBranches();
+
+      setGetBranch(result);
+    } catch (error) {}
+  };
+
   const [course_data, setCourseData] = useState([]);
 
-  useEffect(() =>{
-    getCourse().then((res)=>{
-      setCourseData(res)
-    })
-    getAllTrainers()
-  } ,[]);
-  
-  console.log("vimalresponse",course_data);
+  useEffect(() => {
+    getCourse().then((res) => {
+      setCourseData(res);
+    });
+    // getAllTrainers()
+
+    fetchAllDetails();
+  }, []);
+
+  console.log("vimalresponse", course_data);
   // console.log(data._id, "datas");
 
 
