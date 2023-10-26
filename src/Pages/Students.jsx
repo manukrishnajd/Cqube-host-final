@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
 import {
-  GridComponent,
-  ColumnsDirective,
-  ColumnDirective,
-  Page,
-  Selection,
-  Inject,
-  Edit,
-  Toolbar,
-  Sort,
-  Filter,
-} from "@syncfusion/ej2-react-grids";
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Button,
+  TextField,
+} from "@material-ui/core";
 import { Header } from "../Components";
 import StudentDetailsModal from "./StudentDetailsModal";
+import { GiBrassEye } from "react-icons/gi";
+  import { Link } from "react-router-dom";
 import {
   addStudent,
+  getAllBranches,
   getAllTrainers,
   getBranch,
   getCourse,
   getStudent,
+  getSubCourse,
 } from "../service/apiService";
+import { errorToastify } from "../Components/Student/toastify";
 
 const Students = () => {
   const [gridKey, setGridKey] = useState(0);
@@ -31,6 +36,77 @@ const Students = () => {
   const [branches, setBranches] = useState([]);
   const [courseRef, setCourseREf] = useState([]);
   const [joinedDate, setJoinedDate] = useState();
+  const [course_data, setCourseData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
+  const id = localStorage.getItem("id");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCourseRefId, setSelectedCourseRefId] = useState([]);
+  const [selectedStudentIds, setSelectedStudentIds] = useState([]);
+  const [data, setData] = useState([]);
+  
+  const getCourseRefId = (student) => {
+    const course = student.courses.find((course) => course.assignedCourseRef._id);
+    console.log(course.assignedCourseRef._id,'courses ids kjhg');
+    return course ? course.assignedCourseRef._id : "";
+  };
+
+  const tableHeaders = [
+    "Select",
+    "Name",
+    "Course",
+    "Phone Number",
+    "Email",
+    "Action",
+  ];
+
+  const handleViewRow = (student) => {
+    // Handle viewing a row (if needed)
+  };
+  const handleSelectStudent = (studentId, courseRefId) => {
+    // Check if the studentId is in the selectedStudentIds array
+    if (selectedStudentIds.includes(studentId)) { 
+      // If it's already selected, remove it
+      setSelectedStudentIds(
+        selectedStudentIds.filter((id) => id !== studentId)
+      );
+      // Clear the selectedCourseRefId since no students are selected
+      setSelectedCourseRefId("");
+    } else {
+      // If it's not selected, add it
+      setSelectedStudentIds([...selectedStudentIds, studentId]);
+      // Set the selectedCourseRefId to the provided courseRefId
+      setSelectedCourseRefId([...selectedCourseRefId, courseRefId]);
+    }
+    console.log(selectedStudentIds, "student ids");
+    console.log(selectedCourseRefId, "course ids");
+  };
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+
+  const currentData = students
+    .filter((student) => {
+      return (
+        student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.courses.some((course) =>
+          course.assignedCourseRef.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        )
+      );
+    })
+    .slice(indexOfFirstRow, indexOfLastRow);
+
+  const totalPages = Math.ceil(students.length / rowsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+
 
   const [newStudent, setNewStudent] = useState({
     name: "",
@@ -46,17 +122,25 @@ const Students = () => {
     joinedDate: "",
   });
 
-  useEffect(() => {
-    // Fetch branches from the API
-    getBranch()
-      .then((response) => {
-        setBranches(response); // Assuming response is an array of branches
-      })
-      .catch((error) => {
-        console.error("Error fetching branches:", error);
-      });
-  }, []); // Empty dependency array to run this effect only once
+  const getBranches = async () => {
+    try {
+      const response = await getAllBranches();
+      const coursesData = await getSubCourse();
+  
+      setCourseData(coursesData.result)
+      setBranches(response);
+    } catch (error) {
+      errorToastify(error?.message);
+    }
+  };
+  console.log(students,'students data');
 
+  useEffect(() => {
+    getBranches();
+
+    // setGridData(data); //
+  }, []); // Empty dependency array to run this effect only once
+console.log(branches,'branches');
   useEffect(() => {
     getAllTrainers().then((response) => {
       setTrainers(response);
@@ -159,11 +243,11 @@ const Students = () => {
     }
   };
 
-  const [course_data, setCourseData] = useState([]);
+  
   useEffect(() => {
-    getCourse().then((res) => {
-      setCourseData(res);
-    });
+    // getCourse().then((res) => {
+    //   setCourseData(res);
+    // });
     getAllTrainers();
   }, []);
 
@@ -200,10 +284,7 @@ const Students = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleViewRow = (student) => {
-    setSelectedStudent(student);
-    setIsModalVisible(true);
-  };
+ 
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -387,37 +468,101 @@ const Students = () => {
           )}
         </div>
 
-        <GridComponent
-          key={gridKey}
-          dataSource={gridData}
-          allowPaging
-          allowSorting
-          editSettings={{ allowEditing: true }}
-          width="auto"
-          actionBegin={(args) => {
-            if (args.requestType === "rowclick") {
-              const selectedStudent = students[args.rowIndex];
-              setSelectedStudent(selectedStudent);
-              setIsModalVisible(true);
-            }
-          }}
-        >
-          <ColumnsDirective>
-            {gridColumns?.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
-            ))}
-          </ColumnsDirective>
-          <Inject services={[Page, Toolbar, Selection, Edit, Sort, Filter]} />
-        </GridComponent>
+        <div className="mb-2 gap-6 flex items-center">
+          <TextField
+            label="Search by Name or Course"
+            variant="outlined"
+            height="30px"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
 
-        {selectedStudent && (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow className="h-fit">
+                {tableHeaders.map((header, index) => (
+                  <TableCell
+                    key={index}
+                    style={{
+                      backgroundColor: "#475569",
+                      fontSize: "17px",
+                      color: "white",
+                    }}
+                  >
+                    {header}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody className="text-lg">
+              {currentData.map((student) => (
+                <TableRow key={student._id}>
+                  <TableCell>
+                    <input
+                      type="checkbox"
+                      checked={selectedStudentIds.includes(student._id)}
+                      onChange={() =>
+                        handleSelectStudent(
+                          student._id,
+                          getCourseRefId(student)
+                        )
+                      }
+                    />
+                  </TableCell>
+                  <TableCell>{student.name}</TableCell>
+                  <TableCell>
+                    {student.courses.map((course, index) => (
+                      <span key={index}>{course.assignedCourseRef.name}</span>
+                    ))}
+                  </TableCell>
+                  <TableCell>{student.phoneNumber}</TableCell>
+                  <TableCell>{student.email}</TableCell>
+                  <TableCell>
+                    <Link to={`/trainer/detail/${student._id}`}>
+                      <IconButton
+                        size="small"
+                        title="View more"
+                        onClick={() => handleViewRow(student)}
+                      >
+                        <GiBrassEye size={25} />
+                      </IconButton>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <div className="pagination-container text-black">
+          <Button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span className="page-number">
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+
+        {/* {selectedStudent && (
           <StudentDetailsModal
             selectedStudent={selectedStudent}
             toggleModal={toggleModal}
           />
-        )}
+        )} */}
       </div>
-    </div>
+
   );
 };
 
