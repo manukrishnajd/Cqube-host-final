@@ -51,6 +51,7 @@ const Students = () => {
     return course ? course.assignedCourseRef._id : "";
   };
 
+  
   const tableHeaders = [
     "Select",
     "Name",
@@ -85,6 +86,7 @@ const Students = () => {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
+  
   const currentData = students
     .filter((student) => {
       return (
@@ -106,7 +108,13 @@ const Students = () => {
     }
   };
 
-
+  const handleCourseChange = (e) => {
+    const selectedCourseData = JSON.parse(e.target.value); // Parse the selected course data
+    setNewStudent({
+      ...newStudent,
+      selectedCourse: selectedCourseData,
+    });
+  };
 
   const [newStudent, setNewStudent] = useState({
     name: "",
@@ -156,19 +164,21 @@ console.log(branches,'branches');
   }, [searchTerm]);
 
 
-  useEffect(() => {
-    // Fetch student data from the API when the component mounts
-    const fetchStudents = async () => {
-      try {
-        const studentsData = await getStudent();
-        setStudents(studentsData);
-      } catch (error) {
-        console.error("Error fetching students:", error);
-      }
-    };
+//   useEffect(() => {
+//     // Fetch student data from the API when the component mounts
+//     const fetchStudents = async () => {
+//       try {
+//         const studentsData = await getStudent();
+//         setStudents(studentsData);
+//       } catch (error) {
+//         console.error("Error fetching students:", error);
+//       }
+//     };
 
-    fetchStudents();
-  }, []); 
+//     fetchStudents();
+//   }, []); 
+
+// console.log(students);
 
   const filteredStudents = debouncedSearchTerm
     ? students.filter((student) =>
@@ -201,17 +211,16 @@ console.log(branches,'branches');
 
     if (name && phone && email && selectedBranch) {
       const newStudentData = {
-        name,
-        email,
-        password,
+        name:name,
+        email:email,
+        password:password,
         phoneNumber: phone,
         branchRef: selectedBranch,
-        courseRef: selectedCourse,
-        assignedTrainersRef: selectedTrainer,
+        courses: [{selectedCourse,assignedTrainersRef: selectedTrainer}],
         github: git,
         linkedin: linkedIn,
         status: true,
-        joinedDate,
+        joinedDate:joinedDate,
       };
 
       addStudent(newStudentData)
@@ -284,7 +293,7 @@ console.log(branches,'branches');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
- 
+
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -433,22 +442,22 @@ console.log(branches,'branches');
             </select>
 
             <select
-              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-              value={newStudent.selectedCourse} // Use selectedCourse instead of courseRef
-              onChange={handleInputChange} // Update state using handleInputChange
-              name="selectedCourse" // Set the correct name
-            >
-              <option value="" disabled>
-                Select Course
-              </option>
-              {course_data?.map((item) => {
-                return (
-                  <option key={item._id} value={item._id}>
-                    {item.name}
-                  </option>
-                );
-              })}
-            </select>
+  className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+  value={newStudent.selectedCourse}
+  onChange={handleCourseChange} // Add this line for the new event handler
+  name="selectedCourse"
+>
+  <option value="" disabled>
+    Select Course
+  </option>
+  {course_data?.map((item) => {
+    return (
+      <option key={item._id} value={JSON.stringify(item)}>
+        {item.name}
+      </option>
+    );
+  })}
+</select>
           </div>
 
           {editingIndex !== null ? (
