@@ -134,7 +134,7 @@ export const addStudent = async (studentData) => {
 export const getStudent = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/student/register"
+      `http://localhost:4000/api/student`
     );
     console.log(response);
     // console.log(response);
@@ -405,6 +405,29 @@ export const deleteCourse = async (courseId) => {
     throw new Error("Failed to delete course: " + error.response.data.message);
   }
 };
+
+//subcourse get
+
+export const getSubCourse = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/course?ismaincourse=false",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+
 
 //Trainer
 
