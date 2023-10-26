@@ -134,6 +134,9 @@ const Students = () => {
     try {
       const response = await getAllBranches();
       const coursesData = await getSubCourse();
+      const studentsdata = await getStudent();
+
+      setStudents(studentsdata)
   
       setCourseData(coursesData.result)
       setBranches(response);
