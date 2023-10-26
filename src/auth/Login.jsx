@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import  "./Login.css";
-import logo from '../../src/logo.png'
+import "./Login.css";
+import logo from '../../src/logo.png';
 import { BiSupport } from 'react-icons/bi';
 import { IoIosNotifications } from 'react-icons/io';
 import axios from 'axios';
@@ -13,12 +13,23 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [auth, setAuth] = useState(false);
 
+  // useEffect to check for authentication data on component load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // You can redirect the user to a different page if they are already authenticated
+      navigate('/student/dash');
+    }
+  }, []);
+
   const handleLogin = async () => {
     const data = { email: email, password: password };
     try {
       const response = await login(data);
       console.log(response, 'responses');
       if (response && response.token) {
+        // Store the token in localStorage
+        localStorage.setItem('token', response.token);
         navigate('/student/dash');
       } else {
         setAuth(true);
@@ -39,8 +50,8 @@ const Login = () => {
       </div>
 
       <div className="min-h-screen margin flex flex-wrap justify-evenly items-center  bg-ash-400">
-        <div class="box">
-          <div class="form">
+        <div className="box">
+          <div className="form">
             <h2 className="text-2xl font-bold mb-4 text-center mt-4">Login</h2>
             <form className='loginHome'>
               <div className="mb-4">
@@ -64,15 +75,13 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleLogin}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded"
+                className="w-full bg-orange-500 hover-bg-orange-600 text-white font-bold py-2 px-4 rounded"
               >
                 Login
               </button>
               <Link to='/forgetpass'>
-              <button className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
+                <button className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
               </Link>
-              
-              
             </form>
 
             {auth && (

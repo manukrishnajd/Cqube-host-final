@@ -9,6 +9,7 @@ function App({data}) {
   const [date, setDate] = useState(new Date());
   const [attendance, setAttendance] = useState({});
   const [attendanceSubmitted, setAttendanceSubmitted] = useState(false);
+  const [attend, setattend] = useState([]);
 
   useEffect(() => {
     const updateDate = () => {
@@ -35,6 +36,8 @@ function App({data}) {
     
     .then((res)=>{
       console.log(res,'rrrr');
+      setattend(res)
+      console.log(attend,'attendence data');
     })
 
     return () => {
@@ -95,21 +98,23 @@ function App({data}) {
   return (
     <div className="app">
       <div className="calendar-container">
-        <Calendar
-          onChange={setDate}
-          value={date}
-          minDate={new Date()}
-          maxDate={new Date()}
-          tileClassName={({ date }) => {
-            const currentDate = date.toDateString();
-            if (attendance[currentDate] === 'present') {
-              return 'present';
-            } else if (attendance[currentDate] === 'absent') {
-              return 'absent';
-            }
-            return null;
-          }}
-        />
+      <Calendar
+  onChange={setDate}
+  value={date}
+  minDate={new Date()}
+  maxDate={new Date()}
+  tileClassName={({ date }) => {
+    const currentDate = date.toDateString();
+    if (currentDate === new Date().toDateString()) {
+      if (attend.isPresent) {
+        return 'present';
+      }
+    }
+    return null;
+  }}
+/>
+
+
       </div>
       <div className="attendance-buttons">
         <Button
