@@ -11,31 +11,122 @@ import {
   TableRow,
 } from "@material-ui/core";
 import Modal from "react-modal";
+import { Verified, activityadd, useTokenVerification, viewactivity, viewstudent } from "../service/trainerService";
+import { useEffect } from "react";
+import { errorToastify } from "../Components/Student/toastify";
 
 
 
 const TrainerTask = () => {
 
+  useTokenVerification();
+  const id = localStorage.getItem('id');
+  const [type, setType] = useState(""); // Define and initialize 'type' state
+  const [topic, setTopic] = useState(""); // Define and initialize 'topic' state
+  const [notes, setNotes] = useState(""); // Define and initialize 'notes' state
+  const [mark, setMark] = useState("");
 
+  const [data, setData] = useState([]);
+  const [activitydata, setactivityData] = useState([]);
+
+  const [selectedStudent, setSelectedStudent] = useState(null);
+const [selectedCourse, setSelectedCourse] = useState(null);
+
+
+  // useEffect(() => {
+  //   viewstudent(id)
+  //     .then((res) => {
+  //       setData(res);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   viewactivity()
+  //     .then((res) => {
+  //       setactivityData(res);
+  //       console.log(activitydata,'activities');
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
+
+  const getactivity = async () => {
+    try {
+      const response = await viewactivity();
+      setactivityData(response.result);
+    } catch (error) {
+      errorToastify(error?.message);
+    }
+  };
+  console.log(activitydata,'datas of activity');
+
+  useEffect(() => {
+    getactivity();
+
+    // setGridData(data); //
+  }, []);
 
   
 
-  const [mark, sertmark] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const requestData = {
+      type: selectedType,
+      topic,
+      notes,
+      duedate,
+      mark,
+      studentsRef: selectedStudents, // Pass the selected students
+      courseRef: selectedCourse,
+      trainersRef: id
+      // Add other data properties as needed
+    };
+  
+    activityadd(requestData).then((res) => {
+      console.log(res, 'response');
+    }).catch((error) => {
+      console.log(error.message);
+    });
+  
+    // Clear form fields and close the modal
+    setType("");
+    setTopic("");
+    setNotes("");
+    setDueDate("");
+    setMark("");
+    setSelectedStudents([]); // Clear selected students
+    setIsModalOpen(false);
+  };
+
+  const handleStudentSelection = (e) => {
+    const studentId = e.target.value;
+    setSelectedStudents((prevSelectedStudents) => {
+      if (prevSelectedStudents.includes(studentId)) {
+        // If the student is already selected, remove them from the selection
+        return prevSelectedStudents.filter((id) => id !== studentId);
+      } else {
+        // If the student is not selected, add them to the selection
+        return [...prevSelectedStudents, studentId];
+      }
+    });
+  };
+  
+
+
+
+  
   const [selectedStudentId, setSelectedStudentId] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [duedate, setDueDate] = useState("");
   const [selectAll, setSelectAll] = useState(false); // State to track if all students are selected
   const [selectedStudents, setSelectedStudents] = useState([]); // State to track selected individual students
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Perform task assignment logic here, using selectedStudentId, taskDescription, and dueDate
-    // Clear form fields and close the modal
-    setSelectedStudentId("");
-    setTaskDescription("");
-    setDueDate("");
-    setIsModalOpen(false);
-  };
+
 
   const initialStudents = [
     {
@@ -65,8 +156,8 @@ const TrainerTask = () => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * itemsPerPage;
-  const currentStudents = students.slice(offset, offset + itemsPerPage);
-  const totalPages = Math.ceil(students.length / itemsPerPage);
+  const currentStudents = activitydata?.slice(offset, offset + itemsPerPage);
+  const totalPages = Math.ceil(activitydata?.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
@@ -167,226 +258,235 @@ const TrainerTask = () => {
       case "presentation":
         return (
           <div className="bg-white text-white p-4 rounded-lg shadow-md">
-           
-
-          <h2 className="text-lg font-semibold mb-2 text-black">Presentation </h2>
+          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
           <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-              {/* <label className="block text-lg font-medium text-gray-800">
-                Topic :
-              </label> */}
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-black">Type:</label>
+              <input type="text" value={type} readOnly placeholder="Test"
+              className="h-3"
+                                />
+            </div>
+            <div className="mb-4">
               <input
                 type="text"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
                 placeholder="Topic"
-                required
+                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
               />
             </div>
-            {/* <div className="mb-4">
-              <label className="block text-lg font-medium text-gray-800">
-                Student:
-              </label>
-              <input
-                type="text"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                value={
-                  students.find((student) => student.id === selectedStudentId)
-                    ?.name || ""
-                }
-                readOnly
-              />
-            </div> */}
             <div className="mb-4">
-              {/* <label className="block text-lg font-medium text-gray-800">
-                Test Description:
-              </label> */}
               <textarea
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              rows="3"
-                placeholder="Enter task description"
-                value="Test Description"
-                onChange={(e) => setTaskDescription(e.target.value)}
-                required
-                
+                rows="3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Notes"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
               ></textarea>
             </div>
             <div className="mb-4">
-              <label className="block text-lg font-medium text-black">
-                Due Date:
-              </label>
+              <label className="block text-lg font-medium text-black">Due Date:</label>
               <input
                 type="datetime-local"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                value={dueDate}
+                value={duedate}
                 onChange={(e) => setDueDate(e.target.value)}
-                required
+                placeholder="Due Date"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
               />
             </div>
             <div className="mb-4">
-              <button
-                type="submit"
-                className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded"
-              >
-                <span className="text-white font-lg margin-auto">Assign</span>
-              </button>
+              <input
+                type="number"
+                value={mark}
+                onChange={(e) => setMark(e.target.value)}
+                placeholder="Total mark"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
             </div>
+    
+            <div className="mb-4">
+              <select
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              >
+                <option value="">Select a student</option>
+                {data.map((student) => (
+                  <option key={student._id} value={student._id}>
+                    {student.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <button
+              type="submit"
+              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
+            >
+              <span className="text-white font-lg margin-auto">Submit</span>
+            </button>
           </form>
-        </div>
+          </div>
         );
       case "task":
         return (
           <div className="bg-white text-white p-4 rounded-lg shadow-md">
-           
-
-            <h2 className="text-lg font-semibold text-black mb-2">Task Assignment:</h2>
-            <form onSubmit={handleSubmit}>
+          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-white">
-                  Topic :
-                </label> */}
-                <input
-                  type="text"
-                    className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  placeholder="Topic"
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              {/* <div className="mb-4">
-                <label className="block text-lg font-medium text-gray-800">
-                  Student:
-                </label>
-                <input
-                  type="text"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={
-                    students.find((student) => student.id === selectedStudentId)
-                      ?.name || ""
-                  }
-                  readOnly
-                />
-              </div> */}
-              <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-white">
-                  Task Description:
-                </label> */}
-                <textarea
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              rows="3"
-                  placeholder="Enter task description"
-                  value={taskDescription}
-                  onChange={(e) => setTaskDescription(e.target.value)}
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-black">
-                  Due Date:
-                </label>
-                <input
-                  type="datetime-local"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-white">
-                  Attachment:
-                </label> */}
-                <input
-                  type="file"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <button
-                  type="submit"
-                  className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
-                >
-                  <span className="text-white font-lg margin-auto">Assign</span>
-                </button>
-              </div>
-            </form>
+              <label className="block text-lg font-medium text-black">Type:</label>
+              <input type="text" value={type} readOnly placeholder="Test"
+              className="h-3"
+                                />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                placeholder="Topic"
+                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+            <div className="mb-4">
+              <textarea
+                rows="3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Notes"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-black">Due Date:</label>
+              <input
+                type="datetime-local"
+                value={duedate}
+                onChange={(e) => setDueDate(e.target.value)}
+                placeholder="Due Date"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="number"
+                value={mark}
+                onChange={(e) => setMark(e.target.value)}
+                placeholder="Total mark"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+    
+            <div className="mb-4">
+              <select
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              >
+                <option value="">Select a student</option>
+                {data.map((student) => (
+                  <option key={student._id} value={student._id}>
+                    {student.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <button
+              type="submit"
+              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
+            >
+              <span className="text-white font-lg margin-auto">Submit</span>
+            </button>
+          </form>
           </div>
         );
       case "test":
         return (
           <div className="bg-white text-white p-4 rounded-lg shadow-md">
-           
-
-            <h2 className="text-lg text-black font-semibold mb-2">Test </h2>
-            <form onSubmit={handleSubmit}>
+          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-gray-800">
-                  Topic :
-                </label> */}
-                  <input
-                    type="text"
-                    className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                    value={dueDate}
-                    placeholder="Topic"
-                    onChange={(e) => setDueDate(e.target.value)}
-                    required
-                  />
-                </div>
-              {/* <div className="mb-4">
-                <label className="block text-lg font-medium text-gray-800">
-                  Student:
-                </label>
-                <input
-                  type="text"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={
-                    students.find((student) => student.id === selectedStudentId)
-                      ?.name || ""
-                  }
-                  readOnly
-                />
-              </div> */}
-              <div className="mb-4">
-                {/* <label className="block text-lg font-medium text-gray-800">
-                  Test Description:
-                </label> */}
-                <textarea
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              rows="3"
-                  placeholder="Enter task description"
-                  onChange={(e) => setTaskDescription(e.target.value)}
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-black">
-                  Due Date:
-                </label>
-                <input
-                  type="datetime-local"
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div classNam e="mb-4">
-              <a href="/images/myw3schoolsimage.jpg" download></a>
-              </div>
-              <div className="mb-4">
-                <button
-                  type="submit"
-                  className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded"
-                >
-                  <span className="text-white font-lg margin-auto">Assign</span>
-                </button>
-              </div>
-             
-            </form>
+              <label className="block text-lg font-medium text-black">Type:</label>
+              <input type="text" value={type} readOnly placeholder="Test"
+              className="h-3"
+                                />
+            </div>
+            <div className="mb-4">
+              <input
+                type="text"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                placeholder="Topic"
+                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+            <div className="mb-4">
+              <textarea
+                rows="3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Notes"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-black">Due Date:</label>
+              <input
+                type="datetime-local"
+                value={duedate}
+                onChange={(e) => setDueDate(e.target.value)}
+                placeholder="Due Date"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="number"
+                value={mark}
+                onChange={(e) => setMark(e.target.value)}
+                placeholder="Total mark"
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              />
+            </div>
+    
+            <div className="mb-4">
+              <select
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+
+              >
+                <option value="">Select a student</option>
+                {data.map((student) => (
+                  <option key={student._id} value={student._id}>
+                    {student.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <button
+              type="submit"
+              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
+            >
+              <span className="text-white font-lg margin-auto">Submit</span>
+            </button>
+          </form>
           </div>
         );
     }
@@ -417,25 +517,14 @@ const TrainerTask = () => {
 
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
-      <div className="flex gap-3">
-
-        <button className="assign text-white bg-slate-600" onClick={() => openModal("task")}>
-          Task
-        </button>
-        <button className="assign  text-white bg-slate-600" onClick={() => openModal("presentation")}>
-          Presentation
-        </button>
-        <button className="assign  text-white bg-slate-600" onClick={() => openModal("test")}>
-          Test
-        </button>
-      </div>
+     
       
 
       <TableContainer  component={Paper}>
         <Table>
           <TableHead>
             <TableRow className="h-2">
-              <TableCell
+              {/* <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",  }}
               >
                 <input
@@ -443,7 +532,7 @@ const TrainerTask = () => {
                   checked={selectAll}
                   onChange={toggleSelectAll}
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
@@ -467,18 +556,18 @@ const TrainerTask = () => {
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
-                Evaluated by
+                Total Mark
               </TableCell>
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
                 Status
               </TableCell>
-              <TableCell
+              {/* <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",color:"white" }}
               >
                 Mark
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",color:"white" }}
               ></TableCell>
@@ -487,19 +576,18 @@ const TrainerTask = () => {
           <TableBody>
             {currentStudents.map((student, index) => (
               <TableRow key={index} className="h-2">
-                <TableCell className="h-2">
+                {/* <TableCell className="h-2">
                   <input
                     type="checkbox"
-                    checked={selectedStudents.includes(student.id)}
-                    onChange={() => toggleStudentSelection(student.id)}
+                    checked={selectedStudents.includes(student._id)}
+                    onChange={() => toggleStudentSelection(student._id)}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.Course}</TableCell>
-                <TableCell>{student.phoneNumber}</TableCell>
-                <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.email}</TableCell>
+                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{student.type}</TableCell>
+                <TableCell>{student.mark}</TableCell>
                 <TableCell>{student.status}</TableCell>
                 <TableCell>
                   <button onClick={() => openModal("evaluate")} className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400">

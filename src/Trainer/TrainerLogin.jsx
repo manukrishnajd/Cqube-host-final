@@ -20,7 +20,7 @@ const TrainerLogin = () => {
       const response = await login(data);
       console.log(response, 'response');
       if (response && response.token) {
-        navigate('/trainer');
+        navigate('/trainer/activity');
       } else {
         console.log('Authentication failed');
         setAuthError(true); // Set authError to true when authentication fails

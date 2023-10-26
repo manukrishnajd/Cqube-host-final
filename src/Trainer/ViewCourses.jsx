@@ -2,20 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Button } from "@material-ui/core";
 import { GiBrassEye } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import { trainerdetail, studentbycourse } from "../service/trainerService";
+import { trainerdetail, studentbycourse, useTokenVerification } from "../service/trainerService";
 import CourseCard from "./CourseCard";
 const id = localStorage.getItem('id');
 console.log(id);
 
 const tableHeaders = [
   "Name",
-  "Phone Number",
+  "Course",
   "Email",
   "Status",
-  ""
+  "Phone Number",
+  "",
+  
 ];
 
 export function ViewCourses() {
+
+  useTokenVerification()
+
   const [data, setdata] = useState([]);
   const [studentdata, setstudent] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,11 +98,15 @@ export function ViewCourses() {
                   {currentStudentData.map((student) => (
                     <TableRow key={student._id}>
                       <TableCell>{student.name}</TableCell>
+                      <TableCell>{student.courses.map((course, index) => (
+                      <span key={index}>{course.assignedCourseRef.name}</span>
+                    ))}</TableCell>
+
                       <TableCell>{student.phoneNumber}</TableCell>
                       <TableCell>{student.email}</TableCell>
                       <TableCell>{student.phoneNumber}</TableCell>
                       <TableCell>
-                        <Link to="/trainer/detail">
+                        <Link to={`/trainer/detail/${student._id}`}>
                           <IconButton
                             size="small"
                             title="View more"

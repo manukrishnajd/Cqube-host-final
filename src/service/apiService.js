@@ -183,6 +183,91 @@ export const deleteStudentById = async (studentId) => {
 
 
 
+//----------------------counts
+export const getCountOfSubCourse = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/counts/subcoursecount",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+//----------------------counts
+export const getCountOfstudent = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/counts/studentcount",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+
+//----------------------counts
+export const getCountOftrainer = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/counts/trainercount",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+//student count by course
+export const studentCountbyCourse = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/counts/piecoursecount",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+
+
+
+
 
 
 // ```````````````````````````````````````````````````````````````````````````````
