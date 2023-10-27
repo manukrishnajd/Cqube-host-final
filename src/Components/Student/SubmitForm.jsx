@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AttachmentInput from "./AttachmentInput";
 import { useNavigate, useLocation } from 'react-router-dom';
+import{ useTokenVerification} from './apiServices'
 
 const SubmitForm = (props) => {
   const location = useLocation();
@@ -11,6 +12,8 @@ const SubmitForm = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [resetInput, setResetInput] = useState(false);
   const isMounted = useRef(true);
+
+  useTokenVerification()
 
   const handleFileChange = (file) => {
     setSelectedFile(file);

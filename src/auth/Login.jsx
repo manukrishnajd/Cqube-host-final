@@ -80,7 +80,7 @@ const Login = () => {
                 Login
               </button>
               <Link to='/forgetpass'>
-                <button className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
+                <button type='button' className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
               </Link>
             </form>
 
