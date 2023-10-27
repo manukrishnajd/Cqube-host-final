@@ -130,29 +130,16 @@ const Students = () => {
     joinedDate: "",
   });
 
-  const getBranches = async () => {
-    try {
-      const response = await getAllBranches();
-      const coursesData = await getSubCourse();
-      const studentsdata = await getStudent();
 
-      setStudents(studentsdata)
+  useEffect(async() => {
+    const response = await getAllBranches();
+    console.log(response,'branches');
+      const coursesData = await getSubCourse();
+   
+      console.log(response,'responses')
   
       setCourseData(coursesData.result)
       setBranches(response);
-    } catch (error) {
-      errorToastify(error?.message);
-    }
-  };
-  console.log(students,'students data');
-
-  useEffect(() => {
-    getBranches();
-
-    // setGridData(data); //
-  }, []); // Empty dependency array to run this effect only once
-console.log(branches,'branches');
-  useEffect(() => {
     getAllTrainers().then((response) => {
       setTrainers(response);
     });
@@ -167,21 +154,21 @@ console.log(branches,'branches');
   }, [searchTerm]);
 
 
-//   useEffect(() => {
-//     // Fetch student data from the API when the component mounts
-//     const fetchStudents = async () => {
-//       try {
-//         const studentsData = await getStudent();
-//         setStudents(studentsData);
-//       } catch (error) {
-//         console.error("Error fetching students:", error);
-//       }
-//     };
+  useEffect(() => {
+    // Fetch student data from the API when the component mounts
+    const fetchStudents = async () => {
+      try {
+        const studentsData = await getStudent();
+        setStudents(studentsData);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      }
+    };
 
-//     fetchStudents();
-//   }, []); 
+    fetchStudents();
+  }, []); 
 
-// console.log(students);
+console.log(students);
 
   const filteredStudents = debouncedSearchTerm
     ? students.filter((student) =>
@@ -248,7 +235,7 @@ console.log(branches,'branches');
         })
         .catch((error) => {
           console.error("Error adding student:", error);
-          alert("Failed to add student. Please try again.");
+          // alert("Failed to add student. Please try again.");
         });
     } else {
       alert("Please fill all the required fields.");
@@ -256,12 +243,13 @@ console.log(branches,'branches');
   };
 
   
-  useEffect(() => {
-    // getCourse().then((res) => {
-    //   setCourseData(res);
-    // });
-    getAllTrainers();
-  }, []);
+  // useEffect(() => {
+  //   // getCourse().then((res) => {
+  //   //   setCourseData(res);
+  //   // });
+
+  //   getAllTrainers();
+  // }, []);
 
   const handleUpdateStudent = () => {
     const updatedStudents = students?.map((student, index) => {
@@ -343,6 +331,10 @@ console.log(branches,'branches');
     ...student,
     id: index + 1,
   }));
+
+console.log(course_data,'course datas');
+console.log(branches,'branches data');
+
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
       <Header category="Page" title="Students" />
