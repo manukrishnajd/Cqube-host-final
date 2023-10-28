@@ -51,7 +51,15 @@ const Students = () => {
     return course ? course.assignedCourseRef._id : "";
   };
 
-  
+  const [stddata,setstddata]=useState([])
+useEffect(()=>{
+  getStudent().then((res)=>{
+    console.log(res,'responsedsdsjdh');
+    setstddata(res)
+  })
+},[])
+
+console.log(stddata,'jhkjj');
   const tableHeaders = [
     "Select",
     "Name",
@@ -133,11 +141,10 @@ const Students = () => {
 
   useEffect(async() => {
     const response = await getAllBranches();
-    console.log(response,'branches');
+
       const coursesData = await getSubCourse();
    
-      console.log(response,'responses')
-  
+    
       setCourseData(coursesData.result)
       setBranches(response);
     getAllTrainers().then((response) => {
@@ -154,21 +161,21 @@ const Students = () => {
   }, [searchTerm]);
 
 
-  useEffect(() => {
-    // Fetch student data from the API when the component mounts
-    const fetchStudents = async () => {
-      try {
-        const studentsData = await getStudent();
-        setStudents(studentsData);
-      } catch (error) {
-        console.error("Error fetching students:", error);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch student data from the API when the component mounts
+  //   const fetchStudents = async () => {
+  //     try {
+  //       const studentsData = await getStudent();
+  //       setStudents(studentsData);
+  //     } catch (error) {
+  //       console.error("Error fetching students:", error);
+  //     }
+  //   };
 
-    fetchStudents();
-  }, []); 
+  //   fetchStudents();
+  // }, []); 
 
-console.log(students);
+
 
   const filteredStudents = debouncedSearchTerm
     ? students.filter((student) =>
@@ -335,8 +342,7 @@ console.log(students);
     id: index + 1,
   }));
 
-console.log(course_data,'course datas');
-console.log(branches,'branches data');
+
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">

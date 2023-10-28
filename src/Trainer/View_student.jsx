@@ -40,7 +40,7 @@ const Students = () => {
   // Utility function to get the courseRef.id
   const getCourseRefId = (student) => {
     const course = student.courses.find((course) => course.assignedCourseRef._id);
-    console.log(course.assignedCourseRef._id,'courses ids kjhg');
+    console.log(course._id,'courses ids kjhg');
     return course ? course.assignedCourseRef._id : "";
   };
 
