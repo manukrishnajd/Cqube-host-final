@@ -22,7 +22,7 @@ export default function CourseCard() {
     studentbyid(stdid, { token })
       .then((data) => {
         setStudentData(data.courses);
-      })
+      })  
       .catch((error) => {
         console.error("Failed to fetch student data: " + error.message);
       });

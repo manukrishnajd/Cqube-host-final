@@ -187,8 +187,8 @@ console.log(students);
   const handleAddStudent = () => {
     const {
       name,
-      phone,
       email,
+      phone,
       password,
       git,
       joinedDate,
@@ -196,23 +196,26 @@ console.log(students);
       selectedTrainer,
       selectedBranch,
       selectedCourse,
-      status,
     } = newStudent;
-
-    if (name && phone && email && selectedBranch) {
+  
+    if (name && email && phone && selectedBranch && selectedCourse) {
       const newStudentData = {
-        name:name,
-        email:email,
-        password:password,
+        name: name,
+        email: email,
         phoneNumber: phone,
+        password: password,
         branchRef: selectedBranch,
-        courses: [{selectedCourse,assignedTrainersRef: selectedTrainer}],
+        courses: [
+          {
+            assignedCourseRef: selectedCourse,
+            assignedTrainersRef: selectedTrainer,
+          },
+        ],
         github: git,
         linkedin: linkedIn,
-        status: true,
-        joinedDate:joinedDate,
+        joinedDate: joinedDate,
       };
-
+  
       addStudent(newStudentData)
         .then(() => {
           const updatedStudents = [...students, newStudentData];
@@ -228,19 +231,19 @@ console.log(students);
             selectedTrainer: "",
             selectedBranch: "",
             selectedCourse: "",
-            status: "",
-            joinedDate: ""
+            joinedDate: "",
           });
           setEditingIndex(null);
         })
         .catch((error) => {
           console.error("Error adding student:", error);
-          // alert("Failed to add student. Please try again.");
+          errorToastify("Failed to add student. Please try again.");
         });
     } else {
-      alert("Please fill all the required fields.");
+      errorToastify("Please fill all the required fields.");
     }
   };
+  
 
   
   // useEffect(() => {
