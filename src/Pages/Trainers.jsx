@@ -35,15 +35,15 @@ const Trainers = () => {
 //
 const [viewBranch, setviewBranch] = useState([]);
 const [viewCourse, setviewCourse] = useState([]);
-
+  const [trainerdata,settrainerdata]=useState([])
 
 
   const [data, setdata] = useState([]);
   const tableHeaders = ["Name", "Created date", "Updated date", "Action"];
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const currentData = trainerdata.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(trainerdata.length / rowsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -54,6 +54,7 @@ const [viewCourse, setviewCourse] = useState([]);
   // branches
 
   const [getBranch, setGetBranch] = useState([]);
+
 
   const handleAddTrainer = () => {
     const newTrainer = {
@@ -87,11 +88,13 @@ const [viewCourse, setviewCourse] = useState([]);
     { field: "branch", headerText: "Branch", width: 100 },
     { field: "course", headerText: "Course", width: 100 },
   ];
-
   const fetchData = async () => {
     try {
       const response = await getAllBranches();
       const responseForCourse = await getCourse();
+      const trainersdata= await getAllTrainers()
+      console.log(trainersdata,'trainerdata');
+      settrainerdata(trainersdata)
       setviewBranch(response);
       setviewCourse(responseForCourse.result)
 
@@ -124,7 +127,6 @@ const [viewCourse, setviewCourse] = useState([]);
     fetchAllDetails();
   }, []);
 
-  console.log("vimalresponse", course_data);
   // console.log(data._id, "datas");
 
 

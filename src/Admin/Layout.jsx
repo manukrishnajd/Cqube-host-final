@@ -24,6 +24,16 @@ const Layout = () => {
       icon: <MdBook style={{width:"30px"  ,height:"30px" }}  />,
     },
     {
+      name: "Activity",
+      link: "admin/task",
+      icon: <MdBook style={{width:"30px"  ,height:"30px" }}  />,
+    },
+    {
+      name: "Add Activity",
+      link: "admin/AddActivity",
+      icon: <MdBook style={{width:"30px"  ,height:"30px" }}  />,
+    },
+    {
       name: "Sub Course",
       link: "admin/subcourse",
       icon: <MdBook style={{width:"30px"  ,height:"30px" }}  />,

@@ -49,6 +49,8 @@ import Task from "./Components/Student/Task";
 
 // admin login
 import AdminLogin from "./auth/AdminLogin";
+import AdminTask from "./Pages/AdminTask";
+import AdminAddActivity from "./Pages/Add_Activity";
 
 
 
@@ -71,6 +73,8 @@ const App = () => {
           <Route path="/admin" element={<Layout />}>
             <Route path="dash" element={<AdminDash />} />
             <Route path="subcourse" element={<Subcourse />} />
+            <Route path="task" element={<AdminTask />} />
+            <Route path="AddActivity" element={<AdminAddActivity />} />
            
             <Route path="studentview" element={<StudentProfile/>} />
             <Route path="student" element={<Students />} />
