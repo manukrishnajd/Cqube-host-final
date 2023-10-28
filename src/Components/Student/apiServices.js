@@ -1,4 +1,6 @@
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 const token=localStorage.getItem("token")
 const id_for_student=localStorage.getItem("id")
@@ -17,6 +19,22 @@ export const login = async (data) => {
       return { error: "An error occurred during login" };
     }
   }
+
+
+  export const useTokenVerification = () => {
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      console.log(token,);
+      
+      if (!token) {
+        // Token doesn't exist, navigate to the login page
+        navigate('/login');
+      }
+    }, [navigate]);
+  };
+  
  
 
   export const studentbyid = async () => {

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import hello from "./hello.jpg";
 import { studentbyid } from "./apiServices";
+import {useTokenVerification} from './apiServices'
 
 const StudentProfile = () => {
+  useTokenVerification()
   const token = "YOUR_AUTH_TOKEN"; // Replace with your authentication token
   const stdid = localStorage.getItem("id");
   const [studentData, setStudentData] = useState(null);
+
 
   useEffect(() => {
     if (stdid) {

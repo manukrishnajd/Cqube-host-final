@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import App from './AttendenceCalender';
 import { studentbyid } from './apiServices';
+import {useTokenVerification }from './apiServices'
 
 export default function AttendenceCard() {
   const token = "your_token_here"; // Replace with your actual token
@@ -12,6 +13,7 @@ export default function AttendenceCard() {
 
   const [studentData, setStudentData] = useState(null);
 
+  useTokenVerification()
   useEffect(() => {
     // Fetch student data and update the state
     studentbyid(stdid, { token })

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import SendIcon from "@mui/icons-material/Send";
 import { studentbyid } from "./apiServices";
 import student from "./student.png";
+import {useTokenVerification} from './apiServices'
 
 export default function CourseCard() {
   const token =
@@ -26,6 +27,8 @@ export default function CourseCard() {
         console.error("Failed to fetch student data: " + error.message);
       });
   }, [stdid]);
+
+  useTokenVerification()
 
   
 
