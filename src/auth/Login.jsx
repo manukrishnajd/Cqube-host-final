@@ -14,13 +14,7 @@ const Login = () => {
   const [auth, setAuth] = useState(false);
 
   // useEffect to check for authentication data on component load
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // You can redirect the user to a different page if they are already authenticated
-      navigate('/student/dash');
-    }
-  }, []);
+
 
   const handleLogin = async () => {
     const data = { email: email, password: password };
