@@ -51,6 +51,7 @@ import Task from "./Components/Student/Task";
 import AdminLogin from "./auth/AdminLogin";
 import AdminTask from "./Pages/AdminTask";
 import AdminAddActivity from "./Pages/Add_Activity";
+import ResetPassword from "./auth/ResetPassword";
 
 
 
@@ -65,6 +66,7 @@ const App = () => {
           <Route index element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path='/forgetpass' element={<StudentForgetPass/>}/>
+          <Route path='ResetPassword' element={<ResetPassword/>}/>
           <Route path="adminlogin" element={<AdminLogin />} />
 
           <Route path="*" element={<NotFound />} />
@@ -111,10 +113,13 @@ const App = () => {
             <Route path='task' element={<Task/>}/>
             <Route path='attendence' element={<AttendenceCard/>}/>
             <Route path='upcomingTask' element={<SubmitForm/>}/>
-            <Route path='submitform' element={<SubmitForm/>}/>
+            <Route path='submitform/:id' element={<SubmitForm/>}/>
             <Route path='course' element={<CourseCard/>}/>
             <Route path='profile' element={<StudentProfile/>}/>
             <Route path='Scorecard' element={<StudentViewpage/>}/>
+           
+
+
             
 
            

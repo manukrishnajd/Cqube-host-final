@@ -4,8 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import{ useTokenVerification} from './apiServices'
 
 const SubmitForm = (props) => {
-  const location = useLocation();
-  const taskData = location.state; // Access the data from location.state
+  // Access the data from location.state
 
   const [note, setNote] = useState("");
   const [tips, setTips] = useState("");
@@ -27,7 +26,6 @@ const SubmitForm = (props) => {
     };
   }, []);
 
-  console.log("Task Data:", taskData); // Log the task data
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,8 +57,8 @@ const SubmitForm = (props) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="note" className="block text-gray-600 font-extrabold">
-            Topics : {taskData.taskName}
-            Assigned BY: {taskData.assignedBy}
+            Topics :  {props.TaskTopics}
+            Assigned BY: {props.TaskNote}
           </label>
         </div>
         <div>

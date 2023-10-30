@@ -4,24 +4,16 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { getActivity } from './apiServices';
+import { logBase } from '@syncfusion/ej2-react-charts';
 
 export default function UpcomingTasks() {
-  const taskData = [
-    {
-      taskName: 'Merge sort',
-      description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica.',
-      date: 'Date: 2023-10-10',
-      assignedBy: 'Assigned by: John Doe',
-      type: 'Type: Online',
-    },
-    {
-      taskName: 'Hello',
-      description: 'Another task description',
-      date: 'Date: 2023-10-15',
-      assignedBy: 'Assigned by: Jane Smith',
-      type: 'Type: In-person',
-    },
-  ];
+
+  React.useEffect(()=>{
+    getActivity().then((res)=>{
+      setActivityResponse(res.result);
+    })
+  },[])
 
   const navigate = useNavigate();
 
@@ -30,20 +22,23 @@ export default function UpcomingTasks() {
     navigate('/student/submitform', { state: task });
   };
 
-  return (
-    <div>
-      {taskData.map((task, index) => (
+  const [activityResponse, setActivityResponse] = React.useState([]);
+  console.log(activityResponse,'sdaokioufiyu');
+
+  return ( 
+    <div className='flex gap-5'>
+      {activityResponse.map((task, index) => (
         <Card key={index} sx={{ maxWidth: 345 }}>
           <CardActionArea>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {task.taskName}
+                {task.topic} 
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {task.description}
+                {task.notes}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {task.date}
+                {task.duedate}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {task.assignedBy}
@@ -54,13 +49,13 @@ export default function UpcomingTasks() {
             </CardContent>
           </CardActionArea>
           <CardActions>
+            <Link to={`/student/submitform/${task._id}`}>
             <Button
               size="small"
-              color="primary"
-              onClick={() => handleTaskButtonClick(task)}
-            >
+              color="primary" TaskTopics={task.topic} TaskNote={task.notes}>
               Task
             </Button>
+                </Link>
           </CardActions>
         </Card>
       ))}
