@@ -99,7 +99,7 @@ console.log(stddata,'jhkjj');
     .filter((student) => {
       return (
         student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.courses.some((course) =>v
+        student.courses.some((course) =>
           course.assignedCourseRef.name
             .toLowerCase()
             .includes(searchQuery.toLowerCase())
