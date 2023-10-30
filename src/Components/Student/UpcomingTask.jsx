@@ -1,69 +1,68 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import { Link, useNavigate } from 'react-router-dom';
+import { getActivity } from './apiServices';
+import SubmitForm from './SubmitForm';
 
 export default function UpcomingTasks() {
-  const taskData = [
-    {
-      taskName: 'Merge sort',
-      description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica.',
-      date: 'Date: 2023-10-10',
-      assignedBy: 'Assigned by: John Doe',
-      type: 'Type: Online',
-    },
-    {
-      taskName: 'Hello',
-      description: 'Another task description',
-      date: 'Date: 2023-10-15',
-      assignedBy: 'Assigned by: Jane Smith',
-      type: 'Type: In-person',
-    },
-  ];
+  const [activityResponse, setActivityResponse] = useState([]);
+  const [selectedTask, setSelectedTask] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    getActivity().then((res) => {
+      setActivityResponse(res.result);
+    });
+  }, []);
 
   const navigate = useNavigate();
 
   const handleTaskButtonClick = (task) => {
-    // Use the `navigate` function to go to the Submit Form page and pass the task data as state
-    navigate('/student/submitform', { state: task });
+    setSelectedTask(task);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
-    <div>
-      {taskData.map((task, index) => (
+    <div className="flex gap-5">
+      {activityResponse.map((task, index) => (
         <Card key={index} sx={{ maxWidth: 345 }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {task.taskName}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.description}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.date}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.assignedBy}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.type}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button
-              size="small"
-              color="primary"
-              onClick={() => handleTaskButtonClick(task)}
-            >
-              Task
-            </Button>
-          </CardActions>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {task.topic}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {task.notes}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Due Date: {task.duedate}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Assigned By: {task.assignedBy}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Type: {task.type}
+            </Typography>
+          </CardContent>
+          <Button size="small" color="primary" onClick={() => handleTaskButtonClick(task)}>
+            Task
+          </Button>
         </Card>
       ))}
+
+      <Dialog open={isModalOpen} onClose={closeModal}>
+        <DialogContent>
+          <SubmitForm topic={selectedTask .topic} duedate={selectedTask.duedate} note={selectedTask.notes} id={selectedTask._id}/>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -34,6 +34,72 @@ export const login = async (data) => {
       }
     }, [navigate]);
   };
+
+
+  export const getActivity = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/activity`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the token for authorization
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in studentbyid:", error);
+      throw new Error("Failed to fetch student: " + error.response.data.message);
+    }
+  }
+
+  export const forgetPassword = async (requestData) => {
+    try {
+      const response = await axios.post(`http://localhost:4000/api/resetpassword`,requestData,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the token for authorization
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in studentbyid:", error);
+      throw new Error("Failed to fetch student: " + error.response.data.message);
+    }
+  }
+
+
+  export const resetPassword = async (requestData) => {
+    try {
+      const response = await axios.post(`http://localhost:4000/api/resetpassword/reset`,requestData,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the token for authorization
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in studentbyid:", error);
+      throw new Error("Failed to fetch student: " + error.response.data.message);
+    }
+  }
+
+
+  export const Answer = async (requestData) => {
+    try {
+      const response = await axios.post(`http://localhost:4000/api/activity/answer`,requestData,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the token for authorization
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in studentbyid:", error);
+      throw new Error("Failed to fetch student: " + error.response.data.message);
+    }
+  }
+
+  
+ 
   
  
 
