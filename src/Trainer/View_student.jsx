@@ -296,20 +296,7 @@ const Students = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <select
-                  value={selectedStudent}
-                  onChange={(e) => setSelectedStudent(e.target.value)}
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                >
-                  <option value="">Select a student</option>
-                  {data.map((student) => (
-                    <option key={student._id} value={student._id}>
-                      {student.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              
 
               <button
                 type="submit"
@@ -459,21 +446,7 @@ const Students = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <select
-                  value={selectedStudent}
-                  onChange={(e) => setSelectedStudent(e.target.value)}
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                >
-                  <option value="">Select a student</option>
-                  {data.map((student) => (
-                    <option key={student._id} value={student._id}>
-                      {student.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
+              
               <button
                 type="submit"
                 className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
