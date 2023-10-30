@@ -52,6 +52,7 @@ import AdminLogin from "./auth/AdminLogin";
 import AdminTask from "./Pages/AdminTask";
 import AdminAddActivity from "./Pages/Add_Activity";
 import ResetPassword from "./auth/ResetPassword";
+import StudentUserProfile from "./Components/Student/StudentUserProfile";
 
 
 

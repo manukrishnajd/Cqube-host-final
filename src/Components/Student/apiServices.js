@@ -82,6 +82,22 @@ export const login = async (data) => {
     }
   }
 
+
+  export const Answer = async (requestData) => {
+    try {
+      const response = await axios.post(`http://localhost:4000/api/activity/answer`,requestData,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the token for authorization
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in studentbyid:", error);
+      throw new Error("Failed to fetch student: " + error.response.data.message);
+    }
+  }
+
   
  
   

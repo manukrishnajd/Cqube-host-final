@@ -1,64 +1,68 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import { Link, useNavigate } from 'react-router-dom';
 import { getActivity } from './apiServices';
-import { logBase } from '@syncfusion/ej2-react-charts';
+import SubmitForm from './SubmitForm';
 
 export default function UpcomingTasks() {
+  const [activityResponse, setActivityResponse] = useState([]);
+  const [selectedTask, setSelectedTask] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  React.useEffect(()=>{
-    getActivity().then((res)=>{
+  useEffect(() => {
+    getActivity().then((res) => {
       setActivityResponse(res.result);
-    })
-  },[])
+    });
+  }, []);
 
   const navigate = useNavigate();
 
   const handleTaskButtonClick = (task) => {
-    // Use the `navigate` function to go to the Submit Form page and pass the task data as state
-    navigate('/student/submitform', { state: task });
+    setSelectedTask(task);
+    setIsModalOpen(true);
   };
 
-  const [activityResponse, setActivityResponse] = React.useState([]);
-  console.log(activityResponse,'sdaokioufiyu');
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-  return ( 
-    <div className='flex gap-5'>
+  return (
+    <div className="flex gap-5">
       {activityResponse.map((task, index) => (
         <Card key={index} sx={{ maxWidth: 345 }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {task.topic} 
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.notes}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.duedate}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.assignedBy}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {task.type}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Link to={`/student/submitform/${task._id}`}>
-            <Button
-              size="small"
-              color="primary" TaskTopics={task.topic} TaskNote={task.notes}>
-              Task
-            </Button>
-                </Link>
-          </CardActions>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {task.topic}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {task.notes}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Due Date: {task.duedate}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Assigned By: {task.assignedBy}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Type: {task.type}
+            </Typography>
+          </CardContent>
+          <Button size="small" color="primary" onClick={() => handleTaskButtonClick(task)}>
+            Task
+          </Button>
         </Card>
       ))}
+
+      <Dialog open={isModalOpen} onClose={closeModal}>
+        <DialogContent>
+          <SubmitForm topic={selectedTask .topic} duedate={selectedTask.duedate} note={selectedTask.notes} id={selectedTask._id}/>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
