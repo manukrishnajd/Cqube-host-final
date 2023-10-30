@@ -10,6 +10,8 @@ import { GiAbstract021, GiBranchArrow, GiTeacher } from 'react-icons/gi';
 import { FaCodeBranch, FaUserGraduate } from 'react-icons/fa';
 import { IoIosHome } from 'react-icons/io';
 import Footer from '../Components/dashboard component/Footer';
+import { GrAddCircle } from 'react-icons/gr';
+import { BiTask } from 'react-icons/bi';
 
 const Layout = () => {
   const sidebarData = [
@@ -26,12 +28,12 @@ const Layout = () => {
     {
       name: "Activity",
       link: "admin/task",
-      icon: <MdBook style={{width:"30px"  ,height:"30px" }}  />,
+      icon: <BiTask style={{width:"30px"  ,height:"30px" }}  />,
     },
     {
       name: "Add Activity",
       link: "admin/AddActivity",
-      icon: <MdBook style={{width:"30px"  ,height:"30px" }}  />,
+      icon: <GrAddCircle style={{width:"30px"  ,height:"30px" }}  />,
     },
     {
       name: "Sub Course",
