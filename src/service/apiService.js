@@ -134,13 +134,20 @@ export const addStudent = async (studentData) => {
 export const getStudent = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/student`
+      "http://localhost:4000/api/student?status=true",
+      
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     console.log(response);
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+    throw new Error(error.message);
   }
 };
 

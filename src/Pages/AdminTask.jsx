@@ -14,6 +14,8 @@ import Modal from "react-modal";
 import { Verified, activityadd, useTokenVerification, viewactivity, viewstudent } from "../service/trainerService";
 import { useEffect } from "react";
 import { errorToastify } from "../Components/Student/toastify";
+import { table } from "@syncfusion/ej2-react-grids";
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 
 
 
@@ -71,7 +73,85 @@ const [selectedCourse, setSelectedCourse] = useState(null);
   }, []);
 
   
+  const renderForm = () => {
+    switch (selectedType) {
+      case "evaluate":
+        return (
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <div className="mb-4">
+              <span className="font-bold">Submission Date and Time : </span>{" "}
+              <span>23/05/2023 12:00</span>
+            </div>
 
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-gray-800">
+                  Topic :
+                </label>
+              </div>
+              {/* <div className="mb-4">
+            <label className="block text-lg font-medium text-gray-800">
+              Student:
+            </label>
+            <input
+              type="text"
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              value={
+                students.find((student) => student.id === selectedStudentId)
+                  ?.name || ""
+              }
+              readOnly
+            />
+          </div> */}
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-gray-800">
+                  Answer:
+                </label>
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-gray-800">
+                  Notes :
+                </label>
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-gray-800">
+                  Remarks:
+                </label>
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-gray-800">
+                  mark
+                </label>
+                <input
+                  type="number"
+                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <a href="" download>
+                  view attachment
+                </a>
+              </div>
+              <div className="mb-4">
+                <button
+                  type="submit"
+                  className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded"
+                >
+                  <span className="text-white font-lg margin-auto">
+                    Evaluate
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        );
+
+     
+    }
+  };
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -177,320 +257,13 @@ const [selectedCourse, setSelectedCourse] = useState(null);
     setSelectedType("");
     setIsModalOpen(false);
   };
-
-  const renderForm = () => {
-    switch (selectedType) {
-      case "evaluate":
-
-      return (
-        
-        <div className="bg-white p-4 rounded-lg shadow-md">
-         <div className="mb-4">
-
-        <span className="font-bold">Submission Date and Time : </span> <span>23/05/2023 12:00</span>
-         </div>
-        
-        <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-              Topic :
-            </label>
-           
-          </div>
-          {/* <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-              Student:
-            </label>
-            <input
-              type="text"
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              value={
-                students.find((student) => student.id === selectedStudentId)
-                  ?.name || ""
-              }
-              readOnly
-            />
-          </div> */}
-          <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-              Answer:
-            </label>
-            
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-             Notes :
-            </label>
-            
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-              Remarks:
-            </label>
-           
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-              mark
-            </label>
-            <input
-              type="number"
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <a href="" download>view attachment</a>
-          </div>
-          <div className="mb-4">
-            <button
-              type="submit"
-              className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded"
-            >
-              <span className="text-white font-lg margin-auto">Evaluate</span>
-            </button>
-          </div>
-        </form>
-      </div>
-      )
-
-
-      case "presentation":
-        return (
-          <div className="bg-white text-white p-4 rounded-lg shadow-md">
-          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-lg font-medium text-black">Type:</label>
-              <input type="text" value={type} readOnly placeholder="Test"
-              className="h-3"
-                                />
-            </div>
-            <div className="mb-4">
-              <input
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="Topic"
-                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-            <div className="mb-4">
-              <textarea
-                rows="3"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Notes"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              ></textarea>
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-medium text-black">Due Date:</label>
-              <input
-                type="datetime-local"
-                value={duedate}
-                onChange={(e) => setDueDate(e.target.value)}
-                placeholder="Due Date"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="number"
-                value={mark}
-                onChange={(e) => setMark(e.target.value)}
-                placeholder="Total mark"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-    
-            <div className="mb-4">
-              <select
-                value={selectedStudent}
-                onChange={(e) => setSelectedStudent(e.target.value)}
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              >
-                <option value="">Select a student</option>
-                {data.map((student) => (
-                  <option key={student._id} value={student._id}>
-                    {student.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-            <button
-              type="submit"
-              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
-            >
-              <span className="text-white font-lg margin-auto">Submit</span>
-            </button>
-          </form>
-          </div>
-        );
-      case "task":
-        return (
-          <div className="bg-white text-white p-4 rounded-lg shadow-md">
-          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-lg font-medium text-black">Type:</label>
-              <input type="text" value={type} readOnly placeholder="Test"
-              className="h-3"
-                                />
-            </div>
-            <div className="mb-4">
-              <input
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="Topic"
-                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-            <div className="mb-4">
-              <textarea
-                rows="3"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Notes"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              ></textarea>
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-medium text-black">Due Date:</label>
-              <input
-                type="datetime-local"
-                value={duedate}
-                onChange={(e) => setDueDate(e.target.value)}
-                placeholder="Due Date"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="number"
-                value={mark}
-                onChange={(e) => setMark(e.target.value)}
-                placeholder="Total mark"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-    
-            <div className="mb-4">
-              <select
-                value={selectedStudent}
-                onChange={(e) => setSelectedStudent(e.target.value)}
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              >
-                <option value="">Select a student</option>
-                {data.map((student) => (
-                  <option key={student._id} value={student._id}>
-                    {student.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-            <button
-              type="submit"
-              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
-            >
-              <span className="text-white font-lg margin-auto">Submit</span>
-            </button>
-          </form>
-          </div>
-        );
-      case "test":
-        return (
-          <div className="bg-white text-white p-4 rounded-lg shadow-md">
-          {/* <h2 className="text-lg font-semibold text-black mb-2">Test</h2> */}
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-lg font-medium text-black">Type:</label>
-              <input type="text" value={type} readOnly placeholder="Test"
-              className="h-3"
-                                />
-            </div>
-            <div className="mb-4">
-              <input
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="Topic"
-                className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-            <div className="mb-4">
-              <textarea
-                rows="3"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Notes"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              ></textarea>
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-medium text-black">Due Date:</label>
-              <input
-                type="datetime-local"
-                value={duedate}
-                onChange={(e) => setDueDate(e.target.value)}
-                placeholder="Due Date"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="number"
-                value={mark}
-                onChange={(e) => setMark(e.target.value)}
-                placeholder="Total mark"
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              />
-            </div>
-    
-            <div className="mb-4">
-              <select
-                value={selectedStudent}
-                onChange={(e) => setSelectedStudent(e.target.value)}
-                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-
-              >
-                <option value="">Select a student</option>
-                {data.map((student) => (
-                  <option key={student._id} value={student._id}>
-                    {student.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-            <button
-              type="submit"
-              className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
-            >
-              <span className="text-white font-lg margin-auto">Submit</span>
-            </button>
-          </form>
-          </div>
-        );
-    }
-  };
+const [studenttask,setstudenttask]=useState()
+  const viewstudents=()=>{
+    {activitydata.studentsRef.map((res)=>(
+        setstudenttask(res.name)
+     
+    ))}
+  }
 
   // Function to toggle select all students
   const toggleSelectAll = () => {
@@ -515,25 +288,60 @@ const [selectedCourse, setSelectedCourse] = useState(null);
     }
   };
 
+  const [expandedRow, setExpandedRow] = useState(null);
+const[arrow,setarrow]=useState(false)
+  const toggleExpandRow = (rowIndex) => {
+    if (rowIndex === expandedRow) {
+      setExpandedRow(null);
+    } else {
+      setExpandedRow(rowIndex);
+    }
+    setarrow(!arrow)
+  };
+
+  const renderStudentDetails = (student, rowIndex) => {
+    if (rowIndex === expandedRow) {
+      return (
+        
+        <TableRow className="bg-slate-400 ">
+        <TableCell>
+          <span>{student.name}</span>
+        </TableCell>
+        <TableCell>
+          <span>{student.topic}</span>
+        </TableCell>
+        <TableCell>
+          <span>{student.duedate}</span>
+        </TableCell>
+        <TableCell>
+          <span>{student.type}</span>
+        </TableCell>
+        <TableCell>
+          <span>{student.mark}</span>
+        </TableCell>
+        <TableCell>
+          <span>{student.status}</span>
+        </TableCell>
+        
+        <TableCell>
+
+        <button onClick={() => openModal("evaluate")} className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400">
+                    evaluate
+                  </button>
+        </TableCell>
+      </TableRow>
+      
+      );
+    }
+  };
+
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
-     
-      
-
-      <TableContainer  component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow className="h-2">
-              {/* <TableCell
-                style={{ backgroundColor: "#475569", fontSize: "15px",  }}
-              >
-                <input
-                  type="checkbox"
-                  checked={selectAll}
-                  onChange={toggleSelectAll}
-                />
-              </TableCell> */}
-              <TableCell
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow className="h-2">
+          <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
                 Student Name
@@ -571,34 +379,39 @@ const [selectedCourse, setSelectedCourse] = useState(null);
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",color:"white" }}
               ></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentStudents.map((student, index) => (
-              <TableRow key={index} className="h-2">
-                {/* <TableCell className="h-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedStudents.includes(student._id)}
-                    onChange={() => toggleStudentSelection(student._id)}
-                  />
-                </TableCell> */}
-                <TableCell>{student.name}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentStudents.map((student, index) => (
+            <React.Fragment key={index}>
+              <TableRow className="h-2">
+           
+                <TableCell className="text-center">
+                  <button onClick={() => toggleExpandRow(index)}>
+                    {arrow ?
+                  <BsFillArrowDownCircleFill size={25} />
+                  :
+                  <BsFillArrowUpCircleFill size={25}/>
+                }
+                  </button>
+                </TableCell>
+
                 <TableCell>{student.topic}</TableCell>
                 <TableCell>{student.duedate}</TableCell>
                 <TableCell>{student.type}</TableCell>
                 <TableCell>{student.mark}</TableCell>
                 <TableCell>{student.status}</TableCell>
-                <TableCell>
-                  <button onClick={() => openModal("evaluate")} className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400">
-                    evaluate
-                  </button>
-                </TableCell>
+               
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+             
+              {renderStudentDetails(student, index)}
+            
+             
+            </React.Fragment>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
 
       <div className="pagination-container">
         <Button
@@ -629,37 +442,36 @@ const [selectedCourse, setSelectedCourse] = useState(null);
           </Button>
         ))}
       </div>
-
       <Modal
-        className=" p-5 border-none  rounded-lg modal_width m-auto mt-4"
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Assign Student Modal"
-        style={{
-          overlay: {
-            zIndex: 10000,
-          },
-          content: {
-            zIndex: 1001,
-          },
-        }}
-      >
-        <div className="overflow-y-scroll modal-content-scrollable">
-
-        {/* <h2 className='text-white text-2xl m-auto w-fit'>Assign {selectedType && selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}</h2> */}
-        {renderForm()}
-        </div>
-        <div className="align-middle">
-
-        <button
-          onClick={closeModal}
-          className="text-sm text-gray-600 hover:text-gray-800"
-          >
-          Cancel
-        </button>
+          className=" p-5 border-none  rounded-lg modal_width m-auto mt-4"
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Assign Student Modal"
+          style={{
+            overlay: {
+              zIndex: 10000,
+            },
+            content: {
+              zIndex: 1001,
+            },
+          }}
+        >
+          <div className="overflow-y-scroll modal-content-scrollable">
+            {/* <h2 className='text-white text-2xl m-auto w-fit'>Assign {selectedType && selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}</h2> */}
+            {renderForm()}
           </div>
-      </Modal>
-    </div>
+          <div className="align-middle">
+            <button
+              onClick={closeModal}
+              className="text-sm text-gray-600 hover:text-gray-800"
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal>
+  </div>
+        
+  
   );
 };
 
