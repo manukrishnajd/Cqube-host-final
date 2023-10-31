@@ -17,14 +17,19 @@ import { GiBrassEye } from "react-icons/gi";
   import { Link } from "react-router-dom";
 import {
   addStudent,
+  deleteStudentById,
   getAllBranches,
   getAllTrainers,
   getBranch,
   getCourse,
   getStudent,
+  getStudentbyid,
   getSubCourse,
+  updateStudentById,
 } from "../service/apiService";
 import { errorToastify } from "../Components/Student/toastify";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const Students = () => {
   const [gridKey, setGridKey] = useState(0);
@@ -44,7 +49,12 @@ const Students = () => {
   const [selectedCourseRefId, setSelectedCourseRefId] = useState([]);
   const [selectedStudentIds, setSelectedStudentIds] = useState([]);
   const [data, setData] = useState([]);
+  const [refresh,setrefresh]=useState(false)
+  const [editingStudent, setEditingStudent] = useState(null);
+  const [editviewdata,seteditviewdata]=useState({})
+  const [updateddata,setupdateddata]=useState()
   
+const [view,setview]=useState(false)
   const getCourseRefId = (student) => {
     const course = student.courses.find((course) => course.assignedCourseRef._id);
     console.log(course.assignedCourseRef._id,'courses ids kjhg');
@@ -52,12 +62,9 @@ const Students = () => {
   };
 
   const [stddata,setstddata]=useState([])
-useEffect(()=>{
-  getStudent().then((res)=>{
-    console.log(res,'responsedsdsjdh');
-    setstddata(res)
-  })
-},[])
+
+
+  
 
 console.log(stddata,'jhkjj');
   const tableHeaders = [
@@ -67,6 +74,7 @@ console.log(stddata,'jhkjj');
     "Phone Number",
     "Email",
     "Action",
+    ""
   ];
 
   const handleViewRow = (student) => {
@@ -96,24 +104,32 @@ console.log(stddata,'jhkjj');
 
   
   const currentData = students
-    .filter((student) => {
-      return (
-        student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.courses.some((course) =>
-          course.assignedCourseRef.name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        )
-      );
-    })
-    .slice(indexOfFirstRow, indexOfLastRow);
-
+  .filter((student) => {
+    return (
+      student.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.courses?.some((course) =>
+        course.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      )
+    );
+  })
+  .slice(indexOfFirstRow, indexOfLastRow);
   const totalPages = Math.ceil(students.length / rowsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
+  };
+
+  
+  const handleupdateCourseChange = (e) => {
+    const selectedCourseData = JSON.parse(e.target.value); // Parse the selected course data
+    setupdateddata({
+      ...updateddata,
+      assignedCourseRef: selectedCourseData,
+    });
   };
 
   const handleCourseChange = (e) => {
@@ -149,16 +165,20 @@ console.log(stddata,'jhkjj');
       setBranches(response);
     getAllTrainers().then((response) => {
       setTrainers(response);
+      getStudent().then((res)=>{
+        console.log(res,'responsedsdsjdh');
+        setStudents(res)
+      })
     });
     const delay = 500; // 500ms debounce delay
 
     const debounceSearch = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
+      setDebouncedSearchTerm(searchQuery);
     }, delay);
 
     return () => clearTimeout(debounceSearch);
     // let response =
-  }, [searchTerm]);
+  }, [searchQuery,refresh]);
 
 
   // useEffect(() => {
@@ -183,6 +203,13 @@ console.log(stddata,'jhkjj');
       )
     : students;
 
+    const handleUpdateInputChange = (e) => {
+      
+     setupdateddata({...updateddata,[e.target.name]:e.target.value})
+    };
+  
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewStudent({
@@ -191,7 +218,49 @@ console.log(stddata,'jhkjj');
     });
   };
 
+  const handleUpdate = (id) => {
+    // Update the fields with the new values if they are not empty
+    const updatedStudentData = { ...updateddata };
+  
+    if (updatedStudentData.selectedCourse) {
+      // If a course is selected, set the course reference
+      updatedStudentData.assignedCourseRef = updatedStudentData.selectedCourse;
+      // Remove the selectedCourse field, as it's not needed in the updated data
+     
+    } else {
+      // If no course is selected, remove the course reference from the update data
+     
+    }
+
+    console.log(updatedStudentData,'vbnm');
+  
+    // Similar logic for trainer and branch references
+  
+    // Update the student with the modified data
+    updateStudentById(id, updatedStudentData).then((res) => {
+      console.log(res, 'update response');
+      setrefresh(!refresh);
+    });
+  };
+
+
+
+
+
+
+
+const handleedit=(id)=>{
+  getStudentbyid(id).then((res)=>{
+    console.log(res,'editing response');
+    seteditviewdata(res)
+    setview(true)
+  })
+
+
+}
+
   const handleAddStudent = () => {
+    
     const {
       name,
       email,
@@ -294,7 +363,18 @@ console.log(stddata,'jhkjj');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+const handledelete=(id)=>{
+try{
 
+  deleteStudentById(id)
+  toast('deleted succesffully')
+  setrefresh(!refresh)
+}catch (error){
+  errorToastify(error?.message)
+
+}
+
+}
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -345,20 +425,22 @@ console.log(stddata,'jhkjj');
 
 
   return (
+    <>
+   
     <div className="container mx-auto p-10 bg-white rounded-3xl">
+
+
+
+
       <Header category="Page" title="Students" />
 
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-4">Student Profile Management</h1>
 
         <div className="mb-4">
-          <input
-            className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-            type="text"
-            placeholder="Search by Name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+
+{ view ==false &&
+<>
           <h2 className="text-xl font-bold mb-2">Add Student</h2>
           <div className="flex flex-wrap mb-4">
             <input
@@ -402,7 +484,7 @@ console.log(stddata,'jhkjj');
               name="git"
               value={newStudent.git}
               onChange={handleInputChange}
-            />
+              />
             <input
               className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
               type="date"
@@ -464,21 +546,16 @@ console.log(stddata,'jhkjj');
 </select>
           </div>
 
-          {editingIndex !== null ? (
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 hover:shadow-orange"
-              onClick={handleUpdateStudent}
-            >
-              Update Student
-            </button>
-          ) : (
+         <div>
+        
+        
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:shadow-orange"
               onClick={handleAddStudent}
             >
               Add Student
             </button>
-          )}
+        
         </div>
 
         <div className="mb-2 gap-6 flex items-center">
@@ -488,8 +565,148 @@ console.log(stddata,'jhkjj');
             height="30px"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-          />
+            />
         </div>
+            </>
+}
+
+{/* edit student form */}
+{ view &&
+
+<>
+<div className="flex flex-wrap mb-4">
+
+            <input
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder={`Name : ${editviewdata.name}`}
+              name="name"
+              value={updateddata?.name}
+              onChange={handleUpdateInputChange}
+              />
+            <input
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder={`number : ${editviewdata.phoneNumber}`}
+              name="phoneNumber"
+              value={updateddata?.phone}
+              onChange={handleUpdateInputChange}
+            />
+            <input
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder={`Email : ${editviewdata.email}`}
+              name="email"
+              value={updateddata?.email}
+              onChange={handleUpdateInputChange}
+              />
+            
+            <input
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder={`password : ${editviewdata.password}`}
+              name="password"
+              value={updateddata?.password}
+              onChange={handleUpdateInputChange}
+              />
+            <br />
+            <br />
+            <input
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder={`Github : ${editviewdata.github}`}
+              name="github"
+              value={updateddata?.git}
+              onChange={handleUpdateInputChange}
+            />
+            <label htmlFor="">{`date joined : ${editviewdata.createdAt}`}</label>
+            <input
+              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+              type="date"
+              placeholder={`date joined : ${editviewdata.createdAt}`}
+              value={updateddata?.joinedDate} // Use updateddata.joinedDate instead of joinedDate
+              onChange={handleUpdateInputChange} // Update state using handleUpdateInputChange
+              name="joinedDate" // Set the correct name
+              />
+
+            <input
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder={`LinkedIn : ${editviewdata.linkedIn}`}
+              name="linkedIn"
+              value={updateddata?.linkedIn}
+              onChange={handleUpdateInputChange}
+            />
+           
+            <select
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              name="selectedTrainer"
+              value={updateddata?.selectedTrainer}
+              onChange={handleUpdateInputChange}
+            >
+              <option value="">{editviewdata.courses[0].trainerName}</option>
+              {trainers?.map((item) => {
+                return <option value={item._id}>{item.name}</option>;
+              })}
+            </select>
+            <select
+              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              name="selectedBranch"
+              value={updateddata?.selectedBranch}
+              onChange={handleUpdateInputChange}
+              >
+              <option value="">{editviewdata.branchName}</option>
+              {branches?.map((branch) => (
+                <option key={branch._id} value={branch._id}>
+                  {branch.name}
+                </option>
+              ))}
+            </select>
+
+            <select
+  className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+  value={updateddata?.selectedCourse}
+  onChange={handleupdateCourseChange} // Add this line for the new event handler
+  name="selectedCourse"
+>
+  <option value="" disabled>
+    {editviewdata.courses[0].name}
+  </option>
+  {course_data?.map((item) => {
+    return (
+      <option key={item._id} value={JSON.stringify(item)}>
+        {item.name}
+      </option>
+    );
+  })}
+</select>
+          </div>
+
+         <div>
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 hover:shadow-orange"
+              onClick={() => handleUpdate(editviewdata._id)}
+            >
+              Update Student
+            </button>
+        
+        </div>
+
+        <div className="mb-2 gap-6 flex items-center">
+          <TextField
+            label="Search by Name or Course"
+            variant="outlined"
+            height="30px"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            />
+        </div>
+
+</>
+}
+{/* edit student form end */}
+
+
 
         <TableContainer component={Paper}>
           <Table>
@@ -526,9 +743,9 @@ console.log(stddata,'jhkjj');
                   </TableCell>
                   <TableCell>{student.name}</TableCell>
                   <TableCell>
-                    {student.courses.map((course, index) => (
-                      <span key={index}>{course.assignedCourseRef.name}</span>
-                    ))}
+                    {student?.courses?.map((course, index) => (
+                      <span key={index}>{course.name}</span>
+                    ))} 
                   </TableCell>
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
@@ -542,6 +759,32 @@ console.log(stddata,'jhkjj');
                         <GiBrassEye size={25} />
                       </IconButton>
                     </Link>
+              
+                  </TableCell>
+
+                  <TableCell>
+                    
+                      <IconButton
+                        size="small"
+                        title="View more"
+                        onClick={() => handledelete(student._id)}
+                      >
+                        <AiFillDelete size={25} />
+                      </IconButton>
+                  
+              
+                  </TableCell>
+                  <TableCell>
+                    
+                      <IconButton
+                        size="small"
+                        title="View more"
+                        onClick={() => handleedit(student._id)}
+                      >
+                        <AiFillEdit size={25} />
+                      </IconButton>
+                  
+              
                   </TableCell>
                 </TableRow>
               ))}
@@ -567,14 +810,10 @@ console.log(stddata,'jhkjj');
           </Button>
         </div>
       </div>
-
-        {/* {selectedStudent && (
-          <StudentDetailsModal
-            selectedStudent={selectedStudent}
-            toggleModal={toggleModal}
-          />
-        )} */}
       </div>
+      </div>
+      </>
+    
 
   );
 };
