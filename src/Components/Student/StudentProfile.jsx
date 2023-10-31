@@ -110,12 +110,12 @@ const StudentProfile = () => {
                 </div>
               ) : (
                 <a
-                  // href=
+                  href={studentData?.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  {/* {studentData.github} */}
+                  {studentData?.github}
                 </a>
               )}
             </li>
@@ -132,12 +132,12 @@ const StudentProfile = () => {
                 </div>
               ) : (
                 <a
-                //  href=
+                 href={studentData?.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  {/* {studentData.linkedin} */}
+                  {studentData?.linkedin}
                 </a>
               )}
             </li>

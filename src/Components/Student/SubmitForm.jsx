@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import AttachmentInput from "./AttachmentInput";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Answer, useTokenVerification } from './apiServices';
 import { errorToastify } from "./toastify";
