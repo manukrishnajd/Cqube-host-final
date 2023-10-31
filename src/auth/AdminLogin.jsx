@@ -21,7 +21,7 @@ const AdminLogin = () => {
       const response = await loginAdmin(data);
       console.log(response, 'responses');
       if (response && response.token) {
-        navigate('/student/dash');
+        navigate('/admin/dash');
       } else {
         setAuth(true);
       }
