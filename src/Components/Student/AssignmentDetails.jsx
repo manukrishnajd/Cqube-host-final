@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { BsPenFill } from "react-icons/bs";
 import {
   Button,
   Paper,
@@ -9,127 +10,129 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TablePagination, // Import TablePagination
 } from "@material-ui/core";
-import Modal from 'react-modal'
+import { Link } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import SubmitForm from "./SubmitForm";
+import { getActivity } from "./apiServices";
+import StudentViewpage from "./StudentViewpage";
 
-const Activity = () => {
-  const [selectedStudentId, setSelectedStudentId] = useState('');
-    const [taskDescription, setTaskDescription] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const handleSubmit = (e) => {
-      e.preventDefault();
-  
-      // Perform task assignment logic here, using selectedStudentId, taskDescription, and dueDate
-  
-      // Clear form fields and close the modal
-      setSelectedStudentId('');
-      setTaskDescription('');
-      setDueDate('');
-      setIsModalOpen(false);
-    };
-  
-  const initialStudents = [
-    {
-      id: 1,
-      topic: "Mern",
-      Course: "23/04/2023",
-      phoneNumber: "Task",
-      branch: "Manu",
-      email: "Completed",
-      status: "9",
-    },
-    {
-      id: 2,
-      topic: "React",
-      Course: "25/04/2023",
-      phoneNumber: "Assignment",
-      branch: "Alex",
-      email: "In Progress",
-      status: "5",
-    },
-    // Add more default student objects as needed
-  ];
+const Activity = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [activityResponse, setActivityResponse] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [students] = useState(initialStudents);
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(0);
-  const offset = currentPage * itemsPerPage;
-  const currentStudents = students.slice(offset, offset + itemsPerPage);
-  const totalPages = Math.ceil(students.length / itemsPerPage);
+  useEffect(() => {
+    getActivity().then((res) => {
+      setActivityResponse(res.result);
+    });
+  }, []);
 
-  const handlePageChange = (newPage) => {
-    if (newPage >= 0 && newPage < totalPages) {
-      setCurrentPage(newPage);
-    }
+  const handleSubmit = (student) => {
+    setSelectedTask(student);
+    setIsModalOpen(true);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState('');
+  const handleView = (student) => {
+    setSelectedTask(student);
+    setIsModalOpen1(true);
+  };
 
-  
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset to the first page when changing rows per page
+  };
+
+  const rowsToDisplay = activityResponse.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
   return (
     <div>
-
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Topic</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Due Date</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Type</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Evaluated by</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Status</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Mark</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Evaluate</TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Topic
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Due Date
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Type
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Evaluated by
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Status
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Mark
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+                Evaluate
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentStudents.map((student, index) => (
+            {rowsToDisplay.map((student, index) => (
               <TableRow key={index}>
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.Course}</TableCell>
-                <TableCell>{student.phoneNumber}</TableCell>
+                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{student.type}</TableCell>
                 <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.email}</TableCell>
-                <TableCell>{student.status}</TableCell>
+                <TableCell>{student.answer?.status}</TableCell>
+                <TableCell></TableCell>
                 <TableCell>
-                  <AiFillCheckCircle size={20} />
+                  {student.answer?.status === "submitted" ? (
+                    <AiFillCheckCircle onClick={() => handleView(student)} size={20} />
+                  ) : (
+                    <BsPenFill onClick={() => handleSubmit(student)} size={20} />
+                  )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]} // Customize rows per page options
+          component="div"
+          count={activityResponse.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
-      <div className="pagination-container">
-        <Button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 0}
-        >
-          Previous
-        </Button>
-        <span className="page-number">Page {currentPage + 1} of {totalPages}</span>
-        <Button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages - 1}
-        >
-          Next
-        </Button>
-      </div>
-
-      <div className="page-numbers">
-        {Array.from({ length: totalPages }, (_, i) => i).map((pageNumber) => (
-          <Button
-            key={pageNumber}
-            onClick={() => handlePageChange(pageNumber)}
-            disabled={pageNumber === currentPage}
-          >
-            {pageNumber + 1}
-          </Button>
-        ))}
-      </div>
-
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <DialogContent>
+          {selectedTask && (
+            <SubmitForm
+              topic={selectedTask.topic}
+              duedate={selectedTask.duedate}
+              note={selectedTask.notes}
+              id={selectedTask._id}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
+        <DialogContent>
+          {selectedTask && (
+            <StudentViewpage id={selectedTask._id} />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

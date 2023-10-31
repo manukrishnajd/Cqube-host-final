@@ -1,41 +1,28 @@
-import React from 'react'
-import UpcomingTask from './UpcomingTask'
-
-import AssignmentDetails from './AssignmentDetails'
-
-import { useState } from "react";
+import React from 'react';
+import UpcomingTask from './UpcomingTask';
+import AssignmentDetails from './AssignmentDetails';
+import { useState } from 'react';
 import StudentProfile from './StudentProfile';
-import {useTokenVerification} from './apiServices'
-
-
-
+import { useTokenVerification } from './apiServices';
+import UpcomingTasks from './UpcomingTask';
 
 function Task() {
+  useTokenVerification();
 
-  useTokenVerification()
   return (
     <div>
-        
-        
-
-        
-        <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-      <div className="flex text-xl font-semibold mb-4  ">
-       Upcoming Task
-      </div>
-        <UpcomingTask/>
-        <div className="flex text-xl font-semibold mb-4  ">
-        Assignment Details
-      </div>
-
-        <AssignmentDetails/>
-       
-        
-        
+      <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
+        <div className=" font-semibold mb-4 bg-slate-500 h-16 text-4xl pt-3 text-gray-50 text-center rounded-xl">Upcoming Task</div>
+        <div className="border ">
+          <UpcomingTasks/>
         </div>
-        
-        </div>
-  )
+
+        <div className=" font-semibold mt-4 mb-4  bg-slate-500 h-16 text-4xl pt-3 text-gray-50 text-center rounded-xl">Assignment Details</div>
+
+        <AssignmentDetails />
+      </div>
+    </div>
+  );
 }
 
-export default Task
+export default Task;
