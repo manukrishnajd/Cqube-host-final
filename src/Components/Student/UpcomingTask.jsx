@@ -16,7 +16,9 @@ export default function UpcomingTasks() {
 
   useEffect(() => {
     getActivity().then((res) => {
-      setActivityResponse(res.result);
+      // Filter out submitted tasks before setting the activityResponse state
+      const upcomingTasks = res.result.filter((task) => task.answer?.status !== 'submitted');
+      setActivityResponse(upcomingTasks);
     });
   }, []);
 
@@ -60,7 +62,7 @@ export default function UpcomingTasks() {
 
       <Dialog open={isModalOpen} onClose={closeModal}>
         <DialogContent>
-          <SubmitForm topic={selectedTask .topic} duedate={selectedTask.duedate} note={selectedTask.notes} id={selectedTask._id}/>
+          <SubmitForm topic={selectedTask.topic} duedate={selectedTask.duedate} note={selectedTask.notes} id={selectedTask._id} />
         </DialogContent>
       </Dialog>
     </div>

@@ -10,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TablePagination, // Import TablePagination
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,11 +19,13 @@ import SubmitForm from "./SubmitForm";
 import { getActivity } from "./apiServices";
 import StudentViewpage from "./StudentViewpage";
 
-const Activity = () => {
+const Activity = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [activityResponse, setActivityResponse] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     getActivity().then((res) => {
@@ -39,6 +42,17 @@ const Activity = () => {
     setSelectedTask(student);
     setIsModalOpen1(true);
   };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset to the first page when changing rows per page
+  };
+
+  const rowsToDisplay = activityResponse.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
   return (
     <div>
@@ -70,7 +84,7 @@ const Activity = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {activityResponse.map((student, index) => (
+            {rowsToDisplay.map((student, index) => (
               <TableRow key={index}>
                 <TableCell>{student.topic}</TableCell>
                 <TableCell>{student.duedate}</TableCell>
@@ -80,8 +94,7 @@ const Activity = () => {
                 <TableCell></TableCell>
                 <TableCell>
                   {student.answer?.status === "submitted" ? (
-                      <AiFillCheckCircle onClick={() => handleView(student)} size={20} />
-                   
+                    <AiFillCheckCircle onClick={() => handleView(student)} size={20} />
                   ) : (
                     <BsPenFill onClick={() => handleSubmit(student)} size={20} />
                   )}
@@ -90,6 +103,15 @@ const Activity = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]} // Customize rows per page options
+          component="div"
+          count={activityResponse.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -107,9 +129,7 @@ const Activity = () => {
       <Dialog open={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
         <DialogContent>
           {selectedTask && (
-            <StudentViewpage
-              id={selectedTask._id}
-            />
+            <StudentViewpage id={selectedTask._id} />
           )}
         </DialogContent>
       </Dialog>

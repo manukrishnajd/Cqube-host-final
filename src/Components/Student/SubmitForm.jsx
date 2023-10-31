@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Answer, useTokenVerification } from './apiServices';
 import { errorToastify } from "./toastify";
 
+
 const SubmitForm = (props) => {
   const [note, setNote] = useState("");
   const [tips, setTips] = useState("");
@@ -38,6 +39,7 @@ try
 {
 
   Answer(requestData);
+  window.location.reload()
 }catch (error){
 errorToastify(error?.message)}
 
