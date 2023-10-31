@@ -16,11 +16,15 @@ import LineChart from "../Charts/LineChart";
 import SubmitForm from "./SubmitForm";
 import StudentNavbar from "./StudentNavbar";
 import StudentDash from "./StudentDash";
+import { useTokenVerification } from "./apiServices";
 
 
 
 
 const  StudentLayout = () => {
+
+useTokenVerification()
+
   const sidebarData = [
     {
       name: "Home",

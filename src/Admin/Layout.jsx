@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
 import { Navbar } from '../Components';
 import { Outlet } from 'react-router-dom';
@@ -12,8 +12,12 @@ import { IoIosHome } from 'react-icons/io';
 import Footer from '../Components/dashboard component/Footer';
 import { GrAddCircle } from 'react-icons/gr';
 import { BiTask } from 'react-icons/bi';
+import { useTokenVerification } from '../service/trainerService';
+
 
 const Layout = () => {
+ 
+
   const sidebarData = [
     {
       name: "Home",
@@ -62,6 +66,15 @@ const Layout = () => {
       icon: <GiBranchArrow style={{width:"30px"  ,height:"30px" }} />,
     },
   ];
+
+useTokenVerification()
+
+
+
+
+
+
+
 
   return (
     <>

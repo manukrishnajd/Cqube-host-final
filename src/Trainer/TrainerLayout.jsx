@@ -7,9 +7,14 @@ import {BiSolidBookReader} from 'react-icons/bi'
 import {Sidebar } from '../Components';
 import { MdBook, MdHome } from 'react-icons/md';
 import TrainerNavbar from './TrainerNavbar';
+import { useTokenVerification } from '../service/trainerService';
 
 
 const TrainerLayout = () => {
+
+useTokenVerification()
+
+
   const sidebarData = [
     // {
     //   name: "Home",

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { errorToastify } from "../Components/Student/toastify";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:4000/api/";
 
@@ -21,6 +22,21 @@ const buildUrl = (route) => `${BASE_URL}${route}`;
 
 
   const token = localStorage.getItem("token")
+
+//verification
+export const useTokenVerification = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      // Token doesn't exist, navigate to the login page
+      navigate('/adminlogin');
+    }
+  }, [navigate]);
+};
+
 
 
 
