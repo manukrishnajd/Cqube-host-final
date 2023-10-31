@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import hello from "./hello.jpg";
-import { studentbyid } from "./apiServices";
+import { UpdatedData, studentbyid } from "./apiServices";
 import { useTokenVerification } from "./apiServices";
 
 const StudentProfile = () => {
@@ -31,9 +31,23 @@ const StudentProfile = () => {
   const [gitLinkError, setGitLinkError] = useState("");
   const [linkedinLinkError] = useState("");
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault()
     const gitLinkValid = validateURL(newGitLink);
     const linkedinLinkValid = validateURL(newLinkedInLink);
+
+
+    const requestData={
+      github: newGitLink,
+      linkedin: newLinkedInLink
+    }
+
+    UpdatedData(requestData)
+   
+
+
+
+    
 
     if (!gitLinkValid) {
       setGitLinkError("Invalid GitHub URL");
@@ -57,7 +71,7 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div className=" flex items-center justify-center">
       <div className="bg-white w-full max-w-md p-8 rounded-lg shadow-md">
         <div className="flex items-center justify-center mb-4">
           <div className="flex items-center justify-center mb-4">

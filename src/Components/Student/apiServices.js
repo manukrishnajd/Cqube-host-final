@@ -98,6 +98,22 @@ export const login = async (data) => {
     }
   }
 
+
+  export const UpdatedData = async (requestData) => {
+    try {
+      const response = await axios.put(`http://localhost:4000/api/student/${id_for_student}`,requestData,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the token for authorization
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in studentbyid:", error);
+      throw new Error("Failed to fetch student: " + error.response.data.message);
+    }
+  }
+
   
  
   
