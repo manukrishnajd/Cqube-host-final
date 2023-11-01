@@ -134,6 +134,38 @@ export const login = async (data) => {
   }
 }
 
+export const AttendenceByCount = async () => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/attendance/counts`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in studentbyid:", error);
+    throw new Error("Failed to fetch student: " + error.response.data.message);
+  }
+}
+
+export const AttendenceByCountfilter = async (stdate,enddate) => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/attendance/counts?startDate=${stdate}&endDate=${enddate}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in studentbyid:", error);
+    throw new Error("Failed to fetch student: " + error.response.data.message);
+  }
+}
+
+
+
 
 
 

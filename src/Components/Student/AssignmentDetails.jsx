@@ -90,7 +90,7 @@ const Activity = (props) => {
                 <TableCell>{student.duedate}</TableCell>
                 <TableCell>{student.type}</TableCell>
                 <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.answer?.status}</TableCell>
+                <TableCell>{student.answer && student.answer.status ? student.answer.status : "pending"}</TableCell>
                 <TableCell></TableCell>
                 <TableCell>
                   {student.answer?.status === "submitted" ? (
