@@ -302,35 +302,38 @@ const[arrow,setarrow]=useState(false)
   const renderStudentDetails = (student, rowIndex) => {
     if (rowIndex === expandedRow) {
       return (
-        
-        <TableRow className="bg-slate-400 ">
-        <TableCell>
-          <span>{student.name}</span>
-        </TableCell>
-        <TableCell>
-          <span>{student.topic}</span>
-        </TableCell>
-        <TableCell>
-          <span>{student.duedate}</span>
-        </TableCell>
-        <TableCell>
-          <span>{student.type}</span>
-        </TableCell>
-        <TableCell>
-          <span>{student.mark}</span>
-        </TableCell>
-        <TableCell>
-          <span>{student.status}</span>
-        </TableCell>
-        
-        <TableCell>
+        <>
+          <TableRow className="bg-slate-400 ">
+            <TableCell>Name</TableCell>
+            <TableCell>Attachement</TableCell>
+            <TableCell>Answered date</TableCell>
+            <TableCell>Mark obtained</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
 
-        <button onClick={() => openModal("evaluate")} className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400">
-                    evaluate
-                  </button>
-        </TableCell>
-      </TableRow>
-      
+          {student.studentsRef.map((answer, index) => (
+            <TableRow className="bg-white" key={index}>
+              <TableCell>{answer.name}</TableCell>
+              <TableCell>
+                <a href={answer.answer.attachment} target="_blank">
+                  {answer.answer.attachment}
+                </a>
+              </TableCell>
+              <TableCell>{answer.answer.createdAt}</TableCell>
+              <TableCell>{answer.answer.mark}</TableCell>
+              <TableCell>{answer.answer.status}</TableCell>
+              <TableCell>
+                <button
+                  onClick={() => openModal("evaluate")}
+                  className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
+                >
+                  evaluate
+                </button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </>
       );
     }
   };
