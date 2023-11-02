@@ -19,6 +19,7 @@ import { getStudent } from "../service/apiService";
 const AdminAddActivity = () => {
 
   useTokenVerification()
+  const [students, setStudents] = useState([]);
   
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,9 +41,10 @@ const AdminAddActivity = () => {
 
   // Utility function to get the courseRef.id
   const getCourseRefId = (student) => {
-    const course = student.courses.find((course) => course.assignedCourseRef._id);
-    console.log(course.assignedCourseRef._id,'courses ids kjhg');
-    return course ? course.assignedCourseRef._id : "";
+    console.log(student,'dwed');
+    const course = student?.courses?.find((course) => course._id);
+    console.log(course._id,'courses ids kjhg');
+    return course ? course._id : "";
   };
 
   const handleSubmit = (e) => {
@@ -84,19 +86,16 @@ const AdminAddActivity = () => {
   const [duedate, setDueDate] = useState("");
   const [selectAll, setSelectAll] = useState(false); // State to track if all students are selected
 
- useEffect(() => {
-    // Fetch student data from the API when the component mounts
-    const fetchStudents = async () => {
-      try {
-        const studentsData = await getStudent();
-        setData(studentsData);
-      } catch (error) {
-        console.error("Error fetching students:", error);
-      }
-    };
+  useEffect(() => {
+    getStudent().then((res)=>{
+      console.log(res,'responsedsdsjdh');
+      setStudents(res)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
-    fetchStudents();
-  }, []); 
   const tableHeaders = [
     "Select",
     "Name",
@@ -113,6 +112,7 @@ const AdminAddActivity = () => {
   };
   const handleSelectStudent = (studentId, courseRefId) => {
     // Check if the studentId is in the selectedStudentIds array
+    console.log(studentId,'uyeth');
     if (selectedStudentIds.includes(studentId)) { 
       // If it's already selected, remove it
       setSelectedStudentIds(
@@ -133,7 +133,7 @@ const AdminAddActivity = () => {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  const currentData = data
+  const currentData = students
     .filter((student) => {
       return (
         student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -146,7 +146,7 @@ const AdminAddActivity = () => {
     })
     .slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(students.length / rowsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -300,20 +300,7 @@ const AdminAddActivity = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <select
-                  value={selectedStudent}
-                  onChange={(e) => setSelectedStudent(e.target.value)}
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                >
-                  <option value="">Select a student</option>
-                  {data.map((student) => (
-                    <option key={student._id} value={student._id}>
-                      {student.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              
 
               <button
                 type="submit"
@@ -463,21 +450,7 @@ const AdminAddActivity = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <select
-                  value={selectedStudent}
-                  onChange={(e) => setSelectedStudent(e.target.value)}
-                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                >
-                  <option value="">Select a student</option>
-                  {data.map((student) => (
-                    <option key={student._id} value={student._id}>
-                      {student.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
+              
               <button
                 type="submit"
                 className="bg-slate-600 hover:bg-slate-800 text-white ml-auto font-bold py-2 px-4 rounded"
@@ -576,6 +549,7 @@ const AdminAddActivity = () => {
               {currentData.map((student) => (
                 <TableRow key={student._id}>
                   <TableCell>
+                    <h3>{student._id}</h3>
                     <input
                       type="checkbox"
                       checked={selectedStudentIds.includes(student._id)}
@@ -589,9 +563,9 @@ const AdminAddActivity = () => {
                   </TableCell>
                   <TableCell>{student.name}</TableCell>
                   <TableCell>
-                    {student.courses.map((course, index) => (
-                      <span key={index}>{course.assignedCourseRef.name}</span>
-                    ))}
+                    {student?.courses?.map((course, index) => (
+                      <span key={index}>{course.name}</span>
+                    ))} 
                   </TableCell>
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
@@ -605,6 +579,32 @@ const AdminAddActivity = () => {
                         <GiBrassEye size={25} />
                       </IconButton>
                     </Link>
+              
+                  </TableCell>
+
+                  <TableCell>
+                    
+                      {/* <IconButton
+                        size="small"
+                        title="View more"
+                        onClick={() => handledelete(student._id)}
+                      >
+                        <AiFillDelete size={25} />
+                      </IconButton> */}
+                  
+              
+                  </TableCell>
+                  <TableCell>
+{/*                     
+                      <IconButton
+                        size="small"
+                        title="View more"
+                        onClick={() => handleedit(student._id)}
+                      >
+                        <AiFillEdit size={25} />
+                      </IconButton> */}
+                  
+              
                   </TableCell>
                 </TableRow>
               ))}

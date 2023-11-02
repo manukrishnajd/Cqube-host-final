@@ -316,8 +316,8 @@ const[arrow,setarrow]=useState(false)
             <TableRow className="bg-white" key={index}>
               <TableCell>{answer.name}</TableCell>
               <TableCell>
-                <a href={answer.answer.attachment} target="_blank">
-                  {answer.answer.attachment}
+                <a href={answer?.answer?.attachment} target="_blank">
+                  {answer?.answer?.attachment}
                 </a>
               </TableCell>
               <TableCell>{answer.answer.createdAt}</TableCell>
