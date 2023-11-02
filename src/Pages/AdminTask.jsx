@@ -314,15 +314,15 @@ const[arrow,setarrow]=useState(false)
 
           {student.studentsRef.map((answer, index) => (
             <TableRow className="bg-white" key={index}>
-              <TableCell>{answer.name}</TableCell>
+              <TableCell>{answer?.name}</TableCell>
               <TableCell>
                 <a href={answer?.answer?.attachment} target="_blank">
                   {answer?.answer?.attachment}
                 </a>
               </TableCell>
-              <TableCell>{answer.answer.createdAt}</TableCell>
-              <TableCell>{answer.answer.mark}</TableCell>
-              <TableCell>{answer.answer.status}</TableCell>
+              <TableCell>{answer?.answer?.createdAt}</TableCell>
+              <TableCell>{answer?.answer?.mark}</TableCell>
+              <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
                 <button
                   onClick={() => openModal("evaluate")}
