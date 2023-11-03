@@ -58,7 +58,7 @@ const AttendPie = () => {
       <div className=" bg-white dark:bg-secondary-dark-bg rounded-3xl mt-8">
         <form
           onSubmit={submitDate}
-          className="max-w-xs mx-auto mt-8 p-16  "
+          className="max-w-xs mx-auto mt-8 p-16"
         >
           <div className="mb-4">
             <label

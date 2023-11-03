@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import Button from '@mui/material/Button';
 import '../../App.css'; // Import your CSS file
-import { getAttendance, postAttendance } from './apiServices'; // Adjust the import path
+import { getAttendance, getattendencebyid, postAttendance } from './apiServices'; // Adjust the import path
 import { errorToastify, successToastify } from './toastify';
 
 function App({data}) {
@@ -10,6 +10,20 @@ function App({data}) {
   const [attendance, setAttendance] = useState({});
   const [attendanceSubmitted, setAttendanceSubmitted] = useState(false);
   const [attend, setattend] = useState([]);
+  const [attenddata,setattenddata]=useState([])
+
+useEffect(async ()=>{
+
+let response= await getattendencebyid()
+console.log(response,'attendence data');
+setattenddata(response)
+},[])
+
+attenddata.map((item)=>{
+
+  console.log(item.isDate,'datas');
+  console.log(item.isPresent,'datas');
+})
 
   useEffect(() => {
     const updateDate = () => {
@@ -66,8 +80,7 @@ function App({data}) {
       }).catch((err)=>{
         errorToastify(err?.message);
 
-      });
-      console.log(attendanceStatus,"hello");
+      });  
     }
   };
 
@@ -95,24 +108,30 @@ function App({data}) {
     }
   };
 
+  const dateIsPresent = (dateToCheck) => {
+    const formattedDateToCheck = new Date(dateToCheck).toDateString();
+  
+    return attenddata.some((item) => {
+      const formattedItemDate = new Date(item.isDate).toDateString();
+      return formattedItemDate === formattedDateToCheck && item.isPresent;
+    });
+  };
   return (
     <div className="app">
       <div className="calendar-container">
       <Calendar
-  onChange={setDate}
-  value={date}
-  minDate={new Date()}
-  maxDate={new Date()}
-  tileClassName={({ date }) => {
-    const currentDate = date.toDateString();
-    if (currentDate === new Date().toDateString()) {
-      if (attend.isPresent) {
-        return 'present';
-      }
-    }
-    return null;
-  }}
-/>
+          onChange={setDate}
+          value={date}
+          minDate={new Date()}
+          maxDate={new Date()}
+          tileClassName={({ date }) => {
+            if (dateIsPresent(date.toDateString())) {
+              return 'present';
+            } else {
+              return 'absent';
+            }
+          }}
+        />
 
 
       </div>
@@ -138,13 +157,13 @@ function App({data}) {
           disabled={attendanceSubmitted}
           sx={{
             marginTop: '3rem',
-            backgroundColor: attendance[date.toDateString()] === 'absent' ? 'red' : '',
+            backgroundColor: attendance[date.toDateString()] === 'absent' ? 'orange' : '',
           }}
         >
           Absent
         </Button>
       </div>
-      <div className="attendance-table">
+      {/* <div className="attendance-table">
         <table>
           <thead>
             <tr>
@@ -161,7 +180,7 @@ function App({data}) {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 }
