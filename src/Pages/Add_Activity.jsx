@@ -136,9 +136,9 @@ const AdminAddActivity = () => {
   const currentData = students
     .filter((student) => {
       return (
-        student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         student.courses.some((course) =>
-          course.assignedCourseRef.name
+          course.name
             .toLowerCase()
             .includes(searchQuery.toLowerCase())
         )

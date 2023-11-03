@@ -253,7 +253,7 @@ const handleedit=(id)=>{
   getStudentbyid(id).then((res)=>{
     console.log(res,'editing response');
     seteditviewdata(res)
-    setview(true)
+    setview(!view)
   })
 
 
@@ -775,14 +775,16 @@ try{
               
                   </TableCell>
                   <TableCell>
-                    
+                   
                       <IconButton
-                        size="small"
-                        title="View more"
-                        onClick={() => handleedit(student._id)}
+                      size="small"
+                      title="View more"
+                      onClick={() => handleedit(student._id)}
                       >
                         <AiFillEdit size={25} />
                       </IconButton>
+                      
+                     
                   
               
                   </TableCell>
