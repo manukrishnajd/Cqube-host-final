@@ -1144,8 +1144,8 @@ abbr:where([title]) {
   color: white;
 }
 .absent {
-  background-color: red !important;
-  color: white;
+  /* background-color: rgb(255, 183, 0) !important;  */
+  color: black;
 }
 .present {
   background-color: green !important;
