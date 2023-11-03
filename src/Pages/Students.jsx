@@ -240,6 +240,7 @@ console.log(stddata,'jhkjj');
     updateStudentById(id, updatedStudentData).then((res) => {
       console.log(res, 'update response');
       setrefresh(!refresh);
+      setview(!view)
     });
   };
 
