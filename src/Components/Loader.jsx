@@ -1,17 +1,15 @@
-import { Audio } from  'react-loader-spinner'
+import { Dna, RotatingLines } from  'react-loader-spinner'
 
 
 function Loader() {
   return (
  
-      <Audio
-    height = "80"
-    width = "80"
-    radius = "9"
-    color = '#c97d30'
-    ariaLabel = 'three-dots-loading'     
-    wrapperStyle
-    wrapperClass
+    <RotatingLines
+    strokeColor="grey"
+    strokeWidth="5"
+    animationDuration="0.75"
+    width="96"
+    visible={true}
   />
   )
 }

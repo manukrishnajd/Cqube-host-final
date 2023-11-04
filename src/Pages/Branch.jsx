@@ -19,6 +19,7 @@ import {
 import { errorToastify, successToastify } from "../Components/Student/toastify";
 import { AiFillDelete } from "react-icons/ai";
 import Loader from "../Components/Loader";
+import "./Loader.css"; // Import the CSS file for the loader
 
 const Trainers = () => {
   const [name, setName] = useState("");
@@ -117,26 +118,42 @@ const Trainers = () => {
     </>
   );
 
-  const UiForViewData = currentData.map((student) => (
-    <TableRow key={student._id}>
-      <TableCell>{student.name}</TableCell>
-      <TableCell>{student.createdAt}</TableCell>
-      <TableCell>{student.updatedAt}</TableCell>
-      <TableCell>
-        <IconButton
-          size="small"
-          title="Delete"
-          onClick={() => handledelete(student._id)}
-        >
-          <AiFillDelete size={25} />
-        </IconButton>
-      </TableCell>
-    </TableRow>
-  ));
-
+  const UiForViewData = currentData.map((student) => {
+    const createdAtDate = new Date(student.createdAt);
+    console.log(createdAtDate.getFullYear(),'-yyyy')
+    console.log(createdAtDate.getDate(),'-day  ')
+    console.log(createdAtDate.getMonth(),'-yyyy')
+    const updatedAtDate = new Date(student.updatedAt);
+    console.log(updatedAtDate.getFullYear(),'-yyyy')
+    console.log(updatedAtDate.getDate(),'-day  ')
+    console.log(updatedAtDate.getMonth(),'-yyyy')
+  
+    return (
+      <TableRow key={student._id}>
+        <TableCell>{student.name}</TableCell>
+        <TableCell>{`${createdAtDate.getDate()} / ${createdAtDate.getMonth()} / ${createdAtDate.getFullYear()}  `}</TableCell>
+        <TableCell>{`${createdAtDate.getDate()} / ${createdAtDate.getMonth()} / ${createdAtDate.getFullYear()}  `}</TableCell>
+        <TableCell>
+          <IconButton
+            size="small"
+            title="Delete"
+            onClick={() => handledelete(student._id)}
+          >
+            <AiFillDelete size={25} />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    );
+  });
+  
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
-      {loader ? <Loader /> : <> {UiForAddingBranch}</>}
+
+     
+      {loader ? <div className="loader"><Loader /></div> : <> {UiForAddingBranch}</>}
+
+     
+     
 
       <div className="container mx-auto p-3 text-white rounded-3xl">
         <div className="container mx-auto p-4">
@@ -161,7 +178,7 @@ const Trainers = () => {
                 </TableRow>
               </TableHead>
               <TableBody className="text-lg">
-                {loader ? <Loader /> : <>{UiForViewData}</>}
+                {loader ? <div className="loader"><Loader /></div>: <>{UiForViewData}</>}
               </TableBody>
             </Table>
           </TableContainer>
