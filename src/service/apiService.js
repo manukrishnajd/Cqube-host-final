@@ -318,6 +318,7 @@ export const studentCountbyCourse = async () => {
 //Course
 // ```````````````````````````````````````````````````````````````````````````````
 export const getCourse = async () => { // getAllCourses
+  console.log('dddd');
   try {
     const response = await axios.get(
       "http://localhost:4000/api/course?ismaincourse=true",
@@ -332,7 +333,8 @@ export const getCourse = async () => { // getAllCourses
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    console.log(error ,'-eee');
+    throw new Error(error.message || error.response.data.message);
     }
 };
 export const getSubcourse = async () => { // getAllCourses
@@ -359,6 +361,7 @@ export const getSubcourse = async () => { // getAllCourses
 //add course
 export const addcourse = async (newCourse) => {
   try {
+    console.log(newCourse,'-curse')
     const response = await axios.post(
       "http://localhost:4000/api/course",
       newCourse,
@@ -445,7 +448,7 @@ export const deleteCourse = async (courseId) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to delete course: " + error.response.data.message);
+    throw new Error(error.message || error.response.data.message);
   }
 };
 
