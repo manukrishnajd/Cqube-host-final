@@ -751,7 +751,7 @@ try{
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>
-                    <Link to={`/trainer/detail/${student._id}`}>
+                    <Link to={`/admin/StudentReport/${student._id}`}>
                       <IconButton
                         size="small"
                         title="View more"

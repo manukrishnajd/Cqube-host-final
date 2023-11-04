@@ -92,6 +92,11 @@ export const trainerdetail=async (id)=>{
   }
 
 }
+
+
+
+
+
 export const coursebyid=async (courseid)=>{
   try {
     const response = await axios.get(`http://localhost:4000/api/course/${courseid}`, {

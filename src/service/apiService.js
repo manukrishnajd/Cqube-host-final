@@ -492,6 +492,26 @@ export const addTrainer = async (trainerData) => {
     throw new Error("Failed to get branch: " + error.message);
   }
 };
+
+export const trainerdetailupdate=async (id,data)=>{
+  console.log(token,'ghjks');
+  try {
+    const response = await axios.put(`http://localhost:4000/api/trainer/${id}`,data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    console.log("response",response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.message);
+  }
+
+}
+
+
 export const getAllTrainers = async () => {
   try {
     const response = await axios.get("http://localhost:4000/api/trainer", {
@@ -560,5 +580,53 @@ export const getBranch = async (pageNo) => {
   }
 };
 
+//activity get
+export const getActivitybyadmin = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/activity?stid=${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to get branch: " + error.message);
+  }
+};
 
 
+
+//attendence count
+
+export const AttendenceByCountid = async (id) => {
+console.log(id,'oie');
+  try {
+    const response = await axios.get(`http://localhost:4000/api/attendance/admincounts/${id}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in studentbyid:", error);
+    throw new Error("Failed to fetch student: " + error.response.data.message);
+  }
+}
+
+
+export const AttendenceByCountfilterAdmin = async (stdate,enddate,id) => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/attendance/admincounts/${id}?startDate=${stdate}&endDate=${enddate}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in studentbyid:", error);
+    throw new Error("Failed to fetch student: " + error.response.data.message);
+  }
+}

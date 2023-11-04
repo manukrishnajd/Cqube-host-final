@@ -53,6 +53,8 @@ import AdminTask from "./Pages/AdminTask";
 import AdminAddActivity from "./Pages/Add_Activity";
 import ResetPassword from "./auth/ResetPassword";
 import StudentUserProfile from "./Components/Student/StudentUserProfile";
+import AdminStudentdetail from "./Pages/AdminStudent_detail";
+import AdminAttendPie from "./Pages/AdminAttendanceReport";
 
 
 
@@ -78,6 +80,7 @@ const App = () => {
             <Route path="subcourse" element={<Subcourse />} />
             <Route path="task" element={<AdminTask />} />
             <Route path="AddActivity" element={<AdminAddActivity />} />
+            <Route path="StudentReport/:student_id" element={<AdminAttendPie />} />
            
             <Route path="studentview" element={<StudentProfile/>} />
             <Route path="student" element={<Students />} />

@@ -549,7 +549,6 @@ const AdminAddActivity = () => {
               {currentData.map((student) => (
                 <TableRow key={student._id}>
                   <TableCell>
-                    <h3>{student._id}</h3>
                     <input
                       type="checkbox"
                       checked={selectedStudentIds.includes(student._id)}
