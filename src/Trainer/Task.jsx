@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import { errorToastify } from "../Components/Student/toastify";
 import { table } from "@syncfusion/ej2-react-grids";
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs";
+import { evaluateanswer } from "../service/apiService";
+
 
 
 
@@ -33,7 +35,22 @@ const TrainerTask = () => {
 
   const [selectedStudent, setSelectedStudent] = useState(null);
 const [selectedCourse, setSelectedCourse] = useState(null);
+const [evaluatedata,setevaluatedata]=useState()
 
+const evaluatechange=(e)=>{
+  setevaluatedata({...evaluatedata,[e.target.name]:e.target.value})
+}
+
+const handleEvaluateSubmit =async (e) => {
+  e.preventDefault();
+  // Your evaluation submission logic here
+  try {
+    const response = await evaluateanswer({...evaluatedata,answerRef: selectedStudentData.answer._id});
+    console.log(response);
+  } catch (error) {
+    console.error("Error while submitting evaluation:", error);
+  }
+};
 
   // useEffect(() => {
   //   viewstudent(id)
@@ -71,11 +88,12 @@ const [selectedCourse, setSelectedCourse] = useState(null);
 
     // setGridData(data); //
   }, []);
-
-  
+  const [selectedStudentData, setSelectedStudentData] = useState(null); // Add this state variable
+  console.log(selectedStudentData,'sdi');
   const renderForm = (props) => {
-    switch (selectedType) {
-      case "evaluate":
+    if (selectedType === "evaluate") {
+      const student = selectedStudentData; // Selected student's data
+
         return (
           <div className="bg-white p-4 rounded-lg shadow-md">
             <div className="mb-4">
@@ -83,10 +101,11 @@ const [selectedCourse, setSelectedCourse] = useState(null);
               <span>23/05/2023 12:00</span>
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleEvaluateSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-medium text-gray-800">
-                  Topic :
+                  Topic : {studenttopic.topic}
+                 
                 </label>
               </div>
               {/* <div className="mb-4">
@@ -105,7 +124,7 @@ const [selectedCourse, setSelectedCourse] = useState(null);
           </div> */}
               <div className="mb-4">
                 <label className="block text-lg font-medium text-gray-800">
-                  Answer:
+                  Answer:{studenttopic.notes}
                 </label>
               </div>
               <div className="mb-4">
@@ -115,9 +134,26 @@ const [selectedCourse, setSelectedCourse] = useState(null);
               </div>
               <div className="mb-4">
                 <label className="block text-lg font-medium text-gray-800">
+                  Total mark : {studenttopic.mark}
+                </label>
+               
+              </div>
+                
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-gray-800">
                   Remarks:
                 </label>
+
+                <input
+                  type="text"
+                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                  name="remark"
+                  onChange={evaluatechange}
+                  required
+                  
+                  />
               </div>
+              
               <div className="mb-4">
                 <label className="block text-lg font-medium text-gray-800">
                   mark
@@ -125,12 +161,25 @@ const [selectedCourse, setSelectedCourse] = useState(null);
                 <input
                   type="number"
                   className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                  name="mark"
+                  onChange={evaluatechange}
                   required
-                />
+                  />
+                   <input
+                  type="text"
+                  className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                  name="activityRef"
+                  value={student.answer._id}
+                  placeholder={student.answer._id}
+                  onChange={evaluatechange}
+                  required
+                  hidden
+                  />
               </div>
+                  
               <div className="mb-4">
-                <a href="" download>
-                  view attachment
+                <a href={student.answer.attachment} target="_blank">
+                  view attachment - {student.answer.attachment}
                 </a>
               </div>
               <div className="mb-4">
@@ -248,8 +297,10 @@ const [selectedCourse, setSelectedCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("");
 
-  const openModal = (type) => {
+  const openModal = (type, studentData,students) => {
     setSelectedType(type);
+    setSelectedStudentData(studentData);
+    setstudenttopic(students)
     setIsModalOpen(true);
   };
 
@@ -258,6 +309,7 @@ const [selectedCourse, setSelectedCourse] = useState(null);
     setIsModalOpen(false);
   };
 const [studenttask,setstudenttask]=useState()
+const [studenttopic,setstudenttopic]=useState()
   const viewstudents=()=>{
     {activitydata.studentsRef.map((res)=>(
         setstudenttask(res.name)
@@ -325,7 +377,7 @@ const[arrow,setarrow]=useState(false)
               <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
                 <button
-                  onClick={() => openModal("evaluate")}
+                  onClick={() => openModal("evaluate",answer,student)}
                   className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
                 >
                   evaluate

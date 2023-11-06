@@ -598,6 +598,22 @@ export const getActivitybyadmin = async (id) => {
   }
 };
 
+//evaluate
+
+export const evaluateanswer = async (data) => {
+  try {
+    const response = await axios.post(`http://localhost:4000/api/activity/evaluate`,data,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to get branch: " + error.message);
+  }
+};
+
 
 
 //attendence count
