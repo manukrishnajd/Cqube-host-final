@@ -73,7 +73,7 @@ const [selectedCourse, setSelectedCourse] = useState(null);
   }, []);
 
   
-  const renderForm = () => {
+  const renderForm = (props) => {
     switch (selectedType) {
       case "evaluate":
         return (

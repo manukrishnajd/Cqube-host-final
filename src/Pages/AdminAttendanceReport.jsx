@@ -56,26 +56,29 @@ const AdminAttendPie = () => {
     try {
       let stdata = await getStudentbyid(student_id);
       setstdatas(stdata);
-      const response = await AttendenceByCountid(stdatas._id);
+      if(stdata._id){
 
-      console.log(response?.result, "resultss");
-      setCountStudent(response?.result);
-      console.log("count of subcourse", response);
+        const response = await AttendenceByCountid(stdata._id);
+        
+        console.log(response?.result, "resultss");
+        setCountStudent(response?.result);
+      
+      }
       // Assuming response.result is an array of objects with properties course, value, and count.
 
       console.log(studentdata, "datas of student");
     
-      let res= await  getActivitybyadmin(stdatas._id)
-      console.log(res);
-      setactivData(res)
+      let res= await  getActivitybyadmin(stdata._id)
+      console.log(res,'klsjhkja');
+      setactivData(res.result)
     } catch (error) {
       console.log(error, "error");
-      errorToastify(error?.message);
+      // errorToastify(error?.message); 
     }
   };
   console.log(studentdata, "oiuytf");
 
-
+console.log(activData,'iuytg');
 
 
   //date picker
@@ -129,8 +132,8 @@ const [students] = useState(initialStudents);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(0);
     const offset = currentPage * itemsPerPage;
-    const currentStudents = students.slice(offset, offset + itemsPerPage);
-    const totalPages = Math.ceil(students.length / itemsPerPage);
+    const currentStudents = activData.slice(offset, offset + itemsPerPage);
+    const totalPages = Math.ceil(activData.length / itemsPerPage);
   
     const handlePageChange = (newPage) => {
       if (newPage >= 0 && newPage < totalPages) {
@@ -222,11 +225,11 @@ console.log(activData,'datas');
             {currentStudents.map((student, index) => (
               <TableRow key={index}>
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.Course}</TableCell>
-                <TableCell>{student.phoneNumber}</TableCell>
+                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{student.notes}</TableCell>
                 <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.email}</TableCell>
                 <TableCell>{student.status}</TableCell>
+                <TableCell>{student.mark}</TableCell>
                 <TableCell>
                   <AiFillCheckCircle size={20} />
                 </TableCell>

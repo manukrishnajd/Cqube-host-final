@@ -34,7 +34,7 @@ const Trainers = () => {
 
   // add branch function
   const handleBranch = async () => {
-    setLoader(true);
+  
     try {
       const response = await createBranch(name);
       successToastify("Create branch");
@@ -67,7 +67,7 @@ const Trainers = () => {
 
   // delete branch by id
   const handledelete = async (id) => {
-    setLoader(true);
+    
     try {
       const response = await deleteBranch(id);
       setRefresh(!refresh);
@@ -147,10 +147,21 @@ const Trainers = () => {
   });
   
   return (
+    <>{
+      loader ?
+     <div className="w-full m-auto mt-52 hh">
+      
+      <Loader  />
+     </div>
+     
+      :
+      
+      
+    
     <div className="container mx-auto p-10 bg-white rounded-3xl">
 
      
-      {loader ? <div className="loader"><Loader /></div> : <> {UiForAddingBranch}</>}
+      {UiForAddingBranch}
 
      
      
@@ -178,7 +189,7 @@ const Trainers = () => {
                 </TableRow>
               </TableHead>
               <TableBody className="text-lg">
-                {loader ? <div className="loader"><Loader /></div>: <>{UiForViewData}</>}
+                {UiForViewData}
               </TableBody>
             </Table>
           </TableContainer>
@@ -203,6 +214,11 @@ const Trainers = () => {
         </div>
       </div>
     </div>
+    
+      
+  }
+    </>
+
   );
 };
 

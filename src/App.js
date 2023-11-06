@@ -95,7 +95,7 @@ const App = () => {
           {/* trainer */}
           <Route path="/trainer" element={<TrainerLayout />}>
             <Route path="student" element={<StudentTable />} />
-            <Route path="detail/:studentid" element={<Studentdetail />} />
+            <Route path="detail/:student_id" element={<AdminAttendPie />} />
             <Route path="activity" element={<TrainerTask />} />
             <Route path="course" element={<ViewCourses />} />
           </Route>
