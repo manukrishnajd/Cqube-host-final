@@ -325,7 +325,7 @@ const[arrow,setarrow]=useState(false)
               <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
                 <button
-                  onClick={() => openModal("evaluate")}
+                  onClick={() => openModal("evaluate",answer,student)}
                   className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
                 >
                   evaluate
@@ -337,7 +337,6 @@ const[arrow,setarrow]=useState(false)
       );
     }
   };
-
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
     <TableContainer component={Paper}>
@@ -461,7 +460,7 @@ const[arrow,setarrow]=useState(false)
         >
           <div className="overflow-y-scroll modal-content-scrollable">
             {/* <h2 className='text-white text-2xl m-auto w-fit'>Assign {selectedType && selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}</h2> */}
-            {renderForm()}
+            {renderStudentDetails()}
           </div>
           <div className="align-middle">
             <button

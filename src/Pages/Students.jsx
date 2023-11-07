@@ -125,10 +125,11 @@ console.log(stddata,'jhkjj');
 
   
   const handleupdateCourseChange = (e) => {
+    console.log(e.target.value,'jhv');
     const selectedCourseData = JSON.parse(e.target.value); // Parse the selected course data
     setupdateddata({
       ...updateddata,
-      assignedCourseRef: selectedCourseData,
+      courses:{assignedCourseRef: selectedCourseData._id}
     });
   };
 
@@ -666,9 +667,9 @@ try{
 
             <select
   className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-  value={updateddata?.selectedCourse}
+  
   onChange={handleupdateCourseChange} // Add this line for the new event handler
-  name="selectedCourse"
+  name="assignedCourseRef"
 >
   <option value="" disabled>
     {editviewdata.courses[0].name}

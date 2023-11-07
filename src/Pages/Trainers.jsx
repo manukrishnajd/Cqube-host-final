@@ -74,10 +74,12 @@ const [viewCourse, setviewCourse] = useState([]);
 
 
   const handleAddTrainer = () => {
-    const newTrainer = {
-      name,
-      password,
-      phoneNumber,
+   try{
+
+     const newTrainer = {
+       name,
+       password,
+       phoneNumber,
       email,
       branchRef,
       joinedDate,
@@ -85,10 +87,13 @@ const [viewCourse, setviewCourse] = useState([]);
     };
 
     addTrainer(newTrainer);
-
+    
     setGridData(data);
     clearFields();
-  };
+  }catch (error) {
+    errorToastify(error?.message);
+  }
+  }
 
   const clearFields = () => {
     setName("");
