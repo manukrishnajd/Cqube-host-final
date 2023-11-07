@@ -52,7 +52,10 @@ const Activity = (props) => {
     setPage(0); // Reset to the first page when changing rows per page
   };
 
-  const rowsToDisplay = activityResponse.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+  const rowsToDisplay = activityResponse.slice(
+    page * rowsPerPage,
+    (page + 1) * rowsPerPage
+  );
 
   return (
     <div>
@@ -60,25 +63,76 @@ const Activity = (props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Topic
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Due Date
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Type
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Evaluated by
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Status
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-                Mark
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                Total mark
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                Mark Obtained
+              </TableCell>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Evaluate
               </TableCell>
             </TableRow>
@@ -89,14 +143,27 @@ const Activity = (props) => {
                 <TableCell>{student.topic}</TableCell>
                 <TableCell>{student.duedate}</TableCell>
                 <TableCell>{student.type}</TableCell>
-                <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.answer && student.answer.status ? student.answer.status : "pending"}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>{student?.trainersName}</TableCell>
                 <TableCell>
-                  {student.answer?.status === "submitted" ? (
-                    <AiFillCheckCircle onClick={() => handleView(student)} size={20} />
+                  {student?.answer?.status == null
+                    ? "pending"
+                    : student?.answer?.status}
+                </TableCell>
+
+                <TableCell>{student?.mark}</TableCell>
+                <TableCell>{student?.answer?.mark}</TableCell>
+                {/* <TableCell>{student.branch}</TableCell> */}
+                <TableCell>
+                  {student.answer?.status === "evaluated" ? (
+                    <AiFillCheckCircle
+                      onClick={() => handleView(student)}
+                      size={20}
+                    />
                   ) : (
-                    <BsPenFill onClick={() => handleSubmit(student)} size={20} />
+                    <BsPenFill
+                      onClick={() => handleSubmit(student)}
+                      size={20}
+                    />
                   )}
                 </TableCell>
               </TableRow>
@@ -128,9 +195,7 @@ const Activity = (props) => {
       </Dialog>
       <Dialog open={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
         <DialogContent>
-          {selectedTask && (
-            <StudentViewpage id={selectedTask._id} />
-          )}
+          {selectedTask && <StudentViewpage id={selectedTask._id} />}
         </DialogContent>
       </Dialog>
     </div>
