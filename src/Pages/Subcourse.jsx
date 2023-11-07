@@ -73,9 +73,9 @@ console.log(newCourse,'-courseee by typing');
   const fetchDetails = async () => {
     try {
       const coursesData = await getCourse();
+      setCourses(coursesData.result);
       const subcoursesData = await getSubcourse();
       setSubcourse(subcoursesData.result)
-      setCourses(coursesData.result);
     } catch (error) {
       console.error("Failed to fetch courses: ", error.message);
     }

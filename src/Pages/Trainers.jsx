@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Header } from "../Components";
 import { useEffect } from "react";
-import { addTrainer, viewbranch ,getCourse, getAllTrainers, updateTrainer, getAllBranches, updateStudentById, trainerdetailupdate } from "../service/apiService";
+import { addTrainer, viewbranch ,getCourse, getAllTrainers, updateTrainer, getAllBranches, updateStudentById, trainerdetailupdate, trainerdetaildelete } from "../service/apiService";
 import {
   Paper,
   Table,
@@ -17,6 +17,7 @@ import {
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { errorToastify } from "../Components/Student/toastify";
 import { trainerdetail } from "../service/trainerService";
+import { toast } from "react-toastify";
 
 
 const Trainers = () => {
@@ -90,7 +91,8 @@ const [viewCourse, setviewCourse] = useState([]);
     
     setGridData(data);
     clearFields();
-  }catch (error) {
+    setrefresh(!refresh)
+  }catch (error) {  
     errorToastify(error?.message);
   }
   }
@@ -151,14 +153,18 @@ const [viewCourse, setviewCourse] = useState([]);
 
   // console.log(data._id, "datas");
 
-
-  const handledelete=async(id)=>{
-    // window.location.reload()
+  const handledelete=(id)=>{
+    try{
     
+      trainerdetaildelete(id)
+      toast('deleted succesffully')
+      setrefresh(!refresh)
+    }catch (error){
+      errorToastify(error?.message)
     
-  
-  }
-
+    }
+    
+    }
 
 
   const handleUpdate = (id) => {
