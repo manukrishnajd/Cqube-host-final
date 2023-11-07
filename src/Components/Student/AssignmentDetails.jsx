@@ -17,7 +17,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import SubmitForm from "./SubmitForm";
 import { getActivity } from "./apiServices";
-import StudentViewpage from "./StudentViewpage";
+// import StudentViewpage from "./StudentViewpage";
 
 const Activity = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -193,11 +193,11 @@ const Activity = (props) => {
           )}
         </DialogContent>
       </Dialog>
-      <Dialog open={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
+      {/* <Dialog open={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
         <DialogContent>
           {selectedTask && <StudentViewpage id={selectedTask._id} />}
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

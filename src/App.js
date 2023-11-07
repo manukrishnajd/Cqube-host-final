@@ -11,7 +11,7 @@ import TrainerLogin from "./Trainer/TrainerLogin";
 import StudentDash from './Components/Student/StudentDash'
 import CourseCard from './Components/Student/CourseCard'
 import StudentForgetPass from './auth/forget'
-import StudentViewpage from './Components/Student/StudentViewpage'
+// import StudentViewpage from './Components/Student/StudentViewpage'
 import AttendenceCard from './Components/Student/AttendenceCard'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -120,7 +120,7 @@ const App = () => {
             <Route path='submitform/:id' element={<SubmitForm/>}/>
             <Route path='course' element={<CourseCard/>}/>
             <Route path='profile' element={<StudentProfile/>}/>
-            <Route path='Scorecard' element={<StudentViewpage/>}/>
+            {/* <Route path='Scorecard' element={<StudentViewpage/>}/> */}
            
 
 

@@ -11,7 +11,7 @@ import {
   TablePagination,
 } from "@material-ui/core";
 
-function AdminAttendanceReports() {
+function AdminCourseReports() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -26,19 +26,13 @@ function AdminAttendanceReports() {
   const activityResponse = [
     {
       siNo: 1,
-      name: "John Doe",
       course: "Computer Science",
-      Present: 50,
-      Absent: 50,
-      Total_days: 100,
+      Students: 100,
     },
     {
-      siNo: 2,
-      name: "Jane Smith",
-      course: "Electrical Engineering",
-      Present: 50,
-      Absent: 50,
-      Total_days: 100
+        siNo: 1,
+        course: "Computer Science",
+        Students: 100,
     },
     // Add more dummy data as needed...
   ];
@@ -58,19 +52,10 @@ function AdminAttendanceReports() {
                SI:NO
               </TableCell>
               <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-                Name
-              </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
                 Course
               </TableCell>
               <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-                Present
-              </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-                Absent
-              </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-               Total Days
+                Students
               </TableCell>
             </TableRow>
           </TableHead>
@@ -78,14 +63,9 @@ function AdminAttendanceReports() {
             {activityResponse.map((item, index) => (
              <TableRow key={index}>
              <TableCell>{item.siNo}</TableCell>
-             <TableCell>{item.name}</TableCell>
              <TableCell>{item.course}</TableCell>
-             <TableCell>{item.Present}</TableCell>
-             <TableCell>{item.Absent}</TableCell>
-             <TableCell>{item.Total_days}</TableCell>
-             <TableCell>
-               {/* Add the evaluate button here */}
-             </TableCell>
+             <TableCell>{item.Students}</TableCell>
+
            </TableRow>
            
             ))}
@@ -105,7 +85,7 @@ function AdminAttendanceReports() {
   );
 }
 
-export default AdminAttendanceReports ;
+export default AdminCourseReports ;
 
 
 
