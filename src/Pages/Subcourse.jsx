@@ -73,6 +73,7 @@ console.log(newCourse,'-courseee by typing');
   const fetchDetails = async () => {
     try {
       const coursesData = await getCourse();
+      console.log(coursesData.result,'twr');      
       const subcoursesData = await getSubcourse();
       setSubcourse(subcoursesData.result)
       setCourses(coursesData.result);
@@ -80,6 +81,8 @@ console.log(newCourse,'-courseee by typing');
       console.error("Failed to fetch courses: ", error.message);
     }
   };
+
+  console.log(courses,"asdfg");
 
 
 
@@ -223,9 +226,9 @@ console.log(newCourse,'-courseee by typing');
               onChange={(e) => setCourseForAdding(e.target.value)}
             >
               <option value="" disabled>
-                Select Branch
+                Select Course
               </option>
-              {courses?.map((item) => (
+              {courses.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
