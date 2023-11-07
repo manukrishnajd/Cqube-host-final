@@ -373,7 +373,7 @@ const [viewCourse, setviewCourse] = useState([]);
     onChange={handleupdateCourseChange}
     >
     <option value="" disabled>
-      {editviewdata.courseRef[0].name}
+      {editviewdata.courseRef[0]?.name}
     </option>
     {
       viewCourse?.map((item)=>{

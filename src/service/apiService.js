@@ -317,7 +317,7 @@ export const studentCountbyCourse = async () => {
 
 //Course
 // ```````````````````````````````````````````````````````````````````````````````
-export const getCourse = async () => { // getAllCourses
+export const  getCourse = async () => { // getAllCourses
   console.log('dddd');
   try {
     const response = await axios.get(
