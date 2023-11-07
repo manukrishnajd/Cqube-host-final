@@ -159,12 +159,19 @@ const Activity = (props) => {
                       onClick={() => handleView(student)}
                       size={20}
                     />
-                  ) : (
+                  ) : student.answer?.status === "submitted" ?(
+                    <></>
+                  ):(
+<>
                     <BsPenFill
-                      onClick={() => handleSubmit(student)}
-                      size={20}
+                    onClick={() => handleSubmit(student)}
+                    size={20}
+                    
                     />
-                  )}
+
+                    </>
+                  )
+                  }
                 </TableCell>
               </TableRow>
             ))}
