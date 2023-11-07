@@ -96,38 +96,8 @@ const AdminDash = () => {
           <div></div>
         </div>
       </div>
-      <div className="bg-white text-slate-600 m-3 p-4 rounded-2xl md:w-700">
-        {/* Recent Activities */}
-        <div className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Recent Activities</h2>
-          <div className="grid gap-4">
-            <div className="bg-gray-100 p-4 rounded-xl">
-              <p className="mb-4 font-bold">
-                Student registration: John Doe registered for the course "Web
-                Development Fundamentals."
-              </p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-xl">
-              <p className="mb-4 font-bold">
-                Course assigned: Sarah Smith was assigned to teach the
-                "JavaScript Basics" course.
-              </p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-xl">
-              <p className="mb-4 font-bold">
-                Trainer joined: Michael Johnson joined as a new trainer for the
-                IT department.
-              </p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-xl">
-              <p className="mb-4 font-bold">
-                Project added: New project "E-commerce Website Revamp" was added
-                to the projects list.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+   
+      
     </div>
   );
 };

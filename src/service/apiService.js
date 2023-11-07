@@ -515,6 +515,29 @@ export const trainerdetailupdate=async (id,data)=>{
 }
 
 
+//trainer delete
+
+
+export const trainerdetaildelete=async (id)=>{
+  try {
+    const response = await axios.delete(`http://localhost:4000/api/trainer/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Use the token for authorization
+      }
+    });
+    console.log("response",response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to add student: " + error.message);
+  }
+
+}
+
+
+
+
 export const getAllTrainers = async () => {
   try {
     const response = await axios.get("http://localhost:4000/api/trainer", {

@@ -104,8 +104,7 @@ const Navbar = (props) => {
           </div>
         </TooltipComponent>
 
-        {isClicked.cart && <Cart />}
-        {isClicked.chat && <Chat />}
+      
         {isClicked.notification && <Notification />}
         {isClicked.userProfile && <UserProfile />}
       </div>

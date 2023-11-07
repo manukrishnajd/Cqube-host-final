@@ -46,20 +46,24 @@ export function ViewCourses() {
     setstud(!stud);
   };
 
+console.log(studentdata,'ol');
+
   const handleViewRow = (studentid) => {
     // Handle viewing a row (if needed)
   };
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentStudentData = studentdata.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(studentdata.length / rowsPerPage);
+  const currentStudentData = data.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
+
+  console.log(studentdata);
 
   return (
     <>
@@ -98,7 +102,7 @@ export function ViewCourses() {
                   {currentStudentData.map((student) => (
                     <TableRow key={student._id}>
                       <TableCell>{student.name}</TableCell>
-                      <TableCell>{student.courses.map((course, index) => (
+                      <TableCell>{student?.courses?.map((course, index) => (
                       <span key={index}>{course.assignedCourseRef.name}</span>
                     ))}</TableCell>
 

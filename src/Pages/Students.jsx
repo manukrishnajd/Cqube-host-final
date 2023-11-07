@@ -312,6 +312,7 @@ const handleedit=(id)=>{
             joinedDate: "",
           });
           setEditingIndex(null);
+          setrefresh(!refresh)
         })
         .catch((error) => {
           console.error("Error adding student:", error);
