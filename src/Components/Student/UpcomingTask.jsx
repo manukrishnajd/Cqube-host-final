@@ -17,7 +17,7 @@ export default function UpcomingTasks() {
   useEffect(() => {
     getActivity().then((res) => {
       // Filter out submitted tasks before setting the activityResponse state
-      const upcomingTasks = res.result.filter((task) => task.answer?.status !== 'submitted');
+      const upcomingTasks = res.result.filter((task) => task.answer?.status !== 'evaluated' && task.answer?.status !== 'submitted');
       setActivityResponse(upcomingTasks);
     });
   }, []);
