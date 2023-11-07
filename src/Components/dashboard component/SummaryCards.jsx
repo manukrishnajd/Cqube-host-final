@@ -41,7 +41,7 @@ const SummaryCards = () => {
  
 
   return (
-    <div className="grid grid-cols-4 md:grid-cols-4 gap-4">
+    <div className="flex gap-5 ">
       {/* Student Summary Card */}
      
       
