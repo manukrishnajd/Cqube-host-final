@@ -25,7 +25,11 @@ const Landing = () => {
             <div className='flex items-center '>
             <BiSupport className='pr-5 bg ' size={50}/>
             <IoIosNotifications className='pr-5 bg' size={50}/>
+            <div className='flex gap-6'>
+
             <Link to='/login'><button className='loginbt'>Login</button></Link>
+            <Link to='/trainerlogin'><button className='loginbt'>Trainer Login</button></Link>
+            </div>
             </div>
         </div>
     <div className=' flex flex-wrap justify-center'>

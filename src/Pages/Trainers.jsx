@@ -60,6 +60,7 @@ const [viewCourse, setviewCourse] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
   const [view,setview]=useState(false)
   const [editviewdata,seteditviewdata]=useState({})
+  const [selectedCourses, setSelectedCourses] = useState([]);
 
 
   const handleedit=(id)=>{
@@ -84,7 +85,7 @@ const [viewCourse, setviewCourse] = useState([]);
       email,
       branchRef,
       joinedDate,
-      courseRef,
+      courseRef:selectedCourses
     };
 
     addTrainer(newTrainer);
@@ -275,8 +276,13 @@ const [viewCourse, setviewCourse] = useState([]);
             <select
               className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
               value={courseRef}
-              onChange={(e) => setCourse(e.target.value)}
-            >
+              multiple
+              onChange={(e) => {
+                // Get selected options from the event
+                const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                setSelectedCourses(selectedOptions);
+                console.log(selectedOptions);
+              }}            >
               <option value="" disabled>
                 Select Course
               </option>
