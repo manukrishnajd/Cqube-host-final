@@ -41,30 +41,34 @@ export default function UpcomingTasks() {
 
   return (
     <div className="flex gap-5">
-      {activityResponse.map((task, index) => (
-        <Card key={index} sx={{ maxWidth: 345 }}>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {task.topic}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {task.notes}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Due Date: {task.duedate}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Assigned By: {task.trainersName}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Type: {task.type}
-            </Typography>
-          </CardContent>
-          <Button size="small" color="primary" onClick={() => handleTaskButtonClick(task)}>
-            Task
-          </Button>
-        </Card>
-      ))}
+      {activityResponse.map((task, index) => {
+        const createdAtDate = new Date(task.duedate);
+        const formattedDate = `${createdAtDate.getDate()} / ${createdAtDate.getMonth() + 1} / ${createdAtDate.getFullYear()}`;
+        return (
+          <Card key={index} sx={{ maxWidth: 345 }}>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {task.topic}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {task.notes}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Due Date: {formattedDate}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Assigned By: {task.trainersName}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Type: {task.type}
+              </Typography>
+            </CardContent>
+            <Button size="small" color="primary" onClick={() => handleTaskButtonClick(task)}>
+              Task
+            </Button>
+          </Card>
+        );
+      })}
 
       <Dialog open={isModalOpen} onClose={closeModal}>
         <DialogContent>
