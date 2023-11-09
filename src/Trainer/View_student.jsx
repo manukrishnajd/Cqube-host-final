@@ -627,11 +627,11 @@ const Students = () => {
                     />
                   </TableCell>
                   <TableCell>{student.name}</TableCell>
-                  {/* <TableCell>
-                    {student.courses.map((course, index) => (
+                  <TableCell>
+                    {student?.courses?.map((course, index) => (
                       <span key={index}>{course.assignedCourseRef.name}</span>
                     ))}
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>
