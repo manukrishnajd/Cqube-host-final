@@ -10,14 +10,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination, // Import TablePagination
+  TablePagination,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import SubmitForm from "./SubmitForm";
 import { getActivity } from "./apiServices";
-// import StudentViewpage from "./StudentViewpage";
 
 const Activity = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,47 +137,49 @@ const Activity = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowsToDisplay.map((student, index) => (
-              <TableRow key={index}>
-                <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.duedate}</TableCell>
-                <TableCell>{student.type}</TableCell>
-                <TableCell>{student?.trainersName}</TableCell>
-                <TableCell>
-                  {student?.answer?.status == null
-                    ? "pending"
-                    : student?.answer?.status}
-                </TableCell>
+            {rowsToDisplay.map((student, index) => {
+              const createdAtDate = new Date(student.duedate);
+              const formattedDate = `${createdAtDate.getDate()} / ${
+                createdAtDate.getMonth() + 1
+              } / ${createdAtDate.getFullYear()}`;
 
-                <TableCell>{student?.mark}</TableCell>
-                <TableCell>{student?.answer?.mark}</TableCell>
-                {/* <TableCell>{student.branch}</TableCell> */}
-                <TableCell>
-                  {student.answer?.status === "evaluated" ? (
-                    <AiFillCheckCircle
-                      onClick={() => handleView(student)}
-                      size={20}
-                    />
-                  ) : student.answer?.status === "submitted" ?(
-                    <></>
-                  ):(
-<>
-                    <BsPenFill
-                    onClick={() => handleSubmit(student)}
-                    size={20}
-                    
-                    />
-
-                    </>
-                  )
-                  }
-                </TableCell>
-              </TableRow>
-            ))}
+              return (
+                <TableRow key={index}>
+                  <TableCell>{student.topic}</TableCell>
+                  <TableCell>{formattedDate}</TableCell>
+                  <TableCell>{student.type}</TableCell>
+                  <TableCell>{student?.trainersName}</TableCell>
+                  <TableCell>
+                    {student?.answer?.status == null
+                      ? "pending"
+                      : student?.answer?.status}
+                  </TableCell>
+                  <TableCell>{student?.mark}</TableCell>
+                  <TableCell>{student?.answer?.mark}</TableCell>
+                  <TableCell>
+                    {student.answer?.status === "evaluated" ? (
+                      <AiFillCheckCircle
+                        onClick={() => handleView(student)}
+                        size={20}
+                      />
+                    ) : student.answer?.status === "submitted" ? (
+                      <></>
+                    ) : (
+                      <>
+                        <BsPenFill
+                          onClick={() => handleSubmit(student)}
+                          size={20}
+                        />
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50]} // Customize rows per page options
+          rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
           count={activityResponse.length}
           rowsPerPage={rowsPerPage}
@@ -200,11 +201,6 @@ const Activity = (props) => {
           )}
         </DialogContent>
       </Dialog>
-      {/* <Dialog open={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
-        <DialogContent>
-          {selectedTask && <StudentViewpage id={selectedTask._id} />}
-        </DialogContent>
-      </Dialog> */}
     </div>
   );
 };

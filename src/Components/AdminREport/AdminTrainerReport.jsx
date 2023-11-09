@@ -83,9 +83,6 @@ function AdminAttendanceReports() {
              <TableCell>{item.Present}</TableCell>
              <TableCell>{item.Absent}</TableCell>
              <TableCell>{item.Total_days}</TableCell>
-             <TableCell>
-               {/* Add the evaluate button here */}
-             </TableCell>
            </TableRow>
            
             ))}

@@ -12,13 +12,14 @@ const AdminReportsPage = () => {
   };
 
   return (
-    <div className="flex flex-col bg-slate-200">
+    <div className="container flex flex-col">
       <h2 className="text-2xl font-bold mb-4">Admin Reports Dashboard</h2>
       <div className="flex space-x-4">
         <TabButton
           label="Student"
           activeTab={activeTab}
           onClick={() => handleTabClick('Student')}
+          
         />
         <TabButton
           label="Attendance"

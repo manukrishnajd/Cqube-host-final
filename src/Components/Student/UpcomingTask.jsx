@@ -18,9 +18,18 @@ export default function UpcomingTasks() {
     getActivity().then((res) => {
       // Filter out submitted tasks before setting the activityResponse state
       const upcomingTasks = res.result.filter((task) => task.answer?.status !== 'evaluated' && task.answer?.status !== 'submitted');
+      upcomingTasks.sort((task1, task2) => {
+        // Assuming your tasks have a "dueDate" property, change this to match your actual property name
+        const dueDate1 = new Date(task1.dueDate);
+        const dueDate2 = new Date(task2.dueDate);
+      
+        return dueDate1 - dueDate2;
+      });
       setActivityResponse(upcomingTasks);
     });
   }, []);
+
+  
 
   const navigate = useNavigate();
 

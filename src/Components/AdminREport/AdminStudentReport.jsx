@@ -155,9 +155,6 @@ function AdminStudentReport() {
              <TableCell>{item.noOfTest}</TableCell>
              <TableCell>{item.testMark}</TableCell>
              <TableCell>{item.totalMark}</TableCell>
-             <TableCell>
-               {/* Add the evaluate button here */}
-             </TableCell>
            </TableRow>
            
             ))}
