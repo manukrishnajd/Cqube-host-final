@@ -245,7 +245,7 @@ console.log(newStudent,'student datas');
 
 
 
-
+console.log(editviewdata,'editview');
 
 
 
@@ -656,13 +656,30 @@ try{
               value={updateddata?.linkedIn}
               onChange={handleUpdateInputChange}
             />
-           
+            <div className="flex-col">
+
+            <label htmlFor="">trainers assigned</label>
+            
+
+          {
+            editviewdata?.courses[0]?.assignedTrainersRef.map((item, index) => (
+              <li className="list-none" key={index}>{item.name}</li>
+              ))
+              
+}
+              </div>
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
               name="selectedTrainer"
-              value={updateddata?.selectedTrainer}
-              onChange={handleUpdateInputChange}
+              multiple
+              value={selectedtrainer}
+              onChange={(e) => {
+                const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                setSelectedtrainer((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
+                console.log(selectedOptions);
+              }}
             >
+             
               <option value="">{editviewdata.courses[0].trainerName}</option>
               {trainers?.map((item) => {
                 return <option value={item._id}>{item.name}</option>;
