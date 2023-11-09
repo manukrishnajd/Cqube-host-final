@@ -10,7 +10,7 @@ import {
   TableRow,
   TablePagination,
 } from "@material-ui/core";
-
+import ExcelJS from 'exceljs';
 function AdminStudentReport() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -22,6 +22,9 @@ function AdminStudentReport() {
 
   // Define activityResponse, handleChangePage, and other necessary data/functions here.
   // You should replace the following placeholders with your actual data.
+
+
+
 
   const activityResponse = [
     {
@@ -72,8 +75,64 @@ function AdminStudentReport() {
     setPage(newPage);
   };
 
+  const handleExportToExcel = () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('StudentReport');
+
+    // Add headers
+    worksheet.addRow(['SI:NO','name','course',
+    'phoneNumber',
+    'branch',
+    'email',
+    'status',
+    'attendance',
+    'joiningDate',
+    'noOfTask',
+    'taskMark',
+    'taskTotalMark',
+    'noOfPresentation',
+    'presentationMark',
+    'presentationTotalMark',
+    'noOfTest',
+    'testMark',
+    'totalMark' /* Add other headers based on your data structure... */]);
+
+    // Add data
+    activityResponse.forEach((item) => {
+      worksheet.addRow([item.siNo,item.name,
+        item.course,
+        item.phoneNumber,
+        item.branch,
+        item.email,
+        item.status,
+      item.attendance,
+      item.joiningDate,
+      item.noOfTask,
+      item.taskMark,
+      item.taskTotalMark,
+      item.noOfPresentation,
+      item.presentationMark,
+      item.presentationTotalMark,
+      item.noOfTest,
+      item.testMark,
+      item.totalMark /* Add other data based on your data structure... */]);
+    });
+
+    // Save the workbook
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'StudentReport.xlsx';
+      link.click();
+    });
+  };
+
   return (
     <div>
+      <Button classname='mb-4' variant="contained" color="primary" onClick={handleExportToExcel}>
+        Export to Excel
+      </Button>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
