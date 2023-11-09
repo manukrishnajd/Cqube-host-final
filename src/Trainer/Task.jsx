@@ -372,7 +372,7 @@ const[arrow,setarrow]=useState(false)
                   {answer?.answer?.attachment}
                 </a>
               </TableCell>
-              <TableCell>{answer?.answer?.createdAt}</TableCell>
+              <TableCell>{new Date(answer?.answer?.createdAt).toLocaleDateString('en-GB')}</TableCell>
               <TableCell>{answer?.answer?.mark}</TableCell>
               <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
@@ -452,7 +452,7 @@ const[arrow,setarrow]=useState(false)
                 </TableCell>
 
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
                 <TableCell>{student.type}</TableCell>
                 <TableCell>{student.mark}</TableCell>
                 <TableCell>{student.status}</TableCell>

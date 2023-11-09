@@ -17,6 +17,7 @@ const AdminLogin = () => {
 
   const handleLogin = async () => {
     const data = { email: email, password: password };
+    console.log(data,'data')
     try {
       const response = await loginAdmin(data);
       console.log(response, 'responses');

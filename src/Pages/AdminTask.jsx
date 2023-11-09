@@ -337,6 +337,10 @@ const[arrow,setarrow]=useState(false)
       );
     }
   };
+
+
+
+  
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
     <TableContainer component={Paper}>
@@ -399,7 +403,7 @@ const[arrow,setarrow]=useState(false)
                 </TableCell>
 
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
                 <TableCell>{student.type}</TableCell>
                 <TableCell>{student.mark}</TableCell>
                 <TableCell>{student.status}</TableCell>

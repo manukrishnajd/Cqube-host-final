@@ -463,8 +463,8 @@ const [viewCourse, setviewCourse] = useState([]);
                 {currentData.map((student) => (
                   <TableRow key={student._id}>
                     <TableCell>{student.name}</TableCell>
-                    <TableCell>{student.createdAt}</TableCell>
-                    <TableCell>{student.updatedAt}</TableCell>
+                    <TableCell>{new Date(student.createdAt).toLocaleDateString('en-GB')}</TableCell>
+                    <TableCell>{new Date(student.updatedAt).toLocaleDateString('en-GB')}</TableCell>
                     <TableCell>
                     
                         <IconButton

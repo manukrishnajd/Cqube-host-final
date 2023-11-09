@@ -285,8 +285,8 @@ console.log(newCourse,'-courseee by typing');
                 {subcourse.map((item) => (
                   <TableRow key={item._id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.createdAt}</TableCell>
-                    <TableCell>{item.updatedAt}</TableCell>
+                    <TableCell>{new Date(item.createdAt).toLocaleDateString('en-GB')}</TableCell>
+                    <TableCell>{new Date(item.updatedAt).toLocaleDateString('en-GB')}</TableCell>
                     <TableCell>
                     
                         <IconButton

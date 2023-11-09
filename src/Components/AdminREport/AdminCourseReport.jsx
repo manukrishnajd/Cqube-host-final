@@ -452,7 +452,7 @@ const[arrow,setarrow]=useState(false)
                 </TableCell>
 
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
                 <TableCell>{student.type}</TableCell>
                 <TableCell>{student.mark}</TableCell>
                 <TableCell>{student.status}</TableCell>
