@@ -218,10 +218,9 @@ const [viewCourse, setviewCourse] = useState([]);
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
       <Header category="Page" title="Trainers" />
-<div className="flex justify-between">
-
-        <h1 className="text-2xl font-bold mb-4">Trainer Profile Management</h1>
       <div className="mb-8">
+<div className=" flex justify-between">
+        <h1 className="text-2xl font-bold mb-4">Trainer Profile Management</h1>
         {image &&
        <img src={image} width={300}/>
       } 
