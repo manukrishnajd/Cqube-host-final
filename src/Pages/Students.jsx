@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import FileBase64 from 'react-filebase64';
+
 import {
   Paper,
   Table,
@@ -42,6 +44,7 @@ const Students = () => {
   const [courseRef, setCourseREf] = useState([]);
   const [joinedDate, setJoinedDate] = useState();
   const [course_data, setCourseData] = useState([]);
+  const [image, setimage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
   const id = localStorage.getItem("id");
@@ -216,8 +219,11 @@ console.log(stddata,'jhkjj');
     setNewStudent({
       ...newStudent,
       [name]: value,
+      image:image
     });
   };
+
+console.log(newStudent,'student datas');
 
   const handleUpdate = (id) => {
     // Update the fields with the new values if they are not empty
@@ -438,8 +444,13 @@ try{
       <Header category="Page" title="Students" />
 
       <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-4">Student Profile Management</h1>
+        <div className="flex justify-between items-center">
 
+        <h1 className="text-2xl font-bold mb-4">Student Profile Management</h1>
+        {image &&
+       <img src={image} width={300}/>
+      }
+      </div>
         <div className="mb-4">
 
 { view ==false &&
@@ -462,6 +473,13 @@ try{
               value={newStudent.phone}
               onChange={handleInputChange}
             />
+             <FileBase64
+       
+       onDone={((res)=>{
+         console.log(res.base64,'responsesd');
+         setimage(res.base64)
+       })} />
+    
             <input
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
               type="text"
@@ -470,6 +488,7 @@ try{
               value={newStudent.email}
               onChange={handleInputChange}
             />
+
             <input
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
               type="text"

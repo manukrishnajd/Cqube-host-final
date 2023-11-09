@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import FileBase64 from 'react-filebase64';
 import { Header } from "../Components";
 import { useEffect } from "react";
 import { addTrainer, viewbranch ,getCourse, getAllTrainers, updateTrainer, getAllBranches, updateStudentById, trainerdetailupdate, trainerdetaildelete } from "../service/apiService";
@@ -29,6 +29,10 @@ const Trainers = () => {
   const [courseRef, setCourse] = useState("");
   const [gridData, setGridData] = useState();
   const [joinedDate, setJoinedDate] = useState();
+  const [image, setimage] = useState();
+  const [git, setgit] = useState();
+  const [linkedin, setlinkedin] = useState();
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
@@ -85,7 +89,10 @@ const [viewCourse, setviewCourse] = useState([]);
       email,
       branchRef,
       joinedDate,
-      courseRef:selectedCourses
+      courseRef:selectedCourses,
+      // image,
+      // git,
+      // linkedin,
     };
 
     addTrainer(newTrainer);
@@ -211,9 +218,14 @@ const [viewCourse, setviewCourse] = useState([]);
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
       <Header category="Page" title="Trainers" />
+<div className="flex justify-between">
 
-      <div className="mb-8">
         <h1 className="text-2xl font-bold mb-4">Trainer Profile Management</h1>
+      <div className="mb-8">
+        {image &&
+       <img src={image} width={300}/>
+      } 
+      </div>
 
 {view ==false &&
 
@@ -221,7 +233,7 @@ const [viewCourse, setviewCourse] = useState([]);
         <div className="mb-4">
           
           <h2 className="text-xl font-bold mb-2">Add Trainer</h2>
-          <div className="flex flex-wrap mb-4">
+          <div className="flex  p-5 border rounded flex-wrap mb-4 gap-2">
             <input
               className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
               type="text"
@@ -229,6 +241,12 @@ const [viewCourse, setviewCourse] = useState([]);
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+            <FileBase64
+       
+        onDone={((res)=>{
+          console.log(res.base64,'responsesd');
+          setimage(res.base64)
+        })} />
             <input
               className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
               type="text"
@@ -252,14 +270,31 @@ const [viewCourse, setviewCourse] = useState([]);
             />
 
             <input
-              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+              className="border h-9 rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
               type="date"
               placeholder="date"
               value={joinedDate}
               onChange={(e) => setJoinedDate(e.target.value)}
             />
+              <input
+              className="border h-9 rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder="Git"
+              value={git}
+              onChange={(e) => setgit(e.target.value)}
+              
+              />
+               <input
+              className="border h-9 rounded p-2 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder="Linkedin"
+              value={linkedin}
+              onChange={(e) => setlinkedin(e.target.value)}
+              
+              />
+           
             <select
-              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+              className="border h-9 rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
               value={branchRef}
               onChange={(e) => setBranch(e.target.value)}
             >
@@ -272,7 +307,7 @@ const [viewCourse, setviewCourse] = useState([]);
                 </option>
               ))}
             </select>
-
+            
             <select
   className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
   value={selectedCourses}
@@ -283,6 +318,7 @@ const [viewCourse, setviewCourse] = useState([]);
     console.log(selectedOptions);
   }}
 >
+  
   {viewCourse?.map((item) => (
     <option key={item?._id} value={item?._id}>
       {item?.name}
