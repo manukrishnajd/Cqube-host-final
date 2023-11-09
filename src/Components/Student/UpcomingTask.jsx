@@ -16,20 +16,17 @@ export default function UpcomingTasks() {
 
   useEffect(() => {
     getActivity().then((res) => {
-      // Filter out submitted tasks before setting the activityResponse state
+      // Filter out submitted tasks
       const upcomingTasks = res.result.filter((task) => task.answer?.status !== 'evaluated' && task.answer?.status !== 'submitted');
-      upcomingTasks.sort((task1, task2) => {
-        // Assuming your tasks have a "dueDate" property, change this to match your actual property name
-        const dueDate1 = new Date(task1.dueDate);
-        const dueDate2 = new Date(task2.dueDate);
       
-        return dueDate1 - dueDate2;
-      });
+      // Sort the filtered tasks by duedate in descending order
+      upcomingTasks.sort((task1, task2) => new Date(task2.duedate) - new Date(task1.duedate));
+      
       setActivityResponse(upcomingTasks);
     });
   }, []);
 
-  
+  console.log(activityResponse);
 
   const navigate = useNavigate();
 
@@ -57,7 +54,7 @@ export default function UpcomingTasks() {
               Due Date: {task.duedate}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Assigned By: {task.assignedBy}
+              Assigned By: {task.trainersName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Type: {task.type}
