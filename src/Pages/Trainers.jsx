@@ -60,6 +60,7 @@ const [viewCourse, setviewCourse] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
   const [view,setview]=useState(false)
   const [editviewdata,seteditviewdata]=useState({})
+  const [selectedCourses, setSelectedCourses] = useState([]);
 
 
   const handleedit=(id)=>{
@@ -84,7 +85,7 @@ const [viewCourse, setviewCourse] = useState([]);
       email,
       branchRef,
       joinedDate,
-      courseRef,
+      courseRef:selectedCourses
     };
 
     addTrainer(newTrainer);
@@ -171,9 +172,9 @@ const [viewCourse, setviewCourse] = useState([]);
     // Update the fields with the new values if they are not empty
     const updatedStudentData = { ...updateddata };
   
-    if (updatedStudentData.selectedCourse) {
+    if (updatedStudentData.selectedCourses) {
       // If a course is selected, set the course reference
-      updatedStudentData.assignedCourseRef = updatedStudentData.selectedCourse;
+      updatedStudentData.assignedCourseRef = updatedStudentData.selectedCourses;
       // Remove the selectedCourse field, as it's not needed in the updated data
      
     } else {
@@ -273,24 +274,21 @@ const [viewCourse, setviewCourse] = useState([]);
             </select>
 
             <select
-              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-              value={courseRef}
-              onChange={(e) => setCourse(e.target.value)}
-            >
-              <option value="" disabled>
-                Select Course
-              </option>
-              {
-                viewCourse?.map((item)=>{
-                  return(
-                    <>
-                      <option key={item?._id}   value={item?._id}>{item?.name}</option>
-                    </>
-                  )
-                })
-              }
-              {/* <option value="Course 2">Course 2</option> */}
-            </select>
+  className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+  value={selectedCourses}
+  multiple
+  onChange={(e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+    setSelectedCourses((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
+    console.log(selectedOptions);
+  }}
+>
+  {viewCourse?.map((item) => (
+    <option key={item?._id} value={item?._id}>
+      {item?.name}
+    </option>
+  ))}
+  </select>
           </div>
           <button
             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
@@ -365,16 +363,27 @@ const [viewCourse, setviewCourse] = useState([]);
       </option>
     ))}
   </select>
-
+<label >Courses: 
+</label>
+{editviewdata?.courseRef.map((course) => (
+      <>
+      <option key={course._id} value={course._id}>
+        {course.name}
+      </option>
+      </>
+    ))}
   <select
     className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-   
+   multiple
     name="courseRef"
-    onChange={handleupdateCourseChange}
+    onChange={(e) => {
+      const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+      setSelectedCourses((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
+      console.log(selectedOptions);
+    }}
     >
-    <option value="" disabled>
-      {editviewdata.courseRef[0]?.name}
-    </option>
+    
+    
     {
       viewCourse?.map((item)=>{
         return(
