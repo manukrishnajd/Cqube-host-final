@@ -17,6 +17,7 @@ import { Header } from "../Components";
 import StudentDetailsModal from "./StudentDetailsModal";
 import { GiBrassEye } from "react-icons/gi";
   import { Link } from "react-router-dom";
+
 import {
   addStudent,
   deleteStudentById,
@@ -56,6 +57,7 @@ const Students = () => {
   const [editingStudent, setEditingStudent] = useState(null);
   const [editviewdata,seteditviewdata]=useState({})
   const [updateddata,setupdateddata]=useState()
+  const [selectedtrainer, setSelectedtrainer] = useState([]);
   
 const [view,setview]=useState(false)
   const getCourseRefId = (student) => {
@@ -185,19 +187,7 @@ console.log(stddata,'jhkjj');
   }, [searchQuery,refresh]);
 
 
-  // useEffect(() => {
-  //   // Fetch student data from the API when the component mounts
-  //   const fetchStudents = async () => {
-  //     try {
-  //       const studentsData = await getStudent();
-  //       setStudents(studentsData);
-  //     } catch (error) {
-  //       console.error("Error fetching students:", error);
-  //     }
-  //   };
 
-  //   fetchStudents();
-  // }, []); 
 
 
 
@@ -219,8 +209,10 @@ console.log(stddata,'jhkjj');
     setNewStudent({
       ...newStudent,
       [name]: value,
-      image:image
+      image:image,
+      selectedTrainer:selectedtrainer
     });
+    console.log(newStudent,'kjhkjn');
   };
 
 console.log(newStudent,'student datas');
@@ -526,9 +518,14 @@ try{
             />
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              multiple
               name="selectedTrainer"
               value={newStudent.selectedTrainer}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                setSelectedtrainer((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
+                console.log(selectedOptions);
+              }}
             >
               <option value="">Select Trainer</option>
               {trainers?.map((item) => {
