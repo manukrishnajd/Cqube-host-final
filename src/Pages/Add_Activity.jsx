@@ -292,7 +292,7 @@ const AdminAddActivity = () => {
                   type="text"
                   value={meetlink}
                   onChange={(e) => setmeetlink(e.target.value)}
-                  placeholder="Meet link"
+                  placeholder="link"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />
               </div>
