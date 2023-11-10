@@ -22,6 +22,7 @@ const buildUrl = (route) => `${BASE_URL}${route}`;
 
 
   const token = localStorage.getItem("token")
+  const adid=localStorage.getItem("id")
 
 //verification
 export const useTokenVerification = () => {
@@ -206,6 +207,60 @@ export const updateStudentById = async (studentId, updatedStudentData) => {
     throw new Error("Failed to update student: " + error.message);
   }
 };
+
+export const Addnotification = async (data) => {
+  try {
+    console.log(data,'kjiuhgy');
+    const response = await axios.post(
+      `http://localhost:4000/api/notification`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};
+
+export const getnotification = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/notification`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};
+
+export const deletenotification = async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:4000/api/notification/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};
+
 
 
 export const deleteStudentById = async (studentId) => {

@@ -55,6 +55,7 @@ import ResetPassword from "./auth/ResetPassword";
 import StudentUserProfile from "./Components/Student/StudentUserProfile";
 import AdminStudentdetail from "./Pages/AdminStudent_detail";
 import AdminAttendPie from "./Pages/AdminAttendanceReport";
+import AddNotification from "./Pages/AddNotification";
 
 
 
@@ -79,6 +80,7 @@ const App = () => {
             <Route path="dash" element={<AdminDash />} />
             <Route path="subcourse" element={<Subcourse />} />
             <Route path="task" element={<AdminTask />} />
+            <Route path="notification" element={<AddNotification />} />
             <Route path="AddActivity" element={<AdminAddActivity />} />
             <Route path="StudentReport/:student_id" element={<AdminAttendPie />} />
            

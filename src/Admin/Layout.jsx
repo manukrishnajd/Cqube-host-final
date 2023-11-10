@@ -65,6 +65,12 @@ const Layout = () => {
       link: "admin/branch",
       icon: <GiBranchArrow style={{width:"30px"  ,height:"30px" }} />,
     },
+    {
+
+      name: "Notification",
+      link: "admin/notification",
+      icon: <GrAddCircle style={{width:"30px"  ,height:"30px" }} />,
+    },
   ];
 
   
