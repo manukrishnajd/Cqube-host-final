@@ -121,7 +121,7 @@ const tableHeaders = [
     <option value={item._id}>{item.name}</option> 
     ))}
 </select><br />
-    <input type="submit" className='bg-slate-600 hover:bg-black text-white ps-4 pe-4 pt-2 pb-2 rounded' value='Send'/>
+    <input type="submit" className='bg-slate-600 hover:bg-black text-white ps-4 pe-4 pt-2 pb-2 rounded w-400' value='Send'/>
     </form>
 
     <TableContainer component={Paper}>
