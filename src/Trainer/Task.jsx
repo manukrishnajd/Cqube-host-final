@@ -488,7 +488,6 @@ const TrainerTask = () => {
         </TableBody>
       </Table>
     </TableContainer>
->>>>>>> 6bdb975a0601ea38b06c84d09b582855bf46ab30
 
       <div className="pagination-container">
         <Button

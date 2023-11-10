@@ -356,12 +356,9 @@ const[arrow,setarrow]=useState(false)
       return (
         <>
           <TableRow className="bg-slate-400 ">
-            <TableCell>Name</TableCell>
-            <TableCell>Attachement</TableCell>
-            <TableCell>Answered date</TableCell>
-            <TableCell>Mark obtained</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell></TableCell>
+            <TableCell>SI.NO</TableCell>
+            <TableCell>Sub Course</TableCell>
+            <TableCell>Student</TableCell>
           </TableRow>
 
           {student.studentsRef.map((answer, index) => (
