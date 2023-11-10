@@ -30,7 +30,7 @@ const Students = () => {
   const [topic, setTopic] = useState(""); // Define and initialize 'topic' state
   const [notes, setNotes] = useState(""); // Define and initialize 'notes' state
   const [mark, setMark] = useState("");
-
+  const [presenttype, setpresenttype] = useState("");
   const [activitydata, setactivityData] = useState([]);
 
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -56,6 +56,9 @@ const Students = () => {
       studentsRef: selectedStudentIds, // Pass the selected students
       courseRef: selectedCourseRefId, // Update to use selectedCourseRefId
       trainersRef: id,
+      // mode:presenttype,
+      // meetlink:meetlink,
+      // venue:venue
       // Add other data properties as needed
     };
   
@@ -82,7 +85,8 @@ const Students = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [duedate, setDueDate] = useState("");
   const [selectAll, setSelectAll] = useState(false); // State to track if all students are selected
-
+  const [meetlink, setmeetlink] = useState("");
+  const [venue, setvenue] = useState("");
   useEffect(() => {
     viewstudent(id)
       .then((res) => {
@@ -266,6 +270,39 @@ const Students = () => {
                 />
               </div>
               <div className="mb-4">
+                <select                  
+                 className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                name="" 
+                id="" 
+                onChange={(e) => setpresenttype(e.target.value)}>
+                  <option disabled value="">Select mode</option>
+                  <option value="online">Online</option>
+                  <option value="offline">Offline</option>
+                </select>
+              </div>
+              {presenttype=='online' &&
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={meetlink}
+                  onChange={(e) => setmeetlink(e.target.value)}
+                  placeholder="link"
+                  className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                />
+              </div>
+                }
+                {presenttype=='offline' &&
+                <div className="mb-4">
+                <input
+                  type="text"
+                  value={venue}
+                  onChange={(e) => setvenue(e.target.value)}
+                  placeholder="Venue"
+                  className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                />
+              </div>
+                }
+              <div className="mb-4">
                 <textarea
                   rows="3"
                   value={notes}
@@ -416,6 +453,39 @@ const Students = () => {
                 />
               </div>
               <div className="mb-4">
+                <select                  
+                 className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                name="" 
+                id="" 
+                onChange={(e) => setpresenttype(e.target.value)}>
+                  <option disabled value="">Select mode</option>
+                  <option value="online">Online</option>
+                  <option value="offline">Offline</option>
+                </select>
+              </div>
+              {presenttype=='online' &&
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={meetlink}
+                  onChange={(e) => setmeetlink(e.target.value)}
+                  placeholder="Meet link"
+                  className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                />
+              </div>
+    }
+    {presenttype=='offline' &&
+                <div className="mb-4">
+                <input
+                  type="text"
+                  value={venue}
+                  onChange={(e) => setvenue(e.target.value)}
+                  placeholder="Venue"
+                  className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                />
+              </div>
+                }
+              <div className="mb-4">
                 <textarea
                   rows="3"
                   value={notes}
@@ -557,11 +627,11 @@ const Students = () => {
                     />
                   </TableCell>
                   <TableCell>{student.name}</TableCell>
-                  {/* <TableCell>
-                    {student.courses.map((course, index) => (
+                  <TableCell>
+                    {student?.courses?.map((course, index) => (
                       <span key={index}>{course.assignedCourseRef.name}</span>
                     ))}
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>

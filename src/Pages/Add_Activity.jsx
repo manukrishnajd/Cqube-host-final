@@ -286,7 +286,7 @@ const AdminAddActivity = () => {
                   <option value="offline">Offline</option>
                 </select>
               </div>
-              {presenttype=='online' ?
+              {presenttype=='online' &&
               <div className="mb-4">
                 <input
                   type="text"
@@ -296,7 +296,8 @@ const AdminAddActivity = () => {
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />
               </div>
-                :
+                }
+                {presenttype=='offline' &&
                 <div className="mb-4">
                 <input
                   type="text"
@@ -469,7 +470,7 @@ const AdminAddActivity = () => {
                   <option value="offline">Offline</option>
                 </select>
               </div>
-              {presenttype=='online' ?
+              {presenttype=='online' &&
               <div className="mb-4">
                 <input
                   type="text"
@@ -479,7 +480,8 @@ const AdminAddActivity = () => {
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />
               </div>
-                :
+    }
+    {presenttype=='offline' &&
                 <div className="mb-4">
                 <input
                   type="text"

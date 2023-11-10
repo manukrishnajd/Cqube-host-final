@@ -367,7 +367,7 @@ const TrainerTask = () => {
                   {answer?.answer?.attachment}
                 </a>
               </TableCell>
-              <TableCell>{answer?.answer?.createdAt}</TableCell>
+              <TableCell>{new Date(answer?.answer?.createdAt).toLocaleDateString('en-GB')}</TableCell>
               <TableCell>{answer?.answer?.mark}</TableCell>
               <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
@@ -472,20 +472,23 @@ const TrainerTask = () => {
                       )}
                     </button>
                   </TableCell>
-
-                  <TableCell>{student.topic}</TableCell>
-                  <TableCell>{}</TableCell>
-                  <TableCell>{student.type}</TableCell>
-                  <TableCell>{student.mark}</TableCell>
-                  <TableCell>{student.status}</TableCell>
-                </TableRow>
-
-                {renderStudentDetails(student, index)}
-              </React.Fragment>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                <TableCell>{student.topic}</TableCell>
+                <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
+                <TableCell>{student.type}</TableCell>
+                <TableCell>{student.mark}</TableCell>
+                <TableCell>{student.status}</TableCell>
+               
+              </TableRow>
+             
+              {renderStudentDetails(student, index)}
+            
+             
+            </React.Fragment>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+>>>>>>> 6bdb975a0601ea38b06c84d09b582855bf46ab30
 
       <div className="pagination-container">
         <Button

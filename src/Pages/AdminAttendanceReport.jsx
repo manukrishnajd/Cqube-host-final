@@ -225,13 +225,15 @@ console.log(activData,'datas');
             {currentStudents.map((student, index) => (
               <TableRow key={index}>
                 <TableCell>{student.topic}</TableCell>
-                <TableCell>{student.duedate}</TableCell>
+                <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
                 <TableCell>{student.notes}</TableCell>
                 <TableCell>{student.branch}</TableCell>
                 <TableCell>{student.status}</TableCell>
                 <TableCell>{student.mark}</TableCell>
                 <TableCell>
+                  {student.status=='evaluated' &&
                   <AiFillCheckCircle size={20} />
+            }
                 </TableCell>
               </TableRow>
             ))}
