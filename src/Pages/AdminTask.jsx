@@ -86,6 +86,9 @@ const handleEvaluateSubmit =async (e) => {
   };
   console.log(activitydata,'datas of activity');
 
+
+  
+
   useEffect(() => {
     getactivity();
 
@@ -96,6 +99,19 @@ const handleEvaluateSubmit =async (e) => {
   const renderForm = (props) => {
     if (selectedType === "evaluate") {
       const student = selectedStudentData; // Selected student's data
+
+      const sortDataByDueDate = () => {
+        const sortedData = [...activitydata];
+        sortedData.sort((a, b) => {
+          const dueDateA = new Date(a.duedate);
+          const dueDateB = new Date(b.duedate);
+          return dueDateA - dueDateB;
+        });
+        return sortedData;
+      };
+    
+      // Use the sorted data to render the table
+      const sortedActivityData = sortDataByDueDate();
 
         return (
           <div className="bg-white p-4 rounded-lg shadow-md">
