@@ -56,6 +56,8 @@ const Activity = (props) => {
     (page + 1) * rowsPerPage
   );
 
+ 
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -114,6 +116,24 @@ const Activity = (props) => {
                   fontSize: "17px",
                 }}
               >
+                mode
+              </TableCell>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                venue
+              </TableCell>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Total mark
               </TableCell>
               <TableCell
@@ -148,12 +168,23 @@ const Activity = (props) => {
                   <TableCell>{student.topic}</TableCell>
                   <TableCell>{formattedDate}</TableCell>
                   <TableCell>{student.type}</TableCell>
+
                   <TableCell>{student?.trainersName}</TableCell>
                   <TableCell>
                     {student?.answer?.status == null
                       ? "pending"
                       : student?.answer?.status}
                   </TableCell>
+                  <TableCell>
+                    {student.type==="task"?"offline":"online"
+                    
+                    }
+                    </TableCell>
+                    <TableCell>
+                    {student.type==="task"?"offline":"online"
+                    
+                    }
+                    </TableCell>
                   <TableCell>{student?.mark}</TableCell>
                   <TableCell>{student?.answer?.mark}</TableCell>
                   <TableCell>
