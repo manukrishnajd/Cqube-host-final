@@ -86,7 +86,6 @@ const handleEvaluateSubmit =async (e) => {
   };
   console.log(activitydata,'datas of activity');
 
-
   
 
   useEffect(() => {
