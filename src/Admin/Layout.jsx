@@ -17,6 +17,7 @@ import { useTokenVerification } from '../service/trainerService';
 
 const Layout = () => {
  
+  useTokenVerification()
 
   const sidebarData = [
     {
@@ -74,7 +75,6 @@ const Layout = () => {
   ];
 
   
-useTokenVerification()
 
 
 

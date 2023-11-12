@@ -81,7 +81,7 @@ const Activity = () => {
               <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Evaluated by</TableCell>
               <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Status</TableCell>
               <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Mark</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Evaluate</TableCell>
+              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>auate</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

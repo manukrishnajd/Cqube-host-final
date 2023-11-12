@@ -371,6 +371,7 @@ const[arrow,setarrow]=useState(false)
             <TableCell>Mark obtained</TableCell>
             <TableCell>Status</TableCell>
             <TableCell></TableCell>
+            <TableCell></TableCell>
           </TableRow>
 
           {student.studentsRef.map((answer, index) => (
@@ -384,14 +385,32 @@ const[arrow,setarrow]=useState(false)
               <TableCell>{new Date(answer?.answer?.createdAt).toLocaleDateString('en-GB')}</TableCell>
               <TableCell>{answer?.answer?.mark}</TableCell>
               <TableCell>{answer?.answer?.status}</TableCell>
-              <TableCell>
+              {answer?.answer?.status=='sumbitted'?
+(
+<>
+
+  <TableCell>
                 <button
                   onClick={() => openModal("evaluate",answer,student)}
                   className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
-                >
+                  >
                   evaluate
                 </button>
               </TableCell>
+              </>
+                    )
+                  :(
+                    <TableCell>
+                    <button
+                  onClick={() => openModal("evaluate",answer,student)}
+                  className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
+                  disabled>
+                  evaluate
+                </button>
+                </TableCell>
+                  )
+    }
+                
             </TableRow>
           ))}
         </>
@@ -414,6 +433,11 @@ const[arrow,setarrow]=useState(false)
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
                 Topic
+              </TableCell>
+              <TableCell
+                style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
+              >
+                Assigned by
               </TableCell>
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
@@ -466,6 +490,7 @@ const[arrow,setarrow]=useState(false)
                 </TableCell>
 
                 <TableCell>{student.topic}</TableCell>
+                <TableCell>{student.trainersName}</TableCell>
                 <TableCell>{student.courseRef.name}</TableCell>
                 <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
                 <TableCell>{student.type}</TableCell>

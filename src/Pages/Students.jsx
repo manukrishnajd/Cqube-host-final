@@ -76,7 +76,7 @@ console.log(stddata,'jhkjj');
     "Select",
     "Name",
     "Course",
-    "Assigned by",
+    "Trainer",
     "Phone Number",
     "Email",
     "Action",
@@ -84,6 +84,8 @@ console.log(stddata,'jhkjj');
     ""
   ];
 
+
+  
   const handleViewRow = (student) => {
     // Handle viewing a row (if needed)
   };
@@ -687,7 +689,7 @@ try{
 }
               </div>
               <div className="flex-col">
-  <label htmlFor="">Trainers Assigned:</label>
+  {/* <label htmlFor="">Trainers Assigned:</label> */}
   {trainers?.map((trainer) => (
     <div key={trainer._id}>
       <label>
