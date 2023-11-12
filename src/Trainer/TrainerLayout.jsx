@@ -31,11 +31,11 @@ useTokenVerification()
       icon: <BsFillPersonLinesFill size={20}/>,
       link:"trainer/student"
     },
-    {
-      name: "Course",
-      icon: <MdBook size={20}  />,
-      link:"trainer/course"
-    },
+    // {
+    //   name: "Course",
+    //   icon: <MdBook size={20}  />,
+    //   link:"trainer/course"
+    // },
     
     // Add more objects as needed
   ];
