@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Paper,
@@ -10,8 +10,8 @@ import {
   TableRow,
   TablePagination,
 } from "@material-ui/core";
-import ExcelJS from 'exceljs';
-import { getreports } from '../../service/apiService';
+import ExcelJS from "exceljs";
+import { getreports } from "../../service/apiService";
 function AdminStudentReport() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -24,21 +24,17 @@ function AdminStudentReport() {
   // Define activityResponse, handleChangePage, and other necessary data/functions here.
   // You should replace the following placeholders with your actual data.
 
-const [activityResponse,setactivityResponse]=useState([])
+  const [activityResponse, setactivityResponse] = useState([]);
 
-useEffect(()=>{
+  useEffect(() => {
+    fetchdata();
+  }, []);
 
-  fetchdata()
-
-},[])
-
-async function fetchdata(){
-  let res=await getreports()
-  console.log(res,'reports fetch');
-  setactivityResponse(res)
-}
-
-
+  async function fetchdata() {
+    let res = await getreports();
+    console.log(res, "reports fetch");
+    setactivityResponse(res);
+  }
 
   // const activityResponse = [
   //   {
@@ -83,102 +79,179 @@ async function fetchdata(){
   //   },
   //   // Add more dummy data as needed...
   // ];
-  
-  
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleExportToExcel = () => {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('StudentReport');
-
-    // Add headers
-    worksheet.addRow(['SI:NO','name','course',
-    'phoneNumber',
-    'branch',
-    'email',
-    'status',
-    'attendance',
-    'joiningDate',
-    'noOfTask',
-    'taskMark',
-    'taskTotalMark',
-    'noOfPresentation',
-    'presentationMark',
-    'presentationTotalMark',
-    'noOfTest',
-    'testMark',
-    'totalMark' /* Add other headers based on your data structure... */]);
-
-    // Add data
-    activityResponse.forEach((item) => {
-      worksheet.addRow([item.siNo,item.name,
-        item.course,
-        item.phoneNumber,
-        item.branchName,
-        item.email,
-        item.status,
-      item.attendance,
-      item.joiningDate,
-      item.noOfTask,
-      item.taskMark,
-      item.taskTotalMark,
-      item.noOfPresentation,
-      item.presentationMark,
-      item.presentationTotalMark,
-      item.noOfTest,
-      item.testMark,
-      item.totalMark /* Add other data based on your data structure... */]);
-    });
-
-    // Save the workbook
-    workbook.xlsx.writeBuffer().then((buffer) => {
-      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = 'StudentReport.xlsx';
-      link.click();
-    });
+    if (activityResponse && activityResponse.length > 0) {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("StudentReport");
+  
+      // Add headers
+      worksheet.addRow([
+        "SI:NO",
+        "Name",
+        "Course",
+        "Trainer name",
+        "Phone Number",
+        "Branch",
+        "Email",
+        "No of Task",
+        "No of Test",
+        "No of Presentation",
+        "Task Total Mark",
+        "Test Total Mark",
+        "Presentation Total mark",
+        "Presentation Total Mark",
+        "present days",
+        "absent days",
+      ]);
+  
+      // Add data
+      activityResponse.forEach((item) => {
+        item.courses?.forEach((course) => {
+          worksheet.addRow([
+            item?.siNo || 0,
+            item?.name || '',
+            course?.courseName || '',
+            course?.trainerName || '',
+            item?.phoneNumber || '',
+            item?.branchName || '',
+            item?.email || '',
+            item?.activities?.task?.length || 0,
+            item?.activities?.test?.length || 0,
+            item?.activities?.presentation?.length || 0,
+            item?.totalMarkOf?.task || 0,
+            item?.testMark || 0,
+            item?.totalMarkOf?.presentation || 0,
+            item?.totalMark || 0,
+            item?.isPresentCounts || 0,
+            item?.isAbsentCounts || 0,
+          ]);
+        });
+      });
+  
+      // Save the workbook
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        const blob = new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "StudentReport.xlsx";
+        link.click();
+      });
+    } else {
+      // Handle the case where activityResponse is empty or undefined
+      console.error("No data to export");
+    }
   };
+  
 
   return (
     <div>
-      <Button classname='mb-4' variant="contained" color="primary" onClick={handleExportToExcel}>
+      <Button
+        className="mb-4"
+        variant="contained"
+        color="primary"
+        onClick={handleExportToExcel}
+      >
         Export to Excel
       </Button>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-               SI:NO
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                SI:NO
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Name
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Course Name
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Trainer Name
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Phone Number
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Branch
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Email
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-               No of Task
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                No of Task
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 No of Test
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 No of Presentation
               </TableCell>
               {/* <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
@@ -190,44 +263,71 @@ async function fetchdata(){
               <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
                Presentation Mark
               </TableCell> */}
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-               Total mark in Task
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                Total mark in Task
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-               Total mark in test
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                Total mark in test
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-               Total mark in presentation
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                Total mark in presentation
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-              No of present days
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                No of present days
               </TableCell>
-              <TableCell style={{ backgroundColor: "#475569", color: "white", fontSize: "17px" }}>
-              No of Absent days
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
+                No of Absent days
               </TableCell>
-              
             </TableRow>
           </TableHead>
           <TableBody>
             {activityResponse.map((item, index) => (
-             <TableRow key={index}>
-             <TableCell>{item.index}</TableCell>
-             <TableCell>{item.name}</TableCell>
-             {item.courses?.map((value)=>(
-
-             
-<>
-             <TableCell>{value.courseName}</TableCell>
-             <TableCell>{value.trainerName}</TableCell>
-</>
-             ))}
-             <TableCell>{item.phoneNumber}</TableCell>
-             <TableCell>{item.branchName}</TableCell>
-             <TableCell>{item.email}</TableCell>
-             <TableCell>{item.activities.task.length}</TableCell>
-             <TableCell>{item.activities.test?.length}</TableCell>
-             <TableCell>{item.activities.presentation?.length}</TableCell>
-             {/* {item.activities.task.map((task)=>(
+              <TableRow key={index}>
+                <TableCell>{item.index}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                {item.courses?.map((value) => (
+                  <>
+                    <TableCell>{value.courseName}</TableCell>
+                    <TableCell>{value.trainerName}</TableCell>
+                  </>
+                ))}
+                <TableCell>{item.phoneNumber}</TableCell>
+                <TableCell>{item.branchName}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell>{item.activities?.task?.length || 0}</TableCell>
+<TableCell>{item.activities?.test?.length || 0}</TableCell>
+<TableCell>{item.activities?.presentation?.length || 0}</TableCell>
+                {/* {item.activities.task.map((task)=>(
                <TableCell>{task.mark}</TableCell>
               
              ))}
@@ -239,13 +339,12 @@ async function fetchdata(){
                <TableCell>{presentation.mark}</TableCell>
                
                ))} */}
-               <TableCell>{item.totalMarkOf.task}</TableCell>
-               <TableCell>{item.totalMarkOf.test}</TableCell>
-               <TableCell>{item.totalMarkOf.presentation}</TableCell>
-               <TableCell>{item.isPresentCounts}</TableCell>
-               <TableCell>{item.isAbsentCounts}</TableCell>
-           </TableRow>
-           
+                <TableCell>{item.totalMarkOf.task}</TableCell>
+                <TableCell>{item.totalMarkOf.test}</TableCell>
+                <TableCell>{item.totalMarkOf.presentation}</TableCell>
+                <TableCell>{item.isPresentCounts}</TableCell>
+                <TableCell>{item.isAbsentCounts}</TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
