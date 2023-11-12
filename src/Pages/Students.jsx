@@ -219,7 +219,7 @@ console.log(newStudent,'student datas');
 
   const handleUpdate = (id) => {
     // Update the fields with the new values if they are not empty
-    const updatedStudentData = { ...updateddata };
+    let updatedStudentData = { ...updateddata };
   
     if (updatedStudentData.selectedCourse) {
       // If a course is selected, set the course reference
@@ -231,6 +231,7 @@ console.log(newStudent,'student datas');
      
     }
 
+    
     console.log(updatedStudentData,'vbnm');
   
     // Similar logic for trainer and branch references
@@ -423,7 +424,18 @@ try{
     id: index + 1,
   }));
 
-
+  const handleSelectTrainer = (e, trainerId) => {
+    if (e.target.checked) {
+      setSelectedtrainer((prevSelectedTrainers) => [
+        ...prevSelectedTrainers,
+        trainerId
+      ]);
+    } else {
+      setSelectedtrainer((prevSelectedTrainers) =>
+        prevSelectedTrainers.filter((id) => id !== trainerId)
+      );
+    }
+  };
 
   return (
     <>
@@ -516,22 +528,24 @@ try{
               value={newStudent.linkedIn}
               onChange={handleInputChange}
             />
-            <select
-              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
-              multiple
-              name="selectedTrainer"
-              value={newStudent.selectedTrainer}
-              onChange={(e) => {
-                const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                setSelectedtrainer((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
-                console.log(selectedOptions);
-              }}
-            >
-              <option value="">Select Trainer</option>
-              {trainers?.map((item) => {
-                return <option value={item._id}>{item.name}</option>;
-              })}
-            </select>
+            
+            <div className="flex-col">
+  <label htmlFor="">Trainers Assigned:</label>
+  {trainers?.map((trainer) => (
+    <div key={trainer._id}>
+      <label>
+        <input
+          type="checkbox"
+          value={trainer._id}
+          checked={selectedtrainer.includes(trainer._id)}
+          onChange={(e) => handleSelectTrainer(e, trainer._id)}
+        />
+        {trainer.name}
+      </label>
+    </div>
+  ))}
+</div>
+
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
               name="selectedBranch"
@@ -658,7 +672,7 @@ try{
             />
             <div className="flex-col">
 
-            <label htmlFor="">trainers assigned</label>
+           
             
 
           {
@@ -668,23 +682,22 @@ try{
               
 }
               </div>
-            <select
-              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
-              name="selectedTrainer"
-              multiple
-              value={selectedtrainer}
-              onChange={(e) => {
-                const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                setSelectedtrainer((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
-                console.log(selectedOptions);
-              }}
-            >
-             
-              <option value="">{editviewdata.courses[0].trainerName}</option>
-              {trainers?.map((item) => {
-                return <option value={item._id}>{item.name}</option>;
-              })}
-            </select>
+              <div className="flex-col">
+  <label htmlFor="">Trainers Assigned:</label>
+  {trainers?.map((trainer) => (
+    <div key={trainer._id}>
+      <label>
+        <input
+          type="checkbox"
+          value={trainer._id}
+          checked={selectedtrainer.includes(trainer._id)}
+          onChange={(e) => handleSelectTrainer(e, trainer._id)}
+        />
+        {trainer.name}
+      </label>
+    </div>
+  ))}
+</div>
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
               name="selectedBranch"

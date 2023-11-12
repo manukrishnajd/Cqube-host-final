@@ -43,7 +43,7 @@ const Trainers = () => {
 const [viewBranch, setviewBranch] = useState([]);
 const [viewCourse, setviewCourse] = useState([]);
   const [trainerdata,settrainerdata]=useState([])
-  const [updateddata,setupdateddata]=useState()
+  let [updateddata,setupdateddata]=useState()
 
 
   const [data, setdata] = useState([]);
@@ -89,7 +89,7 @@ const [viewCourse, setviewCourse] = useState([]);
       email,
       branchRef,
       joinedDate,
-      courseRef:selectedCourses,
+      courseRef:selectedcourse,
       // image,
       // git,
       // linkedin,
@@ -112,6 +112,7 @@ const [viewCourse, setviewCourse] = useState([]);
     setBranch("");
     setCourse("");
   };
+  const [selectedcourse, setselectcourse] = useState([]);
 
   const gridColumns = [
     { field: "name", headerText: "Name", width: 100 },
@@ -177,24 +178,16 @@ const [viewCourse, setviewCourse] = useState([]);
 
   const handleUpdate = (id) => {
     // Update the fields with the new values if they are not empty
-    const updatedStudentData = { ...updateddata };
-  
-    if (updatedStudentData.selectedCourses) {
-      // If a course is selected, set the course reference
-      updatedStudentData.assignedCourseRef = updatedStudentData.selectedCourses;
-      // Remove the selectedCourse field, as it's not needed in the updated data
-     
-    } else {
-      // If no course is selected, remove the course reference from the update data
-     
+   
+    if(selectedcourse){
+      updateddata={...updateddata,courseRef:selectedcourse}
     }
-
-    console.log(updatedStudentData,'vbnm');
+    console.log(updateddata,'vbnm');
   
     // Similar logic for trainer and branch references
   
     // Update the student with the modified data
-    trainerdetailupdate(id, updatedStudentData).then((res) => {
+    trainerdetailupdate(id, updateddata).then((res) => {
       console.log(res, 'update response');
       setrefresh(!refresh);
       setview(!view)
@@ -213,6 +206,19 @@ const [viewCourse, setviewCourse] = useState([]);
       ...updateddata,
       courseRef: selectedCourseData,
     });
+  };
+
+  const handleSelectTrainer = (e, trainerId) => {
+    if (e.target.checked) {
+      setselectcourse((prevSelectedTrainers) => [
+        ...prevSelectedTrainers,
+        trainerId
+      ]);
+    } else {
+      setselectcourse((prevSelectedTrainers) =>
+        prevSelectedTrainers.filter((id) => id !== trainerId)
+      );
+    }
   };
 
   return (
@@ -307,23 +313,22 @@ const [viewCourse, setviewCourse] = useState([]);
               ))}
             </select>
             
-            <select
-  className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-  value={selectedCourses}
-  multiple
-  onChange={(e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-    setSelectedCourses((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
-    console.log(selectedOptions);
-  }}
->
-  
-  {viewCourse?.map((item) => (
-    <option key={item?._id} value={item?._id}>
-      {item?.name}
-    </option>
+            <div className="flex-col">
+  <label htmlFor="">Course:</label>
+  {viewCourse?.map((trainer) => (
+    <div key={trainer._id}>
+      <label>
+        <input
+          type="checkbox"
+          value={trainer._id}
+          checked={selectedcourse.includes(trainer._id)}
+          onChange={(e) => handleSelectTrainer(e, trainer._id)}
+        />
+        {trainer.name}
+      </label>
+    </div>
   ))}
-  </select>
+</div>
           </div>
           <button
             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
@@ -407,29 +412,22 @@ const [viewCourse, setviewCourse] = useState([]);
       </option>
       </>
     ))}
-  <select
-    className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-   multiple
-    name="courseRef"
-    onChange={(e) => {
-      const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-      setSelectedCourses((prevSelectedCourses) => [...prevSelectedCourses, ...selectedOptions]);
-      console.log(selectedOptions);
-    }}
-    >
-    
-    
-    {
-      viewCourse?.map((item)=>{
-        return(
-          <>
-            <option key={item?._id}   value={item?._id}>{item?.name}</option>
-          </>
-        )
-      })
-    }
-    {/* <option value="Course 2">Course 2</option> */}
-  </select>
+   <div className="flex-col">
+  <label htmlFor="">Course:</label>
+  {viewCourse?.map((trainer) => (
+    <div key={trainer._id}>
+      <label>
+        <input
+          type="checkbox"
+          value={trainer._id}
+          checked={selectedcourse.includes(trainer._id)}
+          onChange={(e) => handleSelectTrainer(e, trainer._id)}
+        />
+        {trainer.name}
+      </label>
+    </div>
+  ))}
+</div>
 </div>
 <button
               className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 hover:shadow-orange"

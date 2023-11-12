@@ -416,6 +416,11 @@ const[arrow,setarrow]=useState(false)
                 Topic
               </TableCell>
               <TableCell
+                style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
+              >
+                Course
+              </TableCell>
+              <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px",color:"white" }}
               >
                 Due Date
@@ -461,6 +466,7 @@ const[arrow,setarrow]=useState(false)
                 </TableCell>
 
                 <TableCell>{student.topic}</TableCell>
+                <TableCell>{student.courseRef.name}</TableCell>
                 <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
                 <TableCell>{student.type}</TableCell>
                 <TableCell>{student.mark}</TableCell>
