@@ -90,9 +90,9 @@ const [viewCourse, setviewCourse] = useState([]);
       branchRef,
       joinedDate,
       courseRef:selectedcourse,
-      // image,
-      // git,
-      // linkedin,
+      profilePic:image,
+      github:git,
+      linkedin,
     };
 
     addTrainer(newTrainer);

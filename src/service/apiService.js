@@ -727,3 +727,21 @@ export const AttendenceByCountfilterAdmin = async (stdate,enddate,id) => {
     throw new Error("Failed to fetch student: " + error.response.data.message);
   }
 }
+
+//reports
+export const getreports = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/reports`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};

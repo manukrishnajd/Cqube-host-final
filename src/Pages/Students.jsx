@@ -76,9 +76,11 @@ console.log(stddata,'jhkjj');
     "Select",
     "Name",
     "Course",
+    "Assigned by",
     "Phone Number",
     "Email",
     "Action",
+    "",
     ""
   ];
 
@@ -273,6 +275,7 @@ const handleedit=(id)=>{
       selectedTrainer,
       selectedBranch,
       selectedCourse,
+      image,
     } = newStudent;
   
     if (name && email && phone && selectedBranch && selectedCourse) {
@@ -291,6 +294,7 @@ const handleedit=(id)=>{
         github: git,
         linkedin: linkedIn,
         joinedDate: joinedDate,
+        profilePic:image
       };
   
       addStudent(newStudentData)
@@ -791,11 +795,34 @@ try{
                     />
                   </TableCell>
                   <TableCell>{student.name}</TableCell>
-                  <TableCell>
                     {student?.courses?.map((course, index) => (
+                      <>
+                  <TableCell>
                       <span key={index}>{course.name}</span>
-                    ))} 
                   </TableCell>
+                  {course.trainerName &&
+
+                    <TableCell>
+
+                      <span key={index}>{course.trainerName}</span>
+                  </TableCell>
+                    
+                  }
+                { course.trainerName ==null &&
+
+                  <TableCell>
+                    
+                    <span key={index}>Admin</span>
+                    </TableCell>
+                  }
+                    
+                  
+                      </>
+                    ))} 
+                  {/* <TableCell>{student?.courses?.map((course, index) => (
+                      // <span key={index}>{assigned.name}</span>
+                    ))}
+                     </TableCell> */}
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>
