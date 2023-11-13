@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
+import ExcelJS from "exceljs";
 import {
   Button,
   Paper,
@@ -108,21 +109,23 @@ const[arrow,setarrow]=useState(false)
     }
     setarrow(!arrow)
   };
-  const renderStudentDetails = (student, rowIndex) => {
+  const renderStudentDetails = (course, rowIndex) => {
     if (rowIndex === expandedRow) {
       return (
         <>
           <TableRow className="bg-slate-400 ">
-            <TableCell>SI.NO</TableCell>
+          
             <TableCell>Sub Course</TableCell>
             <TableCell>Student</TableCell>
+            <TableCell>No.of students</TableCell>
+            <TableCell></TableCell>
           </TableRow>
 
-          {course.map((course, index) => (
+          {course?.courses?.map((course, index) => (
             <TableRow className="bg-white" key={index}>
               <TableCell>{course?.name}</TableCell>
               <TableCell>{course?.createdAt}</TableCell>
-              <TableCell>{course?.studetns?.length}</TableCell>
+              <TableCell>{course?.getStudents?.length}</TableCell>
             </TableRow>
           ))}
         </>
@@ -130,12 +133,65 @@ const[arrow,setarrow]=useState(false)
     }
   };
 
+  const handleExportToExcel = () => {
+    if (course && course.length > 0) {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("StudentReport");
+  
+      // Add headers
+      worksheet.addRow([
+        "name",
+        "Date",
+        'No.of students'
+      ]);
+  
+      // Add data
+      course.forEach((item) => {
+        item.courses?.forEach((course) => {
+          worksheet.addRow([
+            course?.name|| 0,
+            course?.createdAt|| '',
+            course?.getStudents?.length || '',
+          ]);
+        });
+      });
+  
+      // Save the workbook
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        const blob = new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "StudentReport.xlsx";
+        link.click();
+      });
+    } else {
+      // Handle the case where activityResponse is empty or undefined
+      console.error("No data to export");
+    }
+  };
+  
+
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
+    <Button
+        className="mb-4"
+        variant="contained"
+        color="primary"
+        onClick={handleExportToExcel}
+      >
+        Export to Excel
+      </Button>
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow className="h-2">
+          <TableCell
+                style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
+              >
+                
+              </TableCell>
           <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
@@ -144,9 +200,14 @@ const[arrow,setarrow]=useState(false)
               <TableCell
                 style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
               >
+               Details
+              </TableCell>
+              <TableCell
+                style={{ backgroundColor: "#475569", fontSize: "15px", color:"white" }}
+              >
                 created date
               </TableCell>
-        
+              
           </TableRow>
         </TableHead>
         <TableBody>
@@ -166,7 +227,7 @@ const[arrow,setarrow]=useState(false)
 
                 <TableCell>{student?.name}</TableCell>
                 <TableCell>{new Date(student?.createdAt).toLocaleDateString('en-GB')}</TableCell>
-                <TableCell>{student?.studetns?.length}</TableCell>
+                <TableCell>{student?.details}</TableCell>
                
               </TableRow>
              

@@ -151,7 +151,7 @@ function AdminStudentReport() {
   
 
   return (
-    <div>
+    <div className="w-1000">
       <Button
         className="mb-4"
         variant="contained"
