@@ -204,9 +204,7 @@ console.log(stddata,'jhkjj');
     const handleUpdateInputChange = (e) => {
       
      setupdateddata({...updateddata,[e.target.name]:e.target.value})
-     if(image){
-      setupdateddata({...updateddata,profilePic:image})
-     }
+     
     };
   
 
@@ -236,7 +234,9 @@ const handleUpdate = (id) => {
     // For example, you can set it to an empty array or remove the field.
     // updatedStudentData.assignedTrainersRef = [];
   }
-
+if(image){
+  updatedStudentData.profilePic = image;
+}
   // Update the student with the modified data
   console.log(updatedStudentData,'updates');
   updateStudentById(id, updatedStudentData).then((res) => {
@@ -819,7 +819,7 @@ try{
                       }
                     />
                   </TableCell>
-                  <TableCell><img src={student.profilePic} width={100} alt="" /></TableCell>
+                  <TableCell><img src={student.profilePic} width={100} height={100} style={{borderRadius:'50%'}} alt="" /></TableCell>
                   <TableCell>{student.name}</TableCell>
                     {student?.courses?.map((course, index) => (
                       <>
