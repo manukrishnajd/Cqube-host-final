@@ -221,33 +221,27 @@ console.log(stddata,'jhkjj');
 
 console.log(newStudent,'student datas');
 
-  const handleUpdate = (id) => {
-    // Update the fields with the new values if they are not empty
-    let updatedStudentData = { ...updateddata };
-  
-    if (updatedStudentData.selectedCourse) {
-      // If a course is selected, set the course reference
-      updatedStudentData.assignedCourseRef = updatedStudentData.selectedCourse;
-      // Remove the selectedCourse field, as it's not needed in the updated data
-     
-    } 
-    if(selectedtrainer){
-      updatedStudentData.assignedTrainersRef=updatedStudentData.selectedtrainer
-    }
+const handleUpdate = (id) => {
+  // Update the fields with the new values if they are not empty
+  let updatedStudentData = { ...updateddata };
 
-    
-    console.log(updatedStudentData,'vbnm');
-  
-    // Similar logic for trainer and branch references
-  
-    // Update the student with the modified data
-    updateStudentById(id, updatedStudentData).then((res) => {
-      console.log(res, 'update response');
-      setrefresh(!refresh);
-      setview(!view)
-    });
-  };
+  // Set the assignedTrainersRef based on selected trainers
+  if (selectedtrainer.length > 0) {
+    updatedStudentData.assignedTrainersRef = selectedtrainer;
+  } else {
+    // If no trainers are selected, you may want to handle this case accordingly.
+    // For example, you can set it to an empty array or remove the field.
+    // updatedStudentData.assignedTrainersRef = [];
+  }
 
+  // Update the student with the modified data
+  console.log(updatedStudentData,'updates');
+  updateStudentById(id, updatedStudentData).then((res) => {
+    console.log(res, 'update response');
+    setrefresh(!refresh);
+    setview(!view);
+  });
+};
 
 
 console.log(editviewdata,'editview');
@@ -431,21 +425,32 @@ try{
   }));
 
   const handleSelectTrainer = (e, trainerId) => {
+    console.log(trainerId,'sdih');
     if (e.target.checked) {
+      // If the checkbox is checked, add the trainer to selected trainers
       setSelectedtrainer((prevSelectedTrainers) => [
         ...prevSelectedTrainers,
         trainerId
       ]);
+      console.log('');
     } else {
+      // If the checkbox is unchecked, remove the trainer from selected trainers
       setSelectedtrainer((prevSelectedTrainers) =>
         prevSelectedTrainers.filter((id) => id !== trainerId)
       );
     }
-    setupdateddata({
-      ...updateddata,
-      assignedTrainersRef: selectedtrainer
-    });
+  
+    // Update the updateddata state with selected trainers
+    if(selectedtrainer){
+
+      setupdateddata({
+        ...updateddata,
+        assignedTrainersRef: selectedtrainer
+      });
+    }
   };
+  
+  console.log(selectedtrainer,'def');
 
   return (
     <>
@@ -542,7 +547,9 @@ try{
             <div className="flex-col">
   <label htmlFor="">Trainers Assigned:</label>
   {trainers?.map((trainer) => (
+    
     <div key={trainer._id}>
+      
       <label>
         <input
           type="checkbox"
@@ -710,11 +717,11 @@ try{
 </div>
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
-              name="selectedBranch"
+              name="branchRef"
               value={updateddata?.selectedBranch}
               onChange={handleUpdateInputChange}
               >
-              <option value="">{editviewdata.branchName}</option>
+              <option disabled value="">{editviewdata.branchName}</option>
               {branches?.map((branch) => (
                 <option key={branch._id} value={branch._id}>
                   {branch.name}
