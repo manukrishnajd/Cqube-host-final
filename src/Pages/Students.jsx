@@ -230,9 +230,9 @@ console.log(newStudent,'student datas');
       updatedStudentData.assignedCourseRef = updatedStudentData.selectedCourse;
       // Remove the selectedCourse field, as it's not needed in the updated data
      
-    } else {
-      // If no course is selected, remove the course reference from the update data
-     
+    } 
+    if(selectedtrainer){
+      updatedStudentData.assignedTrainersRef=updatedStudentData.selectedtrainer
     }
 
     
@@ -441,6 +441,10 @@ try{
         prevSelectedTrainers.filter((id) => id !== trainerId)
       );
     }
+    setupdateddata({
+      ...updateddata,
+      assignedTrainersRef: selectedtrainer
+    });
   };
 
   return (
@@ -680,13 +684,13 @@ try{
 
            
             
-
+{/* 
           {
             editviewdata?.courses[0]?.assignedTrainersRef.map((item, index) => (
               <li className="list-none" key={index}>{item.name}</li>
               ))
               
-}
+} */}
               </div>
               <div className="flex-col">
   {/* <label htmlFor="">Trainers Assigned:</label> */}
