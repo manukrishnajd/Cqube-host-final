@@ -4,11 +4,9 @@ import "./Login.css";
 import logo from '../../src/logo.png';
 import { BiSupport } from 'react-icons/bi';
 import { IoIosNotifications } from 'react-icons/io';
-import axios from 'axios';
 
 // Replace this import with your actual API service
 import { resetPassword } from '../Components/Student/apiServices';
-import { Password } from '@mui/icons-material/Password';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');

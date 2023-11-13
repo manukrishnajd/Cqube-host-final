@@ -14,9 +14,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { errorToastify, successToastify } from "../Components/Student/toastify";
 
 import { Header } from "../Components";
-import CourseDetailsModal from "./CourseDetailsModal"; // Assuming you have a modal component for displaying course details
 import {
-  addcourse,
   updateCourse,
   deleteCourse,
   getCourse,
@@ -40,11 +38,7 @@ const Courses = () => {
   const [subcourse, setSubcourse] = useState([]);
   // ------------------
   const [courseForAdding, setCourseForAdding] = useState([]);
-  const [data, setdata] = useState([]);
   const tableHeaders = ["Name", "Created date", "Updated date", "Action"];
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentData = courses.slice(indexOfFirstRow, indexOfLastRow);
   const totalPages = Math.ceil(courses.length / rowsPerPage);
   
   
@@ -95,13 +89,6 @@ console.log(newCourse,'-courseee by typing');
     });
   };
 
-  const handleFileInputChange = (e) => {
-    const { name, files } = e.target;
-    setNewCourse({
-      ...newCourse,
-      [name]: files[0],
-    });
-  };
 
   const handleAddCourse = async(e) => {
 
@@ -159,55 +146,14 @@ console.log(newCourse,'-courseee by typing');
     setIsModalVisible(true);
   };
 
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
 
   useEffect(() => {
     fetchDetails();
   }, [refresh]);
 
-  const gridColumns = [
-    { field: "name", headerText: "Course Name", width: 200 },
-    { field: "syllabusFile", headerText: "Syllabus File", width: 200 },
-    {
-      field: "courseMaterialFile",
-      headerText: "Course Material File",
-      width: 200,
-    },
-    {
-      headerText: "Actions",
-      width: 120,
-      template: (rowdata) => {
-        return (
-          <div>
-            <button
-              className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 ml-2"
-              onClick={() => handleEditRow(rowdata)}
-            >
-              Edit
-            </button>
-            <button
-              className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700 ml-2"
-              onClick={() => handleViewRow(rowdata)}
-            >
-              View
-            </button>
-            <button
-              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 ml-2"
-              onClick={() => handleDeleteCourse(rowdata.id)}
-            >
-              Delete
-            </button>
-          </div>
-        );
-      },
-    },
-  ];
 
-  // const gridData = courses.map((course, index) => ({
-  //   ...course,
-  //   id: index + 1,
+
+
   // }));
 
   return (

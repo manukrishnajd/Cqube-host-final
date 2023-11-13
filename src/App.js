@@ -4,14 +4,12 @@ import Landing from "./Pages/Landing";
 import Login from "./auth/Login";
 import "./App.css";
 import Layout from "./Admin/Layout";
-import TrainerDash from "./Components/AdminDashboardd";
 import TrainerLogin from "./Trainer/TrainerLogin";
 
 
 import StudentDash from './Components/Student/StudentDash'
 import CourseCard from './Components/Student/CourseCard'
 import StudentForgetPass from './auth/forget'
-// import StudentViewpage from './Components/Student/StudentViewpage'
 import AttendenceCard from './Components/Student/AttendenceCard'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +20,7 @@ import StudentProfile from './Components/Student/StudentProfile'
 
 import Students from './Pages/Students'
 
-import { Calendar, Courses, Kanban, Pie, ViewPage } from './Pages'
+import {  Courses, ViewPage } from './Pages'
 
 import StudentLayout from './Components/Student/StudentLayout'
 
@@ -52,8 +50,6 @@ import AdminLogin from "./auth/AdminLogin";
 import AdminTask from "./Pages/AdminTask";
 import AdminAddActivity from "./Pages/Add_Activity";
 import ResetPassword from "./auth/ResetPassword";
-import StudentUserProfile from "./Components/Student/StudentUserProfile";
-import AdminStudentdetail from "./Pages/AdminStudent_detail";
 import AdminAttendPie from "./Pages/AdminAttendanceReport";
 import AddNotification from "./Pages/AddNotification";
 

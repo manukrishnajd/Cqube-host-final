@@ -31,11 +31,7 @@ const Students = () => {
   const [notes, setNotes] = useState(""); // Define and initialize 'notes' state
   const [mark, setMark] = useState("");
   const [presenttype, setpresenttype] = useState("");
-  const [activitydata, setactivityData] = useState([]);
 
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  //activity usestates
 
   // Utility function to get the courseRef.id
   const getCourseRefId = (student) => {
@@ -81,10 +77,7 @@ const Students = () => {
     setIsModalOpen(false);
   };
 
-  const [selectedStudents, setSelectedStudents] = useState([]);
-  const [taskDescription, setTaskDescription] = useState("");
   const [duedate, setDueDate] = useState("");
-  const [selectAll, setSelectAll] = useState(false); // State to track if all students are selected
   const [meetlink, setmeetlink] = useState("");
   const [venue, setvenue] = useState("");
   useEffect(() => {
@@ -173,6 +166,7 @@ const Students = () => {
     switch (selectedType) {
       case "evaluate":
         return (
+        
           <div className="bg-white p-4 rounded-lg shadow-md">
             <div className="mb-4">
               <span className="font-bold">Submission Date and Time : </span>{" "}
@@ -185,20 +179,6 @@ const Students = () => {
                   Topic :
                 </label>
               </div>
-              {/* <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-800">
-              Student:
-            </label>
-            <input
-              type="text"
-              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              value={
-                students.find((student) => student.id === selectedStudentId)
-                  ?.name || ""
-              }
-              readOnly
-            />
-          </div> */}
               <div className="mb-4">
                 <label className="block text-lg font-medium text-gray-800">
                   Answer:
@@ -530,7 +510,6 @@ const Students = () => {
   };
 
   //activity end
-  console.log(selectedStudentIds,'student ids');
   return (
     <div className="container mx-auto p-3 text-white rounded-3xl">
       <div className="container mx-auto p-4">

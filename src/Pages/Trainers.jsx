@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FileBase64 from 'react-filebase64';
 import { Header } from "../Components";
 import { useEffect } from "react";
-import { addTrainer, viewbranch ,getCourse, getAllTrainers, updateTrainer, getAllBranches, updateStudentById, trainerdetailupdate, trainerdetaildelete } from "../service/apiService";
+import { addTrainer ,getCourse, getAllTrainers, getAllBranches, trainerdetailupdate, trainerdetaildelete } from "../service/apiService";
 import {
   Paper,
   Table,
@@ -64,7 +64,6 @@ const [viewCourse, setviewCourse] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
   const [view,setview]=useState(false)
   const [editviewdata,seteditviewdata]=useState({})
-  const [selectedCourses, setSelectedCourses] = useState([]);
 
 
   const handleedit=(id)=>{

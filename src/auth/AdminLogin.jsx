@@ -4,10 +4,7 @@ import  "./Login.css";
 import logo from '../../src/logo.png'
 import { BiSupport } from 'react-icons/bi';
 import { IoIosNotifications } from 'react-icons/io';
-import axios from 'axios';
-import { login } from '../Components/Student/apiServices';
 import { loginAdmin } from '../service/apiService';
-import { errorToastify } from '../Components/Student/toastify';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -17,7 +14,7 @@ const AdminLogin = () => {
 
   const handleLogin = async () => {
     const data = { email: email, password: password };
-    console.log(data,'data')
+     
     try {
       const response = await loginAdmin(data);
       console.log(response, 'responses');

@@ -1,28 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
-import { errorToastify } from "../Components/Student/toastify";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:4000/api/";
 
-const API_ROUTES = {
-  STUDENTS: "student",
-  STUDENTS_Register: "student/register",
-  COURSES: "course",
-  SUBCOURSES: "subcourse",
-  BRANCHES: "branch",
-  NOTIFICATIONS: "notification",
-  AUTH: "auth",
-  TRAINER: "trainer",
-  LOGIN: "adminlogin",
-};
 
-const buildUrl = (route) => `${BASE_URL}${route}`;
 
 
 
   const token = localStorage.getItem("token")
-  const adid=localStorage.getItem("id")
 
 //verification
 export const useTokenVerification = () => {

@@ -10,23 +10,9 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import Modal from 'react-modal'
 
 const Activity = () => {
-  const [selectedStudentId, setSelectedStudentId] = useState('');
-    const [taskDescription, setTaskDescription] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const handleSubmit = (e) => {
-      e.preventDefault();
-  
-      // Perform task assignment logic here, using selectedStudentId, taskDescription, and dueDate
-  
-      // Clear form fields and close the modal
-      setSelectedStudentId('');
-      setTaskDescription('');
-      setDueDate('');
-      setIsModalOpen(false);
-    };
+
   
   const initialStudents = [
     {
@@ -63,11 +49,7 @@ const Activity = () => {
     }
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState('');
-
   
-
   return (
     <div>
 
