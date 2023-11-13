@@ -19,7 +19,8 @@ const UserProfile = () => {
   };
 
   const handleLogout = () => {
-    navigate('/login'); // Navigate to the login page
+    localStorage.removeItem('token')
+    navigate('/adminlogin'); // Navigate to the login page
   };
   return (
     <div
@@ -48,9 +49,9 @@ const UserProfile = () => {
      
       </div>
       <div className="mt-5">
-  <a href="/login" className="text-orange-400">
-    <AiOutlineLogout style={{ fontSize: '30px' }} />
-  </a>
+
+    <AiOutlineLogout onClick={handleLogout} style={{ fontSize: '30px' }} />
+
 </div>
 
     </div>
