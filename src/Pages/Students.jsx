@@ -204,6 +204,9 @@ console.log(stddata,'jhkjj');
     const handleUpdateInputChange = (e) => {
       
      setupdateddata({...updateddata,[e.target.name]:e.target.value})
+     if(image){
+      setupdateddata({...updateddata,profilePic:image})
+     }
     };
   
 
@@ -713,7 +716,16 @@ try{
         {trainer.name}
       </label>
     </div>
+    
   ))}
+</div>
+<div>
+<FileBase64
+       
+       onDone={((res)=>{
+         console.log(res.base64,'responsesd');
+         setimage(res.base64)
+       })} />
 </div>
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
@@ -807,6 +819,7 @@ try{
                       }
                     />
                   </TableCell>
+                  <TableCell><img src={student.profilePic} width={100} alt="" /></TableCell>
                   <TableCell>{student.name}</TableCell>
                     {student?.courses?.map((course, index) => (
                       <>
