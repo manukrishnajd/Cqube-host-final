@@ -498,7 +498,7 @@ try{
              <FileBase64
        
        onDone={((res)=>{
-         console.log(res.base64,'responsesd');
+         console.log(res.btrase64,'responsesd');
          setimage(res.base64)
        })} />
     
