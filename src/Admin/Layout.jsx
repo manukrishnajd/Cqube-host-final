@@ -12,7 +12,7 @@ import { IoIosHome } from 'react-icons/io';
 import Footer from '../Components/dashboard component/Footer';
 import { GrAddCircle } from 'react-icons/gr';
 import { BiTask } from 'react-icons/bi';
-import { useTokenVerification } from '../service/trainerService';
+import { useTokenVerification } from '../service/apiService';
 
 
 const Layout = () => {
