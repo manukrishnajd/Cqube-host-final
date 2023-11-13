@@ -21,11 +21,11 @@ const AdminReportsPage = () => {
           onClick={() => handleTabClick('Student')}
           
         />
-        <TabButton
+        {/* <TabButton
           label="Attendance"
           activeTab={activeTab}
           onClick={() => handleTabClick('Attendance')}
-        />
+        /> */}
         <TabButton
           label="Courses"
           activeTab={activeTab}
