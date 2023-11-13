@@ -26,6 +26,8 @@ function AdminStudentReport() {
 
   const [activityResponse, setactivityResponse] = useState([]);
 
+  console.log(activityResponse,'data');
+
   useEffect(() => {
     fetchdata();
   }, []);
@@ -327,18 +329,6 @@ function AdminStudentReport() {
                 <TableCell>{item.activities?.task?.length || 0}</TableCell>
 <TableCell>{item.activities?.test?.length || 0}</TableCell>
 <TableCell>{item.activities?.presentation?.length || 0}</TableCell>
-                {/* {item.activities.task.map((task)=>(
-               <TableCell>{task.mark}</TableCell>
-              
-             ))}
-             {item.activities.test.map((test)=>(
-               <TableCell>{test.mark}</TableCell>
-              
-             ))}
-             {item.activities.presentation.map((presentation)=>(
-               <TableCell>{presentation.mark}</TableCell>
-               
-               ))} */}
                 <TableCell>{item.totalMarkOf.task}</TableCell>
                 <TableCell>{item.totalMarkOf.test}</TableCell>
                 <TableCell>{item.totalMarkOf.presentation}</TableCell>
