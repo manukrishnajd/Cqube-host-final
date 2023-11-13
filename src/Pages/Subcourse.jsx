@@ -122,29 +122,10 @@ console.log(newCourse,'-courseee by typing');
     }
   };
 
-  const handleEditRow = (course) => {
-    setNewCourse({ ...course });
-    setEditingIndex(courses.indexOf(course));
-  };
 
-  const handleDeleteCourse = async (courseId) => {
-    try {
-      await deleteCourse(courseId);
-      const updatedCourses = courses.filter((course) => course.id !== courseId);
-      setCourses(updatedCourses);
-      setGridKey((prevKey) => prevKey + 1);
-    } catch (error) {
-      console.error("Failed to delete course: ", error.message);
-    }
-  };
 
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  
 
-  const handleViewRow = (course) => {
-    setSelectedCourse(course);
-    setIsModalVisible(true);
-  };
 
 
   useEffect(() => {
@@ -270,12 +251,7 @@ console.log(newCourse,'-courseee by typing');
 
        
 
-        {/* {selectedCourse && (
-          <CourseDetailsModal
-            selectedCourse={selectedCourse}
-            toggleModal={toggleModal}
-          />
-        )} */}
+       
       </div>
     </div>
   );
