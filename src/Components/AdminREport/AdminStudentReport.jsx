@@ -12,21 +12,40 @@ import {
 } from "@material-ui/core";
 import ExcelJS from "exceljs";
 import { getreports } from "../../service/apiService";
+import { filter } from "@syncfusion/ej2/maps";
 function AdminStudentReport() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [startdate, setstartdate] = useState();
+  const [enddate, setenddate] = useState();
+  const [filteredData, setFilteredData] = useState([]);
+
+ 
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset to the first page when changing rows per page
   };
 
+  const handleSubmit = () => {
+    console.log("clicked");
+    // Filter the data based on startdate and enddate
+    const filteredData = activityResponse.filter((item) => {
+      const joiningDate = new Date(item.joinedDate);
+      console.log(joiningDate,'jjjkk');
+      return joiningDate >= new Date(startdate) && joiningDate <= new Date(enddate);
+    });
+    setFilteredData(filteredData);
+  };
+
+  console.log(filteredData,'dfghjk');
+
   // Define activityResponse, handleChangePage, and other necessary data/functions here.
   // You should replace the following placeholders with your actual data.
 
   const [activityResponse, setactivityResponse] = useState([]);
 
-  console.log(activityResponse,'data');
+  console.log(activityResponse, "data");
 
   useEffect(() => {
     fetchdata();
@@ -35,8 +54,14 @@ function AdminStudentReport() {
   async function fetchdata() {
     let res = await getreports();
     console.log(res, "reports fetch");
-    setactivityResponse(res);
+
+    setactivityResponse(res)
+    
   }
+
+  // ...
+
+  // ...
 
   // const activityResponse = [
   //   {
@@ -86,11 +111,21 @@ function AdminStudentReport() {
     setPage(newPage);
   };
 
+  const handleStartDate = (e) => {
+    setstartdate(e.target.value);
+  };
+  const handleEndDate = (e) => {
+    setenddate(e.target.value);
+  };
+
+  
+
+
   const handleExportToExcel = () => {
     if (activityResponse && activityResponse.length > 0) {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("StudentReport");
-  
+
       // Add headers
       worksheet.addRow([
         "SI:NO",
@@ -110,18 +145,18 @@ function AdminStudentReport() {
         "present days",
         "absent days",
       ]);
-  
+
       // Add data
       activityResponse.forEach((item) => {
         item.courses?.forEach((course) => {
           worksheet.addRow([
             item?.siNo || 0,
-            item?.name || '',
-            course?.courseName || '',
-            course?.trainerName || '',
-            item?.phoneNumber || '',
-            item?.branchName || '',
-            item?.email || '',
+            item?.name || "",
+            course?.courseName || "",
+            course?.trainerName || "",
+            item?.phoneNumber || "",
+            item?.branchName || "",
+            item?.email || "",
             item?.activities?.task?.length || 0,
             item?.activities?.test?.length || 0,
             item?.activities?.presentation?.length || 0,
@@ -134,7 +169,7 @@ function AdminStudentReport() {
           ]);
         });
       });
-  
+
       // Save the workbook
       workbook.xlsx.writeBuffer().then((buffer) => {
         const blob = new Blob([buffer], {
@@ -150,7 +185,6 @@ function AdminStudentReport() {
       console.error("No data to export");
     }
   };
-  
 
   return (
     <div className="">
@@ -162,6 +196,9 @@ function AdminStudentReport() {
       >
         Export to Excel
       </Button>
+      <input onChange={handleStartDate} type="date" />
+      <input onChange={handleEndDate} type="date" />
+      <input onClick={handleSubmit} type="submit" />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -327,8 +364,10 @@ function AdminStudentReport() {
                 <TableCell>{item.branchName}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>{item.activities?.task?.length || 0}</TableCell>
-<TableCell>{item.activities?.test?.length || 0}</TableCell>
-<TableCell>{item.activities?.presentation?.length || 0}</TableCell>
+                <TableCell>{item.activities?.test?.length || 0}</TableCell>
+                <TableCell>
+                  {item.activities?.presentation?.length || 0}
+                </TableCell>
                 <TableCell>{item.totalMarkOf.task}</TableCell>
                 <TableCell>{item.totalMarkOf.test}</TableCell>
                 <TableCell>{item.totalMarkOf.presentation}</TableCell>
