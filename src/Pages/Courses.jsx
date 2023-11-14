@@ -38,7 +38,7 @@ const Courses = () => {
   const [refresh, setRefresh] = useState(false);
   const [courses, setCourses] = useState([]);
   const [data, setdata] = useState([]);
-  const tableHeaders = ["Name", "Created date", "Updated date", "Action",''];
+  const tableHeaders = ["Name", "Created date", "Updated date", "Details",''];
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentData = courses.slice(indexOfFirstRow, indexOfLastRow);
