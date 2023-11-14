@@ -7,7 +7,7 @@ const TrainerChart = ({ width, height, data }) => {
     
       id="trainerChart"
       primaryXAxis={{ valueType: 'Category', majorGridLines: { width: 0 } }} // Hide the major grid lines on the x-axis
-      primaryYAxis={{ title: 'Total Trainers', majorGridLines: { width: 0 }, minimum: 0, maximum: 10, interval: 1 }}
+      primaryYAxis={{ title: 'Total Trainers', majorGridLines: { width: 0 }, minimum: 0, interval: 1 }}
       width={width}
       height={height}
       chartArea={{ border: { width: 0  } }}

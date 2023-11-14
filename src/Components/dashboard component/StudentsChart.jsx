@@ -6,7 +6,7 @@ const StudentChart = ({ width, height, data }) => {
     <ChartComponent
     id="studentChart"
     primaryXAxis={{ valueType: 'Category', majorGridLines: { width: 0 } }}
-    primaryYAxis={{ title: 'Total Students', majorGridLines: { width: 0 }, minimum: 0, maximum: 10, interval: 1 }}
+    primaryYAxis={{ title: 'Total Students', majorGridLines: { width: 0 }, minimum: 0, interval: 1 }}
     width={width}
     height={height}
     chartArea={{ border: { width: 0 }  }}
