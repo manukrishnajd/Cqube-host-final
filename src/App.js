@@ -52,6 +52,7 @@ import AdminAddActivity from "./Pages/Add_Activity";
 import ResetPassword from "./auth/ResetPassword";
 import AdminAttendPie from "./Pages/AdminAttendanceReport";
 import AddNotification from "./Pages/AddNotification";
+import TrainerViewProfile from "./Trainer/TrainerViewProfile";
 
 
 
@@ -92,6 +93,8 @@ const App = () => {
           </Route>
           {/* trainer */}
           <Route path="/trainer" element={<TrainerLayout />}>
+          <Route path="trainerprofile" element={<TrainerViewProfile/>} />
+
             <Route path="student" element={<StudentTable />} />
             <Route path="detail/:student_id" element={<AdminAttendPie />} />
             <Route path="activity" element={<TrainerTask />} />

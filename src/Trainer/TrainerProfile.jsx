@@ -6,7 +6,7 @@ import { useStateContext } from '../Contexts/ContextProvider';
 import avatar from '../Data/avatar.jpg';
 import { HiOutlineSortAscending } from 'react-icons/hi';
 import './UserProfile.css'; // Import the CSS file for animations
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useEffect } from 'react';
 import { trainerdetail } from '../service/trainerService';
@@ -67,6 +67,7 @@ const logout=()=>{
         <div>
           <p className="font-semibold text-xl dark:text-gray-200"> {data.name} </p>
           <p className="text-gray-500 text-sm dark:text-gray-400"> Trainer </p>
+         <Link to='/trainer/trainerprofile'> <button className='bg-slate-400 p-5'>view profile</button></Link>
         </div>
       </div>
       

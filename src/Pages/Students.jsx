@@ -204,6 +204,7 @@ console.log(stddata,'jhkjj');
     const handleUpdateInputChange = (e) => {
       
      setupdateddata({...updateddata,[e.target.name]:e.target.value})
+     
     };
   
 
@@ -233,7 +234,9 @@ const handleUpdate = (id) => {
     // For example, you can set it to an empty array or remove the field.
     // updatedStudentData.assignedTrainersRef = [];
   }
-
+if(image){
+  updatedStudentData.profilePic = image;
+}
   // Update the student with the modified data
   console.log(updatedStudentData,'updates');
   updateStudentById(id, updatedStudentData).then((res) => {
@@ -495,7 +498,7 @@ try{
              <FileBase64
        
        onDone={((res)=>{
-         console.log(res.base64,'responsesd');
+         console.log(res.btrase64,'responsesd');
          setimage(res.base64)
        })} />
     
@@ -713,7 +716,16 @@ try{
         {trainer.name}
       </label>
     </div>
+    
   ))}
+</div>
+<div>
+<FileBase64
+       
+       onDone={((res)=>{
+         console.log(res.base64,'responsesd');
+         setimage(res.base64)
+       })} />
 </div>
             <select
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
@@ -807,6 +819,7 @@ try{
                       }
                     />
                   </TableCell>
+                  <TableCell><img src={student.profilePic} width={100} height={100} style={{borderRadius:'50%'}} alt="" /></TableCell>
                   <TableCell>{student.name}</TableCell>
                     {student?.courses?.map((course, index) => (
                       <>
