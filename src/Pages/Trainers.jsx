@@ -22,7 +22,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { errorToastify } from "../Components/Student/toastify";
+import { errorToastify, successToastify } from "../Components/Student/toastify";
 import { trainerdetail } from "../service/trainerService";
 import { toast } from "react-toastify";
 
@@ -93,10 +93,12 @@ const Trainers = () => {
       };
 
       addTrainer(newTrainer);
+      
 
       setGridData(data);
       clearFields();
       setrefresh(!refresh);
+     
     } catch (error) {
       errorToastify(error?.message);
     }
@@ -160,7 +162,7 @@ const Trainers = () => {
   const handledelete = (id) => {
     try {
       trainerdetaildelete(id);
-      toast("deleted succesffully");
+      successToastify("deleted succesffully");
       setrefresh(!refresh);
     } catch (error) {
       errorToastify(error?.message);
