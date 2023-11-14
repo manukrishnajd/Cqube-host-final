@@ -514,6 +514,46 @@ export const getSubCourse = async () => {
     }
 };
 
+//course by trainer
+
+export const getcoursebytrainer = async (trid) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/course/coursebytrainer/${trid}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
+
+//
+export const getgraphdata = async (trid) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/reports/yearwise?year=2023`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response", response);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+    }
+};
 
 
 //Trainer

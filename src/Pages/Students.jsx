@@ -28,6 +28,7 @@ import {
   getStudent,
   getStudentbyid,
   getSubCourse,
+  getcoursebytrainer,
   updateStudentById,
 } from "../service/apiService";
 import { errorToastify } from "../Components/Student/toastify";
@@ -69,7 +70,7 @@ const [view,setview]=useState(false)
   const [stddata,setstddata]=useState([])
 
 
-  
+
 
 console.log(stddata,'jhkjj');
   const tableHeaders = [
@@ -167,19 +168,22 @@ console.log(stddata,'jhkjj');
 
   useEffect(async() => {
     const response = await getAllBranches();
+    setBranches(response);
 
       const coursesData = await getSubCourse();
    
-    
       setCourseData(coursesData.result)
-      setBranches(response);
+    
     getAllTrainers().then((response) => {
       setTrainers(response);
       getStudent().then((res)=>{
         console.log(res,'responsedsdsjdh');
         setStudents(res)
       })
-    });
+  
+       
+      
+      });
     const delay = 500; // 500ms debounce delay
 
     const debounceSearch = setTimeout(() => {
@@ -191,8 +195,14 @@ console.log(stddata,'jhkjj');
   }, [searchQuery,refresh]);
 
 
+const [datachange,setdatachange]=useState(false)
 
-
+useEffect(()=>{
+  getcoursebytrainer(selectedtrainer).then((res)=>{
+          
+    console.log(res,'ciursedatass');
+  })
+},[datachange])
 
 
   const filteredStudents = debouncedSearchTerm
@@ -435,6 +445,7 @@ try{
         ...prevSelectedTrainers,
         trainerId
       ]);
+      setdatachange(!datachange)
       console.log('');
     } else {
       // If the checkbox is unchecked, remove the trainer from selected trainers
