@@ -7,40 +7,44 @@ import TrainerChart from "./dashboard component/TrainersChart";
 import CoursesChart from "./dashboard component/CoursesChart";
 import { useStateContext } from "../Contexts/ContextProvider";
 import Pie from "../Pages/Charts/StudentCourseChart";
-import { studentCountbyCourse } from "../service/apiService";
+import { getgraphdata, studentCountbyCourse } from "../service/apiService";
 import { errorToastify } from "./Student/toastify";
 
 const AdminDash = () => {
   const { } = useStateContext();
-  const studentData = [
-    { month: "Jan", count: 200 },
-    { month: "Feb", count: 250 },
-    { month: "Mar", count: 300 },
-    { month: "Apr", count: 280 },
-    { month: "May", count: 270 },
-    { month: "Jun", count: 290 },
-    { month: "Jul", count: 310 },
-    { month: "Aug", count: 320 },
-    { month: "Sep", count: 340 },
-    { month: "Oct", count: 360 },
-    { month: "Nov", count: 380 },
-    { month: "Dec", count: 400 },
-  ];
 
-  const trainerData = [
-    { month: "Jan", count: 50 },
-    { month: "Feb", count: 60 },
-    { month: "Mar", count: 70 },
-    { month: "Apr", count: 65 },
-    { month: "May", count: 55 },
-    { month: "Jun", count: 75 },
-    { month: "Jul", count: 80 },
-    { month: "Aug", count: 85 },
-    { month: "Sep", count: 90 },
-    { month: "Oct", count: 95 },
-    { month: "Nov", count: 100 },
-    { month: "Dec", count: 110 },
-  ];
+  const [data,setdata]=useState()
+  const [studentData,setStudentData]=useState()
+  const [trainerData,setTrainerData]=useState()
+
+useEffect(()=>{
+  getgraphdata().then((res)=>{
+    console.log(res);
+    setdata(res)
+  })
+},[])
+
+useEffect(() => {
+  if (data) {
+    const updatedStudentData = data.map((item) => ({
+      month: item.month,
+      count: item.students.length // Get the number of students for each month
+    }));
+
+    const updatetrainerData=data.map((item)=>({
+      month: item.month,
+      count: item.trainers.length
+    }))
+
+    setStudentData(updatedStudentData);
+    setTrainerData(updatetrainerData);
+  }
+}, [data]);
+
+console.log(studentData,'sj');
+ 
+
+
 
   const coursesData = [
     { month: "Jan", count: 100 },
@@ -82,9 +86,9 @@ const AdminDash = () => {
         </div>
 
         <div className=" grid grid-cols-1">
-          <div className=" grid grid-cols-3">
+          <div className=" flex justify-center">
             <TrainerChart width="300px" height="300px" data={trainerData} />
-            <CoursesChart width="300px" height="300px" data={coursesData} />
+            {/* <CoursesChart width="300px" height="300px" data={coursesData} /> */}
             <StudentChart width="300px" height="300px" data={studentData} />
           </div>
           <div className=" grid grid-cols-3 gap-10">
