@@ -18,7 +18,8 @@ const AdminDash = () => {
   const [trainerData,setTrainerData]=useState()
 
 useEffect(()=>{
-  getgraphdata().then((res)=>{
+  let date=new Date
+  getgraphdata(date.getFullYear()).then((res)=>{
     console.log(res);
     setdata(res)
   })
@@ -61,7 +62,20 @@ console.log(studentData,'sj');
     { month: "Dec", count: 220 },
   ];
 
-  
+  const [year,setyear]=useState()
+  let handlechange=(e)=>{
+    setyear(e.target.value)
+  }
+
+  let handlesubmit=(e)=>{
+   e.preventDefault();
+setyear(year)
+getgraphdata(year).then((res)=>{
+  console.log(res);
+  setdata(res)
+})
+
+  }
 
   return (
     <div className=" gap-1 flex-wrap justify-center  grid grid-cols-1">
@@ -86,12 +100,17 @@ console.log(studentData,'sj');
         </div>
 
         <div className=" grid grid-cols-1">
+          <form className="flex gap-2 p-3" onSubmit={handlesubmit}>
+        <input type="number" className="border-2 p-2 rounded-lg" placeholder="enter year" onChange={handlechange}/>
+        <input type="submit"               className="bg-gray-600 text-white ps-5 pe-5 text-[20px] rounded hover:bg-gray-900 ml-2" value="search" />
+        </form>
           <div className=" flex justify-center">
+            
             <TrainerChart width="300px" height="300px" data={trainerData} />
             {/* <CoursesChart width="300px" height="300px" data={coursesData} /> */}
             <StudentChart width="300px" height="300px" data={studentData} />
           </div>
-          <div className=" grid grid-cols-3 gap-10">
+          <div className=" flex-col justify-center text-center">
             <SummaryCards />
             <Pie/>
             {/* <PresentAbsent /> */}

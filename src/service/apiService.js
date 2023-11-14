@@ -536,10 +536,10 @@ export const getcoursebytrainer = async (trid) => {
 };
 
 //
-export const getgraphdata = async (trid) => {
+export const getgraphdata = async (year) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/reports/yearwise?year=2023`,
+      `http://localhost:4000/api/reports/yearwise?year=${year}`,
       {
         headers: {
           "Content-Type": "application/json",

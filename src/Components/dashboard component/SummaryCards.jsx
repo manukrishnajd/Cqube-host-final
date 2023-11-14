@@ -41,7 +41,7 @@ const SummaryCards = () => {
  
 
   return (
-    <div className="flex gap-5 ">
+    <div className="flex gap-5 w-max m-auto ">
       {/* Student Summary Card */}
      
       
