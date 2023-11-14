@@ -75,6 +75,7 @@ const [view,setview]=useState(false)
 console.log(stddata,'jhkjj');
   const tableHeaders = [
     "Select",
+    "",
     "Name",
     "Course",
     "Trainer",
@@ -489,7 +490,7 @@ try{
 { view ==false &&
 <>
           <h2 className="text-xl font-bold mb-2">Add Student</h2>
-          <div className="flex flex-wrap mb-4">
+          <div className="flex flex-wrap bg-gray-100 p-5 mb-4">
             <input
               className="border rounded p-2 mr-2 mb-2 sm:mb-0"
               type="text"
@@ -550,7 +551,7 @@ try{
             />
 
             <input
-              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              className="border h-11 rounded p-2 mr-2 mb-2 sm:mb-0"
               type="text"
               placeholder="LinkedIn"
               name="linkedIn"
@@ -578,7 +579,7 @@ try{
 </div>
 
             <select
-              className="border rounded p-2 mr-2 mb-2 sm:mb-0"
+              className="border h-11 rounded p-2 mr-2 mb-2 sm:mb-0"
               name="selectedBranch"
               value={newStudent.selectedBranch}
               onChange={handleInputChange}
@@ -592,7 +593,7 @@ try{
             </select>
 
             <select
-  className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+  className="border rounded h-11a px-2 py-1 mr-2 mb-2 sm:mb-0"
   value={newStudent.selectedCourse}
   onChange={handleCourseChange} // Add this line for the new event handler
   name="selectedCourse"
