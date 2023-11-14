@@ -1151,3 +1151,8 @@ abbr:where([title]) {
   background-color: green !important;
   color: white;
 }
+.profile{
+  width: 100px!important;
+  height: 100px;
+  border-radius: 50%;
+}

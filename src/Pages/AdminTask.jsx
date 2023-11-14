@@ -81,7 +81,7 @@ const handleEvaluateSubmit =async (e) => {
       const response = await viewactivity();
       setactivityData(response.result);
     } catch (error) {
-      errorToastify(error?.message);
+      errorToastify('No activities yet');
     }
   };
   console.log(activitydata,'datas of activity');

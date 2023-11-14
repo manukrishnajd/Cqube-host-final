@@ -830,7 +830,7 @@ try{
                       }
                     />
                   </TableCell>
-                  <TableCell><img src={student.profilePic} width={100} height={100} style={{borderRadius:'50%'}} alt="" /></TableCell>
+                  <TableCell><img src={student.profilePic} className="max-w-none profile" alt="" /></TableCell>
                   <TableCell>{student.name}</TableCell>
                     {student?.courses?.map((course, index) => (
                       <>

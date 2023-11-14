@@ -51,7 +51,7 @@ const Trainers = () => {
   let [updateddata, setupdateddata] = useState();
 
   const [data, setdata] = useState([]);
-  const tableHeaders = ["Name", "Created date", "Updated date", "Action","",""];
+  const tableHeaders = ["","Name","Course", "Created date", "Updated date", "Action","",""];
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentData = trainerdata.slice(indexOfFirstRow, indexOfLastRow);
@@ -445,17 +445,17 @@ const Trainers = () => {
             <TableBody className="text-lg">
               {currentData.map((student) => (
                 <TableRow key={student._id}>
-                  <TableCell>
-                    <img
-                      src={student.profilePic}
-                      width={100}
-                      height={100}
-                      style={{ borderRadius: "50%" }}
-                      alt=""
-                    />
-                  </TableCell>
+<TableCell><img src={student.profilePic} className="max-w-none profile" alt="" /></TableCell>
+
 
                   <TableCell>{student.name}</TableCell>
+
+                  <TableCell>
+                  {student.courses.map((item)=>(
+                    
+                    <li className="list-none">{item.courseName}</li>
+                    ))}
+                    </TableCell>
                   <TableCell>
                     {new Date(student.createdAt).toLocaleDateString("en-GB")}
                   </TableCell>

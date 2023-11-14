@@ -89,7 +89,7 @@ const Activity = () => {
         <Button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 0}
-        >
+        >a
           Previous
         </Button>
         <span className="page-number">Page {currentPage + 1} of {totalPages}</span>
