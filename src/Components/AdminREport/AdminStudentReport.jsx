@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Paper,
@@ -9,54 +9,53 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-} from "@material-ui/core";
-import ExcelJS from "exceljs";
-import { getreports } from "../../service/apiService";
-import { filter } from "@syncfusion/ej2/maps";
+} from '@material-ui/core'
+import ExcelJS from 'exceljs'
+import { getreports } from '../../service/apiService'
+import { filter } from '@syncfusion/ej2/maps'
+import { getStudentFilterReports } from '../../../src/service/apiService'
 function AdminStudentReport() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [startdate, setstartdate] = useState();
-  const [enddate, setenddate] = useState();
-  const [filteredData, setFilteredData] = useState([]);
-
- 
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [startdate, setstartdate] = useState()
+  const [enddate, setenddate] = useState()
+  const [studentcount, setCountStudent] = useState(0)
+  const [filter, setFilter] = useState(false)
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to the first page when changing rows per page
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0) // Reset to the first page when changing rows per page
+  }
 
-  const handleSubmit = () => {
-    console.log("clicked");
-    // Filter the data based on startdate and enddate
-    const filteredData = activityResponse.filter((item) => {
-      const joiningDate = new Date(item.joinedDate);
-      console.log(joiningDate,'jjjkk');
-      return joiningDate >= new Date(startdate) && joiningDate <= new Date(enddate);
-    });
-    setFilteredData(filteredData);
-  };
-
-  console.log(filteredData,'dfghjk');
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log('clicked')
+    setstartdate(startdate)
+    setenddate(enddate)
+    if (startdate && enddate) {
+      const filterresponse = await getStudentFilterReports(startdate, enddate)
+      console.log(filterresponse, 'cdfvgbhn')
+      setactivityResponse(filterresponse)
+      console.log(activityResponse)
+    }
+  }
 
   // Define activityResponse, handleChangePage, and other necessary data/functions here.
   // You should replace the following placeholders with your actual data.
 
-  const [activityResponse, setactivityResponse] = useState([]);
+  const [activityResponse, setactivityResponse] = useState([])
 
-  console.log(activityResponse, "data");
+  console.log(activityResponse, 'data')
 
   useEffect(() => {
-    fetchdata();
-  }, []);
+    fetchdata()
+  }, [])
 
   async function fetchdata() {
-    let res = await getreports();
-    console.log(res, "reports fetch");
+    let res = await getreports()
+    console.log(res, 'reports fetch')
 
     setactivityResponse(res)
-    
   }
 
   // ...
@@ -108,55 +107,52 @@ function AdminStudentReport() {
   // ];
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleStartDate = (e) => {
-    setstartdate(e.target.value);
-  };
+    setstartdate(e.target.value)
+  }
   const handleEndDate = (e) => {
-    setenddate(e.target.value);
-  };
-
-  
-
+    setenddate(e.target.value)
+  }
 
   const handleExportToExcel = () => {
     if (activityResponse && activityResponse.length > 0) {
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet("StudentReport");
+      const workbook = new ExcelJS.Workbook()
+      const worksheet = workbook.addWorksheet('StudentReport')
 
       // Add headers
       worksheet.addRow([
-        "SI:NO",
-        "Name",
-        "Course",
-        "Trainer name",
-        "Phone Number",
-        "Branch",
-        "Email",
-        "No of Task",
-        "No of Test",
-        "No of Presentation",
-        "Task Total Mark",
-        "Test Total Mark",
-        "Presentation Total mark",
-        "Presentation Total Mark",
-        "present days",
-        "absent days",
-      ]);
+        'SI:NO',
+        'Name',
+        'Course',
+        'Trainer name',
+        'Phone Number',
+        'Branch',
+        'Email',
+        'No of Task',
+        'No of Test',
+        'No of Presentation',
+        'Task Total Mark',
+        'Test Total Mark',
+        'Presentation Total mark',
+        'Presentation Total Mark',
+        'present days',
+        'absent days',
+      ])
 
       // Add data
       activityResponse.forEach((item) => {
         item.courses?.forEach((course) => {
           worksheet.addRow([
             item?.siNo || 0,
-            item?.name || "",
-            course?.courseName || "",
-            course?.trainerName || "",
-            item?.phoneNumber || "",
-            item?.branchName || "",
-            item?.email || "",
+            item?.name || '',
+            course?.courseName || '',
+            course?.trainerName || '',
+            item?.phoneNumber || '',
+            item?.branchName || '',
+            item?.email || '',
             item?.activities?.task?.length || 0,
             item?.activities?.test?.length || 0,
             item?.activities?.presentation?.length || 0,
@@ -166,25 +162,25 @@ function AdminStudentReport() {
             item?.totalMark || 0,
             item?.isPresentCounts || 0,
             item?.isAbsentCounts || 0,
-          ]);
-        });
-      });
+          ])
+        })
+      })
 
       // Save the workbook
       workbook.xlsx.writeBuffer().then((buffer) => {
         const blob = new Blob([buffer], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = "StudentReport.xlsx";
-        link.click();
-      });
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = 'StudentReport.xlsx'
+        link.click()
+      })
     } else {
       // Handle the case where activityResponse is empty or undefined
-      console.error("No data to export");
+      console.error('No data to export')
     }
-  };
+  }
 
   return (
     <div className="">
@@ -196,99 +192,110 @@ function AdminStudentReport() {
       >
         Export to Excel
       </Button>
-      <input onChange={handleStartDate} type="date" />
-      <input onChange={handleEndDate} type="date" />
-      <input onClick={handleSubmit} type="submit" />
+      <button
+        onClick={() => setFilter(!filter)}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded  "
+      >
+        Filter
+      </button>
+
+      {filter && (
+        <>
+          <input onChange={handleStartDate} type="date" />
+          <input onChange={handleEndDate} type="date" />
+          <input onClick={handleSubmit} type="submit" />
+        </>
+      )}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 SI:NO
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Name
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Course Name
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Trainer Name
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Phone Number
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Branch
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Email
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 No of Task
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 No of Test
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 No of Presentation
@@ -304,45 +311,45 @@ function AdminStudentReport() {
               </TableCell> */}
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Total mark in Task
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Total mark in test
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 Total mark in presentation
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 No of present days
               </TableCell>
               <TableCell
                 style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
+                  backgroundColor: '#475569',
+                  color: 'white',
+                  fontSize: '17px',
                 }}
               >
                 No of Absent days
@@ -388,7 +395,7 @@ function AdminStudentReport() {
         />
       </TableContainer>
     </div>
-  );
+  )
 }
 
-export default AdminStudentReport;
+export default AdminStudentReport
