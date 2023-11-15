@@ -12,10 +12,22 @@ import { BiSupport } from 'react-icons/bi';
 import { IoIosNotifications } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from '../auth/Login'
+import { useState } from 'react'
+import Support from './Support'
+
+
 
 
 const icons=[python,android,figma,java,dotnet]
 const Landing = () => {
+
+        const [isSupportOpen, setIsSupportOpen] = useState(false);
+
+        const openSupport = () => {
+          setIsSupportOpen(!isSupportOpen);
+        };
+      
+       
         const navigate=useNavigate()
   return (
    <>
@@ -23,7 +35,16 @@ const Landing = () => {
         <div className='flex bottom justify-between pl-20 pr-24 items-center'>
             <img src={logo} width="150px" alt="" />
             <div className='flex items-center '>
-            <BiSupport className='pr-5 bg ' size={50}/>
+        <button
+          onClick={openSupport}
+  
+          className="focus:outline-none"
+        >
+          <BiSupport className='pr-5 bg ' size={50} />
+        </button>
+
+
+
             <IoIosNotifications className='pr-5 bg' size={50}/>
             <div className='flex gap-6'>
 
@@ -32,6 +53,9 @@ const Landing = () => {
             </div>
             </div>
         </div>
+        {isSupportOpen && <Support />}
+  
+
     <div className=' flex flex-wrap justify-center'>
         <div className=' text-center font mt-3'>
       <span className='intern'>Intern</span> <br /><span className='track'>Tracking System</span>

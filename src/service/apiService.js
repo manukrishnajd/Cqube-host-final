@@ -788,3 +788,20 @@ export const getcoursereports = async () => {
     throw new Error("Failed to update student: " + error.message);
   }
 };
+
+export const addrequest = async (data) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:4000/api/request`,data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};
