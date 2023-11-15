@@ -6,12 +6,9 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import avatar from "../Data/avatar.jpg";
-import { Cart, Chat, Notification, UserProfile } from ".";
+import {  Notification, UserProfile } from ".";
 import { useStateContext } from "../Contexts/ContextProvider";
-import { FaCodeBranch } from "react-icons/fa";
-import { BiSupport } from "react-icons/bi";
 import { useState } from "react";
-import AdminViewSupport from "../Pages/AdminViewSupport";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -78,16 +75,7 @@ const Navbar = (props) => {
         color={"currentColor"}
         icon={<AiOutlineMenu />}
       />
-      <button
-          onClick={openSupport}
-  
-          className="focus:outline-none"
-        >
-          <BiSupport className='pr-5 bg ' size={50} />
-        </button>
-
-        {isSupportOpen && <AdminViewSupport />}
-
+      
       <div className="flex">
         {/* <NavButton
           title="Add branch"

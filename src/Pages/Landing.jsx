@@ -13,7 +13,8 @@ import { IoIosNotifications } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from '../auth/Login'
 import { useState } from 'react'
-import Support from './Support'
+import { addrequest } from '../service/apiService'
+import { errorToastify, successToastify } from '../Components/Student/toastify'
 
 
 
@@ -27,7 +28,28 @@ const Landing = () => {
           setIsSupportOpen(!isSupportOpen);
         };
       
-       
+        const [data,setdata]=useState()
+        const[open,setopen]=useState(true)
+    
+        let onchange=(e)=>{
+            setdata({...data,[e.target.name]:e.target.value})
+        }
+        let handlesubmit=(e)=>{
+            e.preventDefault()
+            try{
+    
+              addrequest(data).then((res)=>{
+                console.log(res);
+              })
+              setopen(false)
+        
+              successToastify('succesful')
+              setIsSupportOpen(!isSupportOpen)
+            }catch(err){
+              errorToastify(err)
+            }
+         
+        }
         const navigate=useNavigate()
   return (
    <>
@@ -53,7 +75,23 @@ const Landing = () => {
             </div>
             </div>
         </div>
-        {isSupportOpen && <Support />}
+        {isSupportOpen && 
+        <>
+
+         <div className="absolute top-0 right-0 mt-20 bg-white border border-gray-300 p-4 rounded-lg shadow-lg">
+         {open &&
+                 <form className='flex flex-wrap gap-3' onSubmit={handlesubmit}>
+               <input className='border-1 rounded-lg ps-3 text-[18px]' type="text"  name="name" placeholder='Name' onChange={onchange} id="" />
+               <input className='border-1 rounded-lg ps-3 text-[18px]' type="text"  name="email" placeholder='email' onChange={onchange} id="" />
+               <input className='border-1 rounded-lg ps-3 text-[18px]' type="text"  name="phoneNumber" placeholder='Phone Number' onChange={onchange} id="" />
+               <input type="submit" className='bg-slate-600 w-fit ps-4 pe-4 rounded-lg text-[20px] text-white hover:bg-slate-700' />
+                 </form>
+         }
+             </div>
+        
+        
+        </>
+    }
   
 
     <div className=' flex flex-wrap justify-center'>

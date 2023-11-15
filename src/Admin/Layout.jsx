@@ -11,7 +11,7 @@ import { FaCodeBranch, FaUserGraduate } from 'react-icons/fa';
 import { IoIosHome } from 'react-icons/io';
 import Footer from '../Components/dashboard component/Footer';
 import { GrAddCircle } from 'react-icons/gr';
-import { BiTask } from 'react-icons/bi';
+import { BiSupport, BiTask } from 'react-icons/bi';
 import { useTokenVerification } from '../service/apiService';
 
 
@@ -71,6 +71,12 @@ const Layout = () => {
       name: "Notification",
       link: "admin/notification",
       icon: <GrAddCircle style={{width:"30px"  ,height:"30px" }} />,
+    },
+    {
+
+      name: "Support",
+      link: "admin/adminsupport",
+      icon: <BiSupport style={{width:"30px"  ,height:"30px" }} />,
     },
   ];
 
