@@ -805,3 +805,20 @@ export const addrequest = async (data) => {
     throw new Error("Failed to update student: " + error.message);
   }
 };
+
+export const viewrequestadmin = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/request`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};
