@@ -385,7 +385,7 @@ const[arrow,setarrow]=useState(false)
               <TableCell>{new Date(answer?.answer?.createdAt).toLocaleDateString('en-GB')}</TableCell>
               <TableCell>{answer?.answer?.mark}</TableCell>
               <TableCell>{answer?.answer?.status}</TableCell>
-              {answer?.answer?.status=='sumbitted'?
+              {answer?.answer?.status=='submitted'?
 (
 <>
 

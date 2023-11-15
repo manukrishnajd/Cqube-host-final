@@ -12,10 +12,44 @@ import { BiSupport } from 'react-icons/bi';
 import { IoIosNotifications } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from '../auth/Login'
+import { useState } from 'react'
+import { addrequest } from '../service/apiService'
+import { errorToastify, successToastify } from '../Components/Student/toastify'
+
+
 
 
 const icons=[python,android,figma,java,dotnet]
 const Landing = () => {
+
+        const [isSupportOpen, setIsSupportOpen] = useState(false);
+
+        const openSupport = () => {
+          setIsSupportOpen(!isSupportOpen);
+        };
+      
+        const [data,setdata]=useState()
+        const[open,setopen]=useState(true)
+    
+        let onchange=(e)=>{
+            setdata({...data,[e.target.name]:e.target.value})
+        }
+        let handlesubmit=(e)=>{
+            e.preventDefault()
+            try{
+    
+              addrequest(data).then((res)=>{
+                console.log(res);
+              })
+              setopen(false)
+        
+              successToastify('succesful')
+              setIsSupportOpen(!isSupportOpen)
+            }catch(err){
+              errorToastify(err)
+            }
+         
+        }
         const navigate=useNavigate()
   return (
    <>
@@ -23,7 +57,16 @@ const Landing = () => {
         <div className='flex bottom justify-between pl-20 pr-24 items-center'>
             <img src={logo} width="150px" alt="" />
             <div className='flex items-center '>
-            <BiSupport className='pr-5 bg ' size={50}/>
+        <button
+          onClick={openSupport}
+  
+          className="focus:outline-none"
+        >
+          <BiSupport className='pr-5 bg ' size={50} />
+        </button>
+
+
+
             <IoIosNotifications className='pr-5 bg' size={50}/>
             <div className='flex gap-6'>
 
@@ -32,6 +75,25 @@ const Landing = () => {
             </div>
             </div>
         </div>
+        {isSupportOpen && 
+        <>
+
+         <div className="absolute top-0 right-0 mt-20 bg-white border border-gray-300 p-4 rounded-lg shadow-lg">
+         {open &&
+                 <form className='flex flex-wrap gap-3' onSubmit={handlesubmit}>
+               <input className='border-1 rounded-lg ps-3 text-[18px]' type="text"  name="name" placeholder='Name' onChange={onchange} id="" />
+               <input className='border-1 rounded-lg ps-3 text-[18px]' type="text"  name="email" placeholder='email' onChange={onchange} id="" />
+               <input className='border-1 rounded-lg ps-3 text-[18px]' type="text"  name="phoneNumber" placeholder='Phone Number' onChange={onchange} id="" />
+               <input type="submit" className='bg-slate-600 w-fit ps-4 pe-4 rounded-lg text-[20px] text-white hover:bg-slate-700' />
+                 </form>
+         }
+             </div>
+        
+        
+        </>
+    }
+  
+
     <div className=' flex flex-wrap justify-center'>
         <div className=' text-center font mt-3'>
       <span className='intern'>Intern</span> <br /><span className='track'>Tracking System</span>

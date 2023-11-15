@@ -6,9 +6,9 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import avatar from "../Data/avatar.jpg";
-import { Cart, Chat, Notification, UserProfile } from ".";
+import {  Notification, UserProfile } from ".";
 import { useStateContext } from "../Contexts/ContextProvider";
-import { FaCodeBranch } from "react-icons/fa";
+import { useState } from "react";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -58,6 +58,14 @@ const Navbar = (props) => {
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
+
+  const openSupport = () => {
+    setIsSupportOpen(!isSupportOpen);
+  };
+
+
+  
   return (
     <div className="flex rounded-r-full   bg-slate-600 h-fit w-full z-50 justify-between p-2 relative">
       
@@ -67,6 +75,7 @@ const Navbar = (props) => {
         color={"currentColor"}
         icon={<AiOutlineMenu />}
       />
+      
       <div className="flex">
         {/* <NavButton
           title="Add branch"
