@@ -772,6 +772,23 @@ export const getreports = async () => {
   }
 };
 
+export const getStudentFilterReports = async (stdate,enddate) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/reports?startDate=${stdate}&endDate=${enddate}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update student: " + error.message);
+  }
+};
+
 export const getcoursereports = async () => {
   try {
     const response = await axios.get(
