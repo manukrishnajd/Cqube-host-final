@@ -6,6 +6,7 @@ import { FaPhoneAlt } from 'react-icons/fa'
 const AdminViewSupport = () => {
 
     const [data,setdata]=useState([])
+    const [refresh,setrefresh]=useState(false)
 
    useEffect(()=>{
 
@@ -14,8 +15,11 @@ const AdminViewSupport = () => {
       setdata(res.result)
     })
 
-   },[])
+   },[refresh])
   
+  let handledelete=()=>{
+setrefresh(!refresh)
+  } 
   return (
     <div className='flex   flex-wrap gap-4'>
       
@@ -27,12 +31,16 @@ const AdminViewSupport = () => {
   {/* <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"/> */}
   <div class="px-6 py-4">
     <div class="font-bold w-[200px] text-xl mb-2">{item.name}</div><br />
-    <p class="text-gray-700 text-base flex gap-3 items-center">
+    <div class="text-gray-700 text-base flex gap-3 mb-4 items-center">
     <span><MdOutlineEmail/></span><span> {item.email}</span>
-    </p><br />
-    <p class="text-gray-700 text-base flex gap-3">
+    </div>
+    <div class="text-gray-700  mb-3 text-base flex gap-3">
     <span><FaPhoneAlt/></span><span>{item.phoneNumber}</span>
-    </p>
+    </div>
+    <div className='text-center pt-[20px]'>
+    <button onClick={handledelete}><span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Delete</span>
+    </button>
+    </div>
   </div>
   <div class="px-6 pt-4 pb-2">
    
