@@ -14,6 +14,7 @@ import ExcelJS from 'exceljs'
 import { getreports } from '../../service/apiService'
 import { filter } from '@syncfusion/ej2/maps'
 import { getStudentFilterReports } from '../../../src/service/apiService'
+import FilterModal from './FilterModal'
 function AdminStudentReport() {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -117,6 +118,10 @@ function AdminStudentReport() {
     setenddate(e.target.value)
   }
 
+  const toggleFilter = () => {
+    setFilter(!filter)
+  }
+
   const handleExportToExcel = () => {
     if (activityResponse && activityResponse.length > 0) {
       const workbook = new ExcelJS.Workbook()
@@ -183,29 +188,31 @@ function AdminStudentReport() {
   }
 
   return (
-    <div className="">
-      <Button
-        className="mb-4"
-        variant="contained"
-        color="primary"
-        onClick={handleExportToExcel}
-      >
-        Export to Excel
-      </Button>
-      <button
-        onClick={() => setFilter(!filter)}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded  "
-      >
-        Filter
-      </button>
+    <div className=" p-10 rounded-xl bg-white">
+      <div className='flex align-align-items-center justify-between justify-end pb-4'>
+        <Button
+          className="mb-4"
+          variant="contained"
+          color="primary"
+          onClick={handleExportToExcel}
+        >
+          Export to Excel
+        </Button>
+        <button
+          onClick={toggleFilter}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+        >
+          Filter
+        </button>
+      </div>
 
-      {filter && (
-        <>
-          <input onChange={handleStartDate} type="date" />
-          <input onChange={handleEndDate} type="date" />
-          <input onClick={handleSubmit} type="submit" />
-        </>
-      )}
+      <FilterModal
+        isOpen={filter}
+        onClose={toggleFilter}
+        handleStartDate={handleStartDate}
+        handleEndDate={handleEndDate}
+        handleSubmit={handleSubmit}
+      />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
