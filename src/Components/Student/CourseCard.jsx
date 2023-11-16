@@ -38,7 +38,7 @@ export default function CourseCard() {
   return (
     <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
       <h1
-        className="text-5xl bg-slate-300 h-20 text-purple-800 p-3 rounded "
+        className="text-5xl bg-slate-500 h-20 text-white  p-3 rounded "
         style={{ fontFamily: "cursive" }}
       >
         Courses{" "}

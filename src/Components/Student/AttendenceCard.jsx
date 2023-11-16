@@ -41,12 +41,12 @@ export default function AttendenceCard() {
 
   return (
     <div className="m-4 md:m-10 mt-24 p-10 bg-white dark-bg rounded-3xl">
-      <h1 className="text-5xl">Attendance</h1>
+      <h1 className=" text-center text-5xl text-white rounded-lg bg-slate-500">Attendance</h1>
       {studentData && studentData.length > 0 ? (
         studentData.map((courses, index) => (
-          <Card key={index} sx={{ maxWidth: 345, marginTop: 10 }}>
-            <CardActionArea>
-              <CardContent>
+          <Card key={index} sx={{ maxWidth: 345, marginTop: 10, }} >
+            <CardActionArea >
+              <CardContent className='bg-slate-300'>
                 <Typography gutterBottom variant="h5" component="div">
                   {courses.trainerName}
                 </Typography>
@@ -56,7 +56,7 @@ export default function AttendenceCard() {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary" onClick={() => openDialog(courses)}>
+              <Button  size="small" color="primary" onClick={() => openDialog(courses)}>
                 ATTENDANCE
               </Button>
             </CardActions>
