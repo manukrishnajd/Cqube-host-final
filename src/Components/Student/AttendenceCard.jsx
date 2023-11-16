@@ -51,7 +51,7 @@ export default function AttendenceCard() {
                   {courses.trainerName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {courses.name}
+                  {courses.courseName}
                 </Typography>
               </CardContent>
             </CardActionArea>

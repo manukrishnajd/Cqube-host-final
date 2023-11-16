@@ -18,6 +18,7 @@ import { errorToastify } from "../../../src/Components/Student/toastify";
 import { table } from "@syncfusion/ej2-react-grids";
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { evaluateanswer, getcoursereports } from "../../../src/service/apiService";
+import { Margin } from "@mui/icons-material";
 
 
 
@@ -175,7 +176,8 @@ const[arrow,setarrow]=useState(false)
 
   return (
     <div className=" p-10 rounded-xl text-white bg-white">
-    <Button
+      <div className="mb-5">
+      <Button
         className="mb-4"
         variant="contained"
         color="primary"
@@ -183,6 +185,9 @@ const[arrow,setarrow]=useState(false)
       >
         Export to Excel
       </Button>
+      </div>
+      
+   
     <TableContainer component={Paper}>
       <Table>
         <TableHead>

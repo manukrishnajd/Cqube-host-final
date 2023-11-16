@@ -13,8 +13,8 @@ const AdminReportsPage = () => {
 
   return (
     <div className="container flex flex-col">
-      <h2 className="text-2xl font-bold mb-4">Admin Reports Dashboard</h2>
-      <div className="flex space-x-4">
+      <h2 className="text-3xl font-bold mb-4 ">Admin Reports Dashboard</h2>
+      <div className="flex space-x-4 p-5">
         <TabButton
           label="Student"
           activeTab={activeTab}
@@ -35,7 +35,7 @@ const AdminReportsPage = () => {
 
       {activeTab === 'Student' && (
         <div className="mb-8">
-          <h3 className="text-xl font-bold mb-2">Student Reports</h3>
+          <h3 className="text-xl font-bold mb-2 p-7 bg-slate-500 w-80 rounded-e-full text-white">Student Reports</h3>
           <AdminStudentReports />
         </div>
       )}
@@ -49,7 +49,7 @@ const AdminReportsPage = () => {
 
       {activeTab === 'Courses' && (
         <div>
-          <h3 className="text-xl font-bold mb-2">Courses Reports</h3>
+          <h3 className="text-xl font-bold mb-2 p-7 bg-slate-500 w-80 rounded-e-full text-white">Courses Reports</h3>
           <AdminCourseReports />
         </div>
       )}

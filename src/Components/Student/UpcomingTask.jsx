@@ -40,7 +40,7 @@ export default function UpcomingTasks() {
   };
 
   return (
-    <div className="flex gap-5">
+    <div className="overflow-x-auto flex gap-5 container">
       {activityResponse.map((task, index) => {
         const createdAtDate = new Date(task.duedate);
         const formattedDate = `${createdAtDate.getDate()} / ${createdAtDate.getMonth() + 1} / ${createdAtDate.getFullYear()}`;

@@ -11,14 +11,14 @@ import { forgetPassword } from '../Components/Student/apiServices';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [student, setStudent] = useState(''); // New state for "Student" input
+
 
   const handleLogin = () => {
     // Create a data object to send to the API
     const requestData = {
       email: email,
       phoneNumber: phoneNumber,
-      isUserType: student, // Include "student" in the data object
+      isUserType: "isStudent", // Include "student" in the data object
     };
 
     // Call the forgetPassword API with the requestData

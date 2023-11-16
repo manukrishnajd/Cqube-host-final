@@ -13,7 +13,7 @@ function Task() {
     <div>
       <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
         <div className=" font-semibold mb-4 bg-slate-500 h-16 text-4xl pt-3 text-gray-50 text-center rounded-xl">Upcoming Task</div>
-        <div className="border">
+        <div>
           <UpcomingTasks/>
         </div>
 
