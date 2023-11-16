@@ -67,15 +67,6 @@ const Login = () => {
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
-              <div className="mb-4">
-                <input
-                  type="text" // Use type="text" for student input
-                  placeholder="Student"
-                  className="w-full p-2 loginInput rounded"
-                  value={student}
-                  onChange={(e) => setStudent(e.target.value)}
-                />
-              </div>
               <Link to='/ResetPassword'>
               <button
                 type="button"
