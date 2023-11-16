@@ -109,6 +109,8 @@ const AdminAddActivity = () => {
     "Phone Number",
     "Email",
     "Action",
+    "",
+    ""
   ];
 
   const [selectedStudentIds, setSelectedStudentIds] = useState([]);
