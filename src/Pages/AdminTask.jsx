@@ -372,6 +372,8 @@ const[arrow,setarrow]=useState(false)
             <TableCell>Status</TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
           </TableRow>
 
           {student.studentsRef.map((answer, index) => (
@@ -410,7 +412,8 @@ const[arrow,setarrow]=useState(false)
                 </TableCell>
                   )
     }
-                
+                <TableCell></TableCell>
+                <TableCell></TableCell>
             </TableRow>
           ))}
         </>
