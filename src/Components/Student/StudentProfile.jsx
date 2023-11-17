@@ -77,7 +77,7 @@ const StudentProfile = () => {
           <div className="flex items-center justify-center mb-4">
             {/* Add images here */}
             <img
-              src={hello}
+              src={studentData?.profilePic}
               alt="Student Profile"
               className="relative mx-4 mt-4 h-60 w-96 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg"
             />
@@ -91,10 +91,10 @@ const StudentProfile = () => {
             Student Information
           </h2>
           <ul className="pl-6 mt-4 space-y-2">
-            <li className="flex items-start">
+            {/* <li className="flex items-start">
               <span className="font-semibold text-blue-600 mr-2">Branch:</span>
               <span className="text-gray-800">{studentData?.branchRef}</span>
-            </li>
+            </li> */}
             <li className="flex items-start">
               <span className="font-semibold text-blue-600 mr-2">Contact:</span>
               <span className="text-gray-800">{studentData?.phoneNumber}</span>
