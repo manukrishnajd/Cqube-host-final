@@ -4,7 +4,6 @@ export { default as Employees } from './Trainers';
 export { default as ViewPage } from  "./ViewPage";
 export { default as Editor } from './Editor';
 export { default as Customers } from './Students';
-export { default as ColorPicker } from './ColorPicker';
 export { default as Calendar } from './Calendar';
 export { default as Area } from './Charts/Area';
 export { default as Bar } from './Charts/Bar';
