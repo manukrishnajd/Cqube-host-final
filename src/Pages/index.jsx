@@ -1,5 +1,4 @@
 export { default as Ecommerce } from './Ecommerce';
-export { default as Kanban } from './Kanban';
 export { default as Courses } from './Courses';
 export { default as Employees } from './Trainers';
 export { default as ViewPage } from  "./ViewPage";
