@@ -560,7 +560,9 @@ try{
             />
             
             <div className="flex-col">
-  <label htmlFor="">Trainers Assigned:</label>
+  <label htmlFor="" className="me-2">Trainers Assigned:</label>
+  <div className="overflow-y-scroll h-24 ">
+
   {trainers?.map((trainer) => (
     
     <div key={trainer._id}>
@@ -571,11 +573,12 @@ try{
           value={trainer._id}
           checked={selectedtrainer.includes(trainer._id)}
           onChange={(e) => handleSelectTrainer(e, trainer._id)}
-        />
-        {trainer.name}
+          />
+         {trainer.name}
       </label>
     </div>
   ))}
+  </div>
 </div>
 
             <select
@@ -593,7 +596,7 @@ try{
             </select>
 
             <select
-  className="border rounded h-11a px-2 py-1 mr-2 mb-2 sm:mb-0"
+  className="border rounded h-11 px-2 py-1 mr-2 mb-2 sm:mb-0"
   value={newStudent.selectedCourse}
   onChange={handleCourseChange} // Add this line for the new event handler
   name="selectedCourse"
@@ -716,6 +719,7 @@ try{
               </div>
               <div className="flex-col">
   {/* <label htmlFor="">Trainers Assigned:</label> */}
+  <div className="overflow-y-scroll h-24 ">t
   {trainers?.map((trainer) => (
     <div key={trainer._id}>
       <label>
@@ -730,6 +734,7 @@ try{
     </div>
     
   ))}
+  </div>
 </div>
 <div>
 <FileBase64

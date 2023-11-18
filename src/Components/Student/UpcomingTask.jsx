@@ -40,12 +40,13 @@ export default function UpcomingTasks() {
   };
 
   return (
-    <div className="overflow-x-auto flex gap-5 container">
+    <div className='overflow-x-scroll w-[55rem] p-3' >
+    <div className="flex gap-5 container w-[1008px]">
       {activityResponse.map((task, index) => {
         const createdAtDate = new Date(task.duedate);
         const formattedDate = `${createdAtDate.getDate()} / ${createdAtDate.getMonth() + 1} / ${createdAtDate.getFullYear()}`;
         return (
-          <Card key={index} sx={{ maxWidth: 345 }}>
+          <Card key={index} sx={{ width: 345 }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {task.topic}
@@ -69,6 +70,7 @@ export default function UpcomingTasks() {
           </Card>
         );
       })}
+      </div>
 
       <Dialog open={isModalOpen} onClose={closeModal}>
         <DialogContent>
