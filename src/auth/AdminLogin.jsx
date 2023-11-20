@@ -41,9 +41,9 @@ const AdminLogin = () => {
       <div className="min-h-screen margin flex flex-wrap justify-evenly items-center  bg-ash-400">
         <div class="box">
           <div class="form">
-            <h2 className="text-2xl font-bold mb-4 text-center mt-4">Admin Login</h2>
+            <h2 className="text-2xl font-bold mt-7 text-center mt-4">Admin Login</h2>
             <form className='loginHome'>
-              <div className="mb-4">
+              <div className="mb-7">
                 <input
                   type="email"
                   placeholder="Email"
@@ -52,7 +52,7 @@ const AdminLogin = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="mb-4">
+              <div className="mb-7">
                 <input
                   type="password"
                   placeholder="Password"
@@ -69,11 +69,6 @@ const AdminLogin = () => {
                 Login
               </button>
           
-              <Link to='/forgetpass'>
-              <button className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
-              </Link>
-              
-              
             </form>
 
             {auth && (
