@@ -62,9 +62,9 @@ const AdminAddActivity = () => {
       studentsRef: selectedStudentIds, // Pass the selected students
       courseRef: selectedCourseRefId, // Update to use selectedCourseRefId
       trainersRef: id,
-      // mode:presenttype,
-      // meetlink:meetlink,
-      // venue:venue
+      mode:presenttype,
+      meetlink:meetlink,
+      venue:venue
       // Add other data properties as needed
     };
   

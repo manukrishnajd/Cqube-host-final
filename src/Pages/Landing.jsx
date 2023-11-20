@@ -72,6 +72,7 @@ const Landing = () => {
 
             <Link to='/login'><button className='loginbt'>Login</button></Link>
             <Link to='/trainerlogin'><button className='loginbt'>Trainer Login</button></Link>
+            <Link to='/admin'><button className='loginbt'>admin</button></Link>
             </div>
             </div>
         </div>

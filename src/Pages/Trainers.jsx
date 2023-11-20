@@ -305,6 +305,8 @@ const Trainers = () => {
 
               <div className="flex-col">
                 <label htmlFor="">Course:</label>
+  <div className="overflow-y-scroll h-24 ">
+
                 {viewCourse?.map((trainer) => (
                   <div key={trainer._id}>
                     <label>
@@ -318,6 +320,7 @@ const Trainers = () => {
                     </label>
                   </div>
                 ))}
+              </div>
               </div>
             </div>
             <button
@@ -402,6 +405,8 @@ const Trainers = () => {
               ))}
               <div className="flex-col">
                 <label htmlFor="">Course:</label>
+  <div className="overflow-y-scroll h-24 ">
+
                 {viewCourse?.map((trainer) => (
                   <div key={trainer._id}>
                     <label>
@@ -415,6 +420,7 @@ const Trainers = () => {
                     </label>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
             <button
