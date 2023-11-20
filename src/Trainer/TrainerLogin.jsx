@@ -44,7 +44,7 @@ const TrainerLogin = () => {
       <div className="min-h-screen margin flex flex-wrap justify-evenly items-center  bg-ash-400">
         <div class="box">
           <div class="form">
-            <h2 className="text-2xl font-bold mb-4 font text-center mt-4">Login</h2>
+            <h2 className="text-2xl font-bold mb-4 font text-center mt-4">Trainer Login</h2>
             <form className='loginHome'>
               <div className="mb-4">
                 <input

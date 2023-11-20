@@ -72,9 +72,13 @@ const Login = () => {
               >
                 Login
               </button>
+              <div>
               <Link to='/forgetpass'>
-                <button type='button' className='mt-8 text-base ml-32 text-blue-800'>Forget Password ?</button>
+                <button type='button' className=' mb-10 mt-10 text-base ml-32 text-blue-800'>Forget Password ?</button>
               </Link>
+
+              </div>
+             
             </form>
 
             {auth && (
