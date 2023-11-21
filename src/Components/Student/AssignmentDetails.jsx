@@ -197,12 +197,12 @@ const Activity = (props) => {
                       : student?.answer?.status}
                   </TableCell>
                   <TableCell>
-                    {student.type==="task"?"offline":"online"
+                    {student.mode
                     
                     }
                     </TableCell>
                     <TableCell>
-                    {student.type==="task"?"offline":"online"
+                    {student.modeLinkOrPlace
                     
                     }
                     </TableCell>
