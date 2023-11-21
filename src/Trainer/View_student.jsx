@@ -52,9 +52,8 @@ const Students = () => {
       studentsRef: selectedStudentIds, // Pass the selected students
       courseRef: selectedCourseRefId, // Update to use selectedCourseRefId
       trainersRef: id,
-      // mode:presenttype,
-      // meetlink:meetlink,
-      // venue:venue
+      mode:presenttype,
+      modeLinkOrPlace:meetlink,
       // Add other data properties as needed
     };
   
@@ -79,7 +78,6 @@ const Students = () => {
 
   const [duedate, setDueDate] = useState("");
   const [meetlink, setmeetlink] = useState("");
-  const [venue, setvenue] = useState("");
   useEffect(() => {
     viewstudent(id)
       .then((res) => {
@@ -117,7 +115,7 @@ const Students = () => {
       // If it's not selected, add it
       setSelectedStudentIds([...selectedStudentIds, studentId]);
       // Set the selectedCourseRefId to the provided courseRefId
-      setSelectedCourseRefId([...selectedCourseRefId, courseRefId]);
+      setSelectedCourseRefId(courseRefId);
     }
     console.log(selectedStudentIds, "student ids");
     console.log(selectedCourseRefId, "course ids");
@@ -230,15 +228,9 @@ const Students = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-medium text-black">
-                  Type:
+                  Type: Presentation
                 </label>
-                <input
-                  type="text"
-                  value={type}
-                  readOnly
-                  placeholder="Test"
-                  className="h-3"
-                />
+          
               </div>
               <div className="mb-4">
                 <input
@@ -255,7 +247,7 @@ const Students = () => {
                 name="" 
                 id="" 
                 onChange={(e) => setpresenttype(e.target.value)}>
-                  <option disabled value="">Select mode</option>
+                  <option readonly value="">Select mode</option>
                   <option value="online">Online</option>
                   <option value="offline">Offline</option>
                 </select>
@@ -264,7 +256,6 @@ const Students = () => {
               <div className="mb-4">
                 <input
                   type="text"
-                  value={meetlink}
                   onChange={(e) => setmeetlink(e.target.value)}
                   placeholder="link"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -275,8 +266,7 @@ const Students = () => {
                 <div className="mb-4">
                 <input
                   type="text"
-                  value={venue}
-                  onChange={(e) => setvenue(e.target.value)}
+                  onChange={(e) => setmeetlink(e.target.value)}
                   placeholder="Venue"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />
@@ -331,15 +321,9 @@ const Students = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-medium text-black">
-                  Type:
+                  Type: Task
                 </label>
-                <input
-                  type="text"
-                  value={type}
-                  readOnly
-                  placeholder="Test"
-                  className="h-3"
-                />
+               
               </div>
               <div className="mb-4">
                 <input
@@ -413,15 +397,9 @@ const Students = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-medium text-black">
-                  Type:
+                  Type: Test
                 </label>
-                <input
-                  type="text"
-                  value={type}
-                  readOnly
-                  placeholder="Test"
-                  className="h-3"
-                />
+            
               </div>
               <div className="mb-4">
                 <input
@@ -447,7 +425,6 @@ const Students = () => {
               <div className="mb-4">
                 <input
                   type="text"
-                  value={meetlink}
                   onChange={(e) => setmeetlink(e.target.value)}
                   placeholder="Meet link"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -458,8 +435,7 @@ const Students = () => {
                 <div className="mb-4">
                 <input
                   type="text"
-                  value={venue}
-                  onChange={(e) => setvenue(e.target.value)}
+                  onChange={(e) => setmeetlink(e.target.value)}
                   placeholder="Venue"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />

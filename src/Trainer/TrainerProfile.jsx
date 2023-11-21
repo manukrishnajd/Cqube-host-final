@@ -67,7 +67,7 @@ const logout=()=>{
         <div>
           <p className="font-semibold text-xl dark:text-gray-200"> {data.name} </p>
           <p className="text-gray-500 text-sm dark:text-gray-400"> Trainer </p>
-         <Link to='/trainer/trainerprofile'> <button className='bg-slate-400 p-5'>view profile</button></Link>
+         <Link to='/trainer/trainerprofile'> <button className='bg-slate-400 rounded-xl ps-5 pe-5 text-white'>profile</button></Link>
         </div>
       </div>
       

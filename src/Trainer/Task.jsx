@@ -371,12 +371,19 @@ const TrainerTask = () => {
               <TableCell>{answer?.answer?.mark}</TableCell>
               <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
-                <button
-                  onClick={() => openModal("evaluate", answer, student)}
-                  className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
-                >
-                  evaluate
-                </button>
+                {answer?.answer?.status=='evaluated' || 'assigned' ?
+                <>
+                </>
+              :
+              <button
+              onClick={() => openModal("evaluate", answer, student)}
+              className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
+     
+              >
+                evaluate
+              </button>
+              
+              }
               </TableCell>
             </TableRow>
           ))}
@@ -400,6 +407,7 @@ const TrainerTask = () => {
               >
                 Student Name
               </TableCell>
+              
               <TableCell
                 style={{
                   backgroundColor: "#475569",
