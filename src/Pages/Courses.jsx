@@ -14,10 +14,8 @@ import { AiFillDelete } from 'react-icons/ai'
 import { errorToastify, successToastify } from '../Components/Student/toastify'
 
 import { Header } from '../Components'
-import CourseDetailsModal from './CourseDetailsModal' // Assuming you have a modal component for displaying course details
 import {
   addcourse,
-  updateCourse,
   deleteCourse,
   getCourse,
 } from '../service/apiService'
@@ -37,7 +35,6 @@ const Courses = () => {
   const [rowsPerPage] = useState(10)
   const [refresh, setRefresh] = useState(false)
   const [courses, setCourses] = useState([])
-  const [data, setdata] = useState([])
   const tableHeaders = ['Name', 'Created date', 'Updated date', 'Details', '']
   const indexOfLastRow = currentPage * rowsPerPage
   const indexOfFirstRow = indexOfLastRow - rowsPerPage
@@ -66,7 +63,6 @@ const Courses = () => {
     details: null,
   })
   const [editingIndex, setEditingIndex] = useState(null)
-  console.log(newCourse, '-courseee by typing')
 
   // Function to fetch courses and update the state
   const fetchCourses = async () => {
@@ -88,14 +84,6 @@ const Courses = () => {
     })
   }
 
-  const handleFileInputChange = (e) => {
-    const { name, files } = e.target
-    setNewCourse({
-      ...newCourse,
-      [name]: files[0],
-    })
-  }
-
   // add course
   const handleAddCourse = async (e) => {
     setLoader(true)
@@ -111,24 +99,6 @@ const Courses = () => {
   }
   // -------
 
-  const handleUpdateCourse = async () => {
-    try {
-      await updateCourse(newCourse.id, newCourse) // Assuming newCourse has an 'id' property
-      const updatedCourses = courses.map((course) =>
-        course.id === newCourse.id ? { ...course, ...newCourse } : course
-      )
-      setCourses(updatedCourses)
-      setGridKey((prevKey) => prevKey + 1)
-      setNewCourse({
-        name: '',
-        syllabusFile: null,
-        courseMaterialFile: null,
-      })
-      setEditingIndex(null)
-    } catch (error) {
-      console.error('Failed to update course: ', error.message)
-    }
-  }
 
   const handleEditRow = (course) => {
     setNewCourse({ ...course })
@@ -157,52 +127,12 @@ const Courses = () => {
     setIsModalVisible(true)
   }
 
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible)
-  }
 
   useEffect(() => {
     setLoader(true)
     fetchCourses()
   }, [refresh])
 
-  const gridColumns = [
-    { field: 'name', headerText: 'Course Name', width: 200 },
-    { field: 'syllabusFile', headerText: 'Syllabus File', width: 200 },
-    {
-      field: 'courseMaterialFile',
-      headerText: 'Course Material File',
-      width: 200,
-    },
-    {
-      headerText: 'Actions',
-      width: 120,
-      template: (rowdata) => {
-        return (
-          <div>
-            <button
-              className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700 ml-2"
-              onClick={() => handleEditRow(rowdata)}
-            >
-              Edit
-            </button>
-            <button
-              className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700 ml-2"
-              onClick={() => handleViewRow(rowdata)}
-            >
-              View
-            </button>
-            <button
-              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 ml-2"
-              onClick={() => handleDeleteCourse(rowdata.id)}
-            >
-              Delete
-            </button>
-          </div>
-        )
-      },
-    },
-  ]
 
 
   const UiForAddingBranch = (

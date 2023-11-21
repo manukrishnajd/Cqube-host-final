@@ -627,7 +627,7 @@ export const getAllTrainers = async () => {
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+    throw new Error(error.response.data.message)
   }
 };
 export const updateTrainer = async () => {

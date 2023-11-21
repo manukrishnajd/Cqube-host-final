@@ -37,6 +37,7 @@ const Trainers = () => {
   const [joinedDate, setJoinedDate] = useState();
   const [image, setimage] = useState();
   const [git, setgit] = useState();
+  const [loading, setLoading] = useState(false);
   const [linkedin, setlinkedin] = useState();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,6 +77,8 @@ const Trainers = () => {
       setview(!view);
     });
   };
+
+
 
   const handleAddTrainer = () => {
     try {
@@ -123,18 +126,19 @@ const Trainers = () => {
   const fetchData = async () => {
     try {
       const response = await getAllBranches();
-      const responseForCourse = await getCourse();
-      const trainersdata = await getAllTrainers();
-      console.log(trainersdata, "trainerdata");
-      settrainerdata(trainersdata);
+      console.log(response,'rrr');
       setviewBranch(response);
+      const responseForCourse = await getCourse();
+      console.log(response,'rcccrr');
       setviewCourse(responseForCourse.result);
+      const trainersdata = await getAllTrainers();
+      settrainerdata(trainersdata);
     } catch (error) {
-      errorToastify(error?.message);
     }
   };
 
   useEffect(() => {
+
     fetchData();
   }, [refresh]);
 
@@ -152,6 +156,7 @@ const Trainers = () => {
     getCourse().then((res) => {
       setCourseData(res);
     });
+    
     // getAllTrainers()
 
     fetchAllDetails();
@@ -287,6 +292,7 @@ const Trainers = () => {
                 value={linkedin}
                 onChange={(e) => setlinkedin(e.target.value)}
               />
+              
 
               <select
                 className="border h-9 rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
@@ -294,13 +300,18 @@ const Trainers = () => {
                 onChange={(e) => setBranch(e.target.value)}
               >
                 <option value="" disabled>
+                  
                   Select Branch
                 </option>
-                {viewBranch?.map((item) => (
+                {viewBranch.map((item,index) => <>
+                 { console.log(item,'dsdsd')}
                   <option key={item._id} value={item._id}>
-                    {item.name}
+                    {item.name} {index}
                   </option>
-                ))}
+                </>
+                )
+
+                }
               </select>
 
               <div className="flex-col">

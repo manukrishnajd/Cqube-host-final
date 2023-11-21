@@ -175,16 +175,15 @@ console.log(stddata,'jhkjj');
    
       setCourseData(coursesData.result)
     
-    getAllTrainers().then((response) => {
-      setTrainers(response);
-      getStudent().then((res)=>{
-        console.log(res,'responsedsdsjdh');
-        setStudents(res)
-      })
+   let responsetrainer=await getAllTrainers()
+      setTrainers(responsetrainer);
+   let resstudent=await getStudent()
+        setStudents(resstudent)
+    
   
        
       
-      });
+     
     const delay = 500; // 500ms debounce delay
 
     const debounceSearch = setTimeout(() => {
