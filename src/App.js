@@ -75,7 +75,7 @@ const App = () => {
           {/* Admin routes */}
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin" element={<Layout />}>
-            <Route index path element={<AdminDash />} />
+            <Route index path="dash" element={<AdminDash />} />
             <Route path="subcourse" element={<Subcourse />} />
             <Route path="task" element={<AdminTask />} />
             <Route path="notification" element={<AddNotification />} />

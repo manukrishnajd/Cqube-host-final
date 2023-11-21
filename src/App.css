@@ -80,7 +80,7 @@ line-height: 148.5%; /* 26.73px */
   font-size: 20px;
   color: white;
   border-radius: 20px;
-
+  
 
 }
 a{
@@ -193,10 +193,10 @@ animation: animate 2s infinite;
 
 }
 .bg{
-  color: white;
+  color: #E88E1A;
 }
 .bg:hover{
-  color: #E88E1A;
+  color: #9b6218;
 }
 
 

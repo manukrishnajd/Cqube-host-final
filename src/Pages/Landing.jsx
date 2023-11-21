@@ -67,11 +67,10 @@ const Landing = () => {
 
 
 
-            <IoIosNotifications className='pr-5 bg' size={50}/>
-            <div className='flex gap-6'>
+            <div className='flex w-100 flex-wrap gap-6 mt-2'>
 
-            <Link to='/login'><button className='loginbt'>Login</button></Link>
-            <Link to='/trainerlogin'><button className='loginbt'>Trainer Login</button></Link>
+            <Link to='/login'><button className='loginbt'>Intern</button></Link>
+            <Link to='/trainerlogin'><button className='loginbt'>Trainer</button></Link>
             <Link to='/adminlogin'><button className='loginbt'>admin</button></Link>
             </div>
             </div>
