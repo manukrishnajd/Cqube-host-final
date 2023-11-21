@@ -165,6 +165,7 @@ const Courses = () => {
   }
 
   useEffect(() => {
+    setLoader(true)
     fetchCourses()
   }, [refresh])
 
@@ -206,10 +207,7 @@ const Courses = () => {
     },
   ]
 
-  // const gridData = courses.map((course, index) => ({
-  //   ...course,
-  //   id: index + 1,
-  // }));
+
   const UiForAddingBranch = (
     <>
       <div className="mb-4">
@@ -234,21 +232,14 @@ const Courses = () => {
           />
         </div>
 
-        {editingIndex !== null ? (
-          <button
-            className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-700"
-            onClick={handleUpdateCourse}
-          >
-            Update Course
-          </button>
-        ) : (
+        
           <button
             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
             onClick={handleAddCourse}
           >
             Add Course
           </button>
-        )}
+        
       </div>
     </>
   )
@@ -275,12 +266,15 @@ const Courses = () => {
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
+      {
+        loader ?  <Loader/> :<>
+        
       <Header category="Page" title="Courses" />
 
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-4">Course Management</h1>
 
-        {loader ? <Loader /> : <> {UiForAddingBranch}</>}
+        {UiForAddingBranch}
 
         <TableContainer component={Paper}>
           <Table>
@@ -301,7 +295,7 @@ const Courses = () => {
               </TableRow>
             </TableHead>
             <TableBody className="text-lg">
-              {loader ? <Loader/> : <>{UiForViewData}</>}
+            {UiForViewData}
             </TableBody>
           </Table>
         </TableContainer>
@@ -324,6 +318,8 @@ const Courses = () => {
           </Button>
         </div>
       </div>
+    </>
+    }
     </div>
   )
 }
