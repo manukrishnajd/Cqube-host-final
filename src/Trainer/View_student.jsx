@@ -247,7 +247,7 @@ const Students = () => {
                 name="" 
                 id="" 
                 onChange={(e) => setpresenttype(e.target.value)}>
-                  <option disabled value="">Select mode</option>
+                  <option readonly value="">Select mode</option>
                   <option value="online">Online</option>
                   <option value="offline">Offline</option>
                 </select>
