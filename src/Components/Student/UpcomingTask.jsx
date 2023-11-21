@@ -40,8 +40,8 @@ export default function UpcomingTasks() {
   };
 
   return (
-    <div className='overflow-x-scroll w-[55rem] p-3' >
-    <div className="flex gap-5 container w-[1008px]">
+    <div className='ooverflow-x-scroll p-3' >
+    <div className="flex flex-wrap gap-5 container mx-auto">
       {activityResponse.map((task, index) => {
         const createdAtDate = new Date(task.duedate);
         const formattedDate = `${createdAtDate.getDate()} / ${createdAtDate.getMonth() + 1} / ${createdAtDate.getFullYear()}`;

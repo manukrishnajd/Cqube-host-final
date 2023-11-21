@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import {
   Paper,
   Table,
@@ -9,180 +9,175 @@ import {
   TableRow,
   IconButton,
   Button,
-} from "@material-ui/core";
-import { AiFillDelete } from "react-icons/ai";
-import { errorToastify, successToastify } from "../Components/Student/toastify";
+} from '@material-ui/core'
+import { AiFillDelete } from 'react-icons/ai'
+import { errorToastify, successToastify } from '../Components/Student/toastify'
 
-import { Header } from "../Components";
-import CourseDetailsModal from "./CourseDetailsModal"; // Assuming you have a modal component for displaying course details
+import { Header } from '../Components'
+import CourseDetailsModal from './CourseDetailsModal' // Assuming you have a modal component for displaying course details
 import {
   addcourse,
   updateCourse,
   deleteCourse,
   getCourse,
-} from "../service/apiService";
-import Loader from "../Components/Loader";
+} from '../service/apiService'
+import Loader from '../Components/Loader'
 
 const Courses = () => {
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
+      setCurrentPage(newPage)
     }
-  };
+  }
 
   // loader
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(false)
   // --------------
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(10);
-  const [refresh, setRefresh] = useState(false);
-  const [courses, setCourses] = useState([]);
-  const [data, setdata] = useState([]);
-  const tableHeaders = ["Name", "Created date", "Updated date", "Details",''];
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentData = courses.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(courses.length / rowsPerPage);
-
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage] = useState(10)
+  const [refresh, setRefresh] = useState(false)
+  const [courses, setCourses] = useState([])
+  const [data, setdata] = useState([])
+  const tableHeaders = ['Name', 'Created date', 'Updated date', 'Details', '']
+  const indexOfLastRow = currentPage * rowsPerPage
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage
+  const currentData = courses.slice(indexOfFirstRow, indexOfLastRow)
+  const totalPages = Math.ceil(courses.length / rowsPerPage)
 
   // add course
   const handledelete = async (id) => {
     try {
-      const response = await deleteCourse(id);
-      setRefresh(!refresh);
+      const response = await deleteCourse(id)
+      setRefresh(!refresh)
 
-      successToastify(response.message);
+      successToastify(response.message)
     } catch (error) {
-      console.log(error, "--err");
-      errorToastify(error?.message);
+      console.log(error, '--err')
+      errorToastify(error?.message)
     }
-  };
+  }
   //  -------------------
 
-  const [gridKey, setGridKey] = useState(0);
+  const [gridKey, setGridKey] = useState(0)
 
   const [newCourse, setNewCourse] = useState({
-    name: "",
+    name: '',
     syllabus: null,
     details: null,
-  });
-  const [editingIndex, setEditingIndex] = useState(null);
-  console.log(newCourse, "-courseee by typing");
-
+  })
+  const [editingIndex, setEditingIndex] = useState(null)
+  console.log(newCourse, '-courseee by typing')
 
   // Function to fetch courses and update the state
   const fetchCourses = async () => {
-    setLoader(true);
+    setLoader(true)
     try {
-      const coursesData = await getCourse();
-      setCourses(coursesData.result);
-    setLoader(false);
-
+      const coursesData = await getCourse()
+      setCourses(coursesData.result)
+      setLoader(false)
     } catch (error) {
       errorToastify(error.message)
-    setLoader(false);
+      setLoader(false)
     }
-  };
+  }
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setNewCourse({
       ...newCourse,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const handleFileInputChange = (e) => {
-    const { name, files } = e.target;
+    const { name, files } = e.target
     setNewCourse({
       ...newCourse,
       [name]: files[0],
-    });
-  };
+    })
+  }
 
   // add course
   const handleAddCourse = async (e) => {
-    setLoader(true);
+    setLoader(true)
     try {
-      await addcourse(newCourse);
-      setRefresh(!refresh);
-      successToastify("Created course");
-      setLoader(false);
+      await addcourse(newCourse)
+      setRefresh(!refresh)
+      successToastify('Created course')
+      setLoader(false)
     } catch (err) {
-      errorToastify(err.message);
-      setLoader(false);
+      errorToastify(err.message)
+      setLoader(false)
     }
-  };
+  }
   // -------
 
   const handleUpdateCourse = async () => {
     try {
-      await updateCourse(newCourse.id, newCourse); // Assuming newCourse has an 'id' property
+      await updateCourse(newCourse.id, newCourse) // Assuming newCourse has an 'id' property
       const updatedCourses = courses.map((course) =>
         course.id === newCourse.id ? { ...course, ...newCourse } : course
-      );
-      setCourses(updatedCourses);
-      setGridKey((prevKey) => prevKey + 1);
+      )
+      setCourses(updatedCourses)
+      setGridKey((prevKey) => prevKey + 1)
       setNewCourse({
-        name: "",
+        name: '',
         syllabusFile: null,
         courseMaterialFile: null,
-      });
-      setEditingIndex(null);
+      })
+      setEditingIndex(null)
     } catch (error) {
-      console.error("Failed to update course: ", error.message);
+      console.error('Failed to update course: ', error.message)
     }
-  };
+  }
 
   const handleEditRow = (course) => {
-    setNewCourse({ ...course });
-    setEditingIndex(courses.indexOf(course));
-  };
+    setNewCourse({ ...course })
+    setEditingIndex(courses.indexOf(course))
+  }
 
   const handleDeleteCourse = async (courseId) => {
     // alert("ssd")
-    console.log('hhyy');
+    console.log('hhyy')
     setLoader(true)
     try {
-      await deleteCourse(courseId);
-      const updatedCourses = courses.filter((course) => course.id !== courseId);
-      setCourses(updatedCourses);
-      setGridKey((prevKey) => prevKey + 1);
-    setLoader(false)
-
+      await deleteCourse(courseId)
+      const updatedCourses = courses.filter((course) => course.id !== courseId)
+      setCourses(updatedCourses)
+      setGridKey((prevKey) => prevKey + 1)
+      setLoader(false)
     } catch (error) {
       setLoader(false)
       errorToastify(error.message)
-
     }
-  };
+  }
 
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const handleViewRow = (course) => {
-    setSelectedCourse(course);
-    setIsModalVisible(true);
-  };
+    setSelectedCourse(course)
+    setIsModalVisible(true)
+  }
 
   const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
+    setIsModalVisible(!isModalVisible)
+  }
 
   useEffect(() => {
-    fetchCourses();
-  }, [refresh]);
+    fetchCourses()
+  }, [refresh])
 
   const gridColumns = [
-    { field: "name", headerText: "Course Name", width: 200 },
-    { field: "syllabusFile", headerText: "Syllabus File", width: 200 },
+    { field: 'name', headerText: 'Course Name', width: 200 },
+    { field: 'syllabusFile', headerText: 'Syllabus File', width: 200 },
     {
-      field: "courseMaterialFile",
-      headerText: "Course Material File",
+      field: 'courseMaterialFile',
+      headerText: 'Course Material File',
       width: 200,
     },
     {
-      headerText: "Actions",
+      headerText: 'Actions',
       width: 120,
       template: (rowdata) => {
         return (
@@ -206,10 +201,10 @@ const Courses = () => {
               Delete
             </button>
           </div>
-        );
+        )
       },
     },
-  ];
+  ]
 
   // const gridData = courses.map((course, index) => ({
   //   ...course,
@@ -229,8 +224,7 @@ const Courses = () => {
             onChange={handleInputChange}
           />
 
-
-<input
+          <input
             className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
             type="text"
             placeholder="Details"
@@ -257,28 +251,27 @@ const Courses = () => {
         )}
       </div>
     </>
-  );
-
-  const UiForViewData = (
-    
-    currentData.map((student) => (
-      <TableRow key={student._id}>
-        <TableCell>{student.name}</TableCell>
-        <TableCell>{new Date(student.createdAt).toLocaleDateString('en-GB')}</TableCell>
-        <TableCell>{student.updatedAt}</TableCell>
-        <TableCell>{student.details}</TableCell>
-        <TableCell>
-          <IconButton
-            size="small"
-            title="Delete"
-            onClick={() => handledelete(student._id)}
-          >
-            <AiFillDelete size={25} />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-    ))
   )
+
+  const UiForViewData = currentData.map((student) => (
+    <TableRow key={student._id}>
+      <TableCell>{student.name}</TableCell>
+      <TableCell>
+        {new Date(student.createdAt).toLocaleDateString('en-GB')}
+      </TableCell>
+      <TableCell>{student.updatedAt}</TableCell>
+      <TableCell>{student.details}</TableCell>
+      <TableCell>
+        <IconButton
+          size="small"
+          title="Delete"
+          onClick={() => handledelete(student._id)}
+        >
+          <AiFillDelete size={25} />
+        </IconButton>
+      </TableCell>
+    </TableRow>
+  ))
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
@@ -292,15 +285,14 @@ const Courses = () => {
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-
               <TableRow className="h-fit">
                 {tableHeaders?.map((header, index) => (
                   <TableCell
                     key={index}
                     style={{
-                      backgroundColor: "#475569",
-                      fontSize: "17px",
-                      color: "white",
+                      backgroundColor: '#475569',
+                      fontSize: '17px',
+                      color: 'white',
                     }}
                   >
                     {header}
@@ -309,8 +301,7 @@ const Courses = () => {
               </TableRow>
             </TableHead>
             <TableBody className="text-lg">
-            {loader ? <Loader /> : <>{UiForViewData}</>}
-
+              {loader ? <Loader/> : <>{UiForViewData}</>}
             </TableBody>
           </Table>
         </TableContainer>
@@ -334,7 +325,7 @@ const Courses = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Courses;
+export default Courses
