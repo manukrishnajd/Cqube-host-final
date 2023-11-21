@@ -40,7 +40,7 @@ export default function UpcomingTasks() {
   };
 
   return (
-    <div className='ooverflow-x-scroll p-3' >
+    <div className='overflow-y-scroll h-96 p-3' >
     <div className="flex flex-wrap gap-5 container mx-auto">
       {activityResponse.map((task, index) => {
         const createdAtDate = new Date(task.duedate);
