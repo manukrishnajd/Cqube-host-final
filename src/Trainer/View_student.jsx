@@ -117,7 +117,7 @@ const Students = () => {
       // If it's not selected, add it
       setSelectedStudentIds([...selectedStudentIds, studentId]);
       // Set the selectedCourseRefId to the provided courseRefId
-      setSelectedCourseRefId([...selectedCourseRefId, courseRefId]);
+      setSelectedCourseRefId(courseRefId);
     }
     console.log(selectedStudentIds, "student ids");
     console.log(selectedCourseRefId, "course ids");
