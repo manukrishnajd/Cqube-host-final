@@ -23,7 +23,6 @@ import "./Loader.css"; // Import the CSS file for the loader
 
 const Trainers = () => {
   const [name, setName] = useState("");
-  const [gridData, setGridData] = useState();
   //reuse
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
@@ -34,9 +33,11 @@ const Trainers = () => {
 
   // add branch function
   const handleBranch = async () => {
+    setLoader(true);
+
   
     try {
-      const response = await createBranch(name);
+      await createBranch(name);
       successToastify("Create branch");
       setLoader(false);
     } catch (error) {
@@ -62,12 +63,13 @@ const Trainers = () => {
   // ------------------------
 
   useEffect(() => {
+    setLoader(true)
     getBranches();
   }, [refresh]);
 
   // delete branch by id
   const handledelete = async (id) => {
-    
+    setLoader(true);
     try {
       const response = await deleteBranch(id);
       setRefresh(!refresh);
@@ -80,7 +82,7 @@ const Trainers = () => {
   };
   //  -----------------------------
 
-  const tableHeaders = ["Name", "Created date", "Updated date", "Action"];
+  const tableHeaders = ["Name", "Created date", "Updated date", "Delete"];
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -168,7 +170,7 @@ const Trainers = () => {
 
       <div className="container mx-auto p-3 text-white rounded-3xl">
         <div className="container mx-auto p-4">
-          <h1 className="text-2xl text-black font-bold mb-4">Student</h1>
+          <h1 className="text-2xl text-black font-bold mb-4">Branches</h1>
 
           <TableContainer component={Paper}>
             <Table>
