@@ -76,7 +76,6 @@ const Courses = () => {
       setCourses(coursesData.result)
       setLoader(false)
     } catch (error) {
-      errorToastify(error.message)
       setLoader(false)
     }
   }
@@ -137,8 +136,6 @@ const Courses = () => {
   }
 
   const handleDeleteCourse = async (courseId) => {
-    // alert("ssd")
-    console.log('hhyy')
     setLoader(true)
     try {
       await deleteCourse(courseId)
