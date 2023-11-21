@@ -630,6 +630,7 @@ export const getAllTrainers = async () => {
     throw new Error(error.response.data.message)
   }
 };
+
 export const updateTrainer = async () => {
   try {
     const response = await axios.get(`http://localhost:4000/api/trainer`, {
