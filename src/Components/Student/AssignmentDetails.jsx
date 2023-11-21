@@ -248,7 +248,7 @@ const Activity = (props) => {
       >
         <DialogContent>
           {/* Add your content for the remarks popup here */}
-          <p>{}</p>
+          <p>{activityResponse?.answer?.remark}</p>
          
           <button onClick={closeRemarksPopup}>Close Remarks</button>
         </DialogContent>
