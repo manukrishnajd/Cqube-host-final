@@ -46,6 +46,16 @@ const Activity = (props) => {
     setPage(newPage);
   };
 
+  const [isRemarksModalOpen, setIsRemarksModalOpen] = useState(false);
+
+  const handleRemarksButtonClick = () => {
+    setIsRemarksModalOpen(true);
+  };
+
+  const closeRemarksPopup = () => {
+    setIsRemarksModalOpen(false);
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset to the first page when changing rows per page
@@ -55,6 +65,8 @@ const Activity = (props) => {
     page * rowsPerPage,
     (page + 1) * rowsPerPage
   );
+
+
 
  
 
@@ -152,6 +164,15 @@ const Activity = (props) => {
                   fontSize: "17px",
                 }}
               >
+               remarks
+              </TableCell>
+              <TableCell
+                style={{
+                  backgroundColor: "#475569",
+                  color: "white",
+                  fontSize: "17px",
+                }}
+              >
                 Evaluate
               </TableCell>
             </TableRow>
@@ -176,17 +197,18 @@ const Activity = (props) => {
                       : student?.answer?.status}
                   </TableCell>
                   <TableCell>
-                    {student.type==="task"?"offline":"online"
+                    {student.mode
                     
                     }
                     </TableCell>
                     <TableCell>
-                    {student.type==="task"?"offline":"online"
+                    {student.modeLinkOrPlace
                     
                     }
                     </TableCell>
                   <TableCell>{student?.mark}</TableCell>
                   <TableCell>{student?.answer?.mark}</TableCell>
+                  <TableCell><button onClick={handleRemarksButtonClick} >remarks</button></TableCell>
                   <TableCell>
                     {student.answer?.status === "evaluated" ? (
                       <AiFillCheckCircle
@@ -219,6 +241,18 @@ const Activity = (props) => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </TableContainer>
+
+      <Dialog
+        open={isRemarksModalOpen}
+        onClose={closeRemarksPopup}
+      >
+        <DialogContent>
+          {/* Add your content for the remarks popup here */}
+          <p>{activityResponse?.answer?.remark}</p>
+         
+          <button onClick={closeRemarksPopup}>Close Remarks</button>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DialogContent>
