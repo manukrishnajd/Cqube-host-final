@@ -164,15 +164,6 @@ const Activity = (props) => {
                   fontSize: "17px",
                 }}
               >
-               remarks
-              </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: "#475569",
-                  color: "white",
-                  fontSize: "17px",
-                }}
-              >
                 Evaluate
               </TableCell>
             </TableRow>
@@ -208,7 +199,7 @@ const Activity = (props) => {
                     </TableCell>
                   <TableCell>{student?.mark}</TableCell>
                   <TableCell>{student?.answer?.mark}</TableCell>
-                  <TableCell><button onClick={handleRemarksButtonClick} >remarks</button></TableCell>
+                 
                   <TableCell>
                     {student.answer?.status === "evaluated" ? (
                       <AiFillCheckCircle
@@ -242,17 +233,7 @@ const Activity = (props) => {
         />
       </TableContainer>
 
-      <Dialog
-        open={isRemarksModalOpen}
-        onClose={closeRemarksPopup}
-      >
-        <DialogContent>
-          {/* Add your content for the remarks popup here */}
-          <p>{activityResponse?.answer?.remark}</p>
-         
-          <button onClick={closeRemarksPopup}>Close Remarks</button>
-        </DialogContent>
-      </Dialog>
+     
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DialogContent>
