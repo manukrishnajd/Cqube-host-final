@@ -38,8 +38,7 @@ const TrainerLogin = () => {
       <div className='flex flex-wrap bottom justify-between pl-20 pr-24 items-center'>
         <Link to='/'><img src={logo} width="150px" alt="" /></Link>
         <div className='flex items-center '>
-          <BiSupport className='pr-5 bg ' size={50} />
-          <IoIosNotifications className='pr-5 bg' size={50} />
+          {/* <BiSupport className='pr-5 bg ' size={50} />a */}
         </div>
       </div>
 

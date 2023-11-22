@@ -373,7 +373,7 @@ const[arrow,setarrow]=useState(false)
             <TableCell></TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
-            <TableCell></TableCell>a
+            <TableCell></TableCell>
           </TableRow>
 
           {student.studentsRef.map((answer, index) => (
