@@ -21,6 +21,8 @@ const TrainerLogin = () => {
       console.log(response, 'response');
       if (response && response.token) {
         navigate('/trainer/activity');
+        window.location.reload()
+
       } else {
         console.log('Authentication failed');
         setAuthError(true); // Set authError to true when authentication fails

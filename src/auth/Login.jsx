@@ -24,6 +24,8 @@ const Login = () => {
         // Store the token in localStorage
         localStorage.setItem('token', response.token);
         navigate('/student/dash');
+        window.location.reload()
+
       } else {
         setAuth(true);
       }

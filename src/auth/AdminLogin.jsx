@@ -29,6 +29,7 @@ const AdminLogin = () => {
       const response = await loginAdmin(data);
       if (response && response.token) {
         navigate('/admin/dash');
+        window.location.reload()
       }
       setDisabledOfWhileLoading(false)
     } catch (error) {
