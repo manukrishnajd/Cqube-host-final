@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCheckCircle } from "react-icons/ai";
 import {
   Button,
@@ -10,8 +10,9 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import { getActivitybyadmin } from '../service/apiService';
 
-const Activity = () => {
+const Activity = (props) => {
 
   
   const initialStudents = [
@@ -36,12 +37,23 @@ const Activity = () => {
     // Add more default student objects as needed
   ];
 
+const [data,setdata]=useState([])
+
+
+useEffect(()=>{
+  let fetchdata=async()=>{
+    let response=await getActivitybyadmin(props.id)
+  setdata(response.result)
+  }
+  fetchdata()
+},[])
+
   const [students] = useState(initialStudents);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const offset = currentPage * itemsPerPage;
-  const currentStudents = students.slice(offset, offset + itemsPerPage);
-  const totalPages = Math.ceil(students.length / itemsPerPage);
+  const currentStudents = data.slice(offset, offset + itemsPerPage);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {

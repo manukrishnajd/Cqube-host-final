@@ -64,9 +64,9 @@ export default function UpcomingTasks() {
                 Type: {task.type}
               </Typography>
             </CardContent>
-            <Button size="small" color="primary" onClick={() => handleTaskButtonClick(task)}>
+            {/* <Button size="small" color="primary" onClick={() => handleTaskButtonClick(task)}>
               Task
-            </Button>
+            </Button> */}
           </Card>
         );
       })}

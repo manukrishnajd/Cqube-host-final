@@ -10,7 +10,7 @@ function StudentDash() {
   return (
     <div>
       <AttendPie/>
-      <Line/>
+      {/* <Line/> */}
     </div>
   )
 }

@@ -208,66 +208,11 @@ console.log(activData,'datas');
           />
           </div>
       </div>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Topic</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Due Date</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Type</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Evaluated by</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Status</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Mark</TableCell>
-              <TableCell style={{ backgroundColor: '#475569',color:"white",fontSize:"17px" }}>Evaluate</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentStudents.map((student, index) => (
-              <TableRow key={index}>
-                <TableCell>{student.topic}</TableCell>
-                <TableCell>{new Date(student.duedate).toLocaleDateString('en-GB')}</TableCell>
-                <TableCell>{student.notes}</TableCell>
-                <TableCell>{student.branch}</TableCell>
-                <TableCell>{student.status}</TableCell>
-                <TableCell>{student.mark}</TableCell>
-                <TableCell>
-                  {student.status=='evaluated' &&
-                  <AiFillCheckCircle size={20} />
-            }
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      
 
-      <div className="pagination-container">
-        <Button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 0}
-        >
-          Previous
-        </Button>
-        <span className="page-number">Page {currentPage + 1} of {totalPages}</span>
-        <Button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages - 1}
-        >
-          Next
-        </Button>
-      </div>
+      
 
-      <div className="page-numbers">
-        {Array.from({ length: totalPages }, (_, i) => i).map((pageNumber) => (
-          <Button
-            key={pageNumber}
-            onClick={() => handlePageChange(pageNumber)}
-            disabled={pageNumber === currentPage}
-          >
-            {pageNumber + 1}
-          </Button>
-        ))}
-      </div>
+
     </>
   );
 };

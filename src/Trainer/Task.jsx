@@ -371,8 +371,13 @@ const TrainerTask = () => {
               <TableCell>{answer?.answer?.mark}</TableCell>
               <TableCell>{answer?.answer?.status}</TableCell>
               <TableCell>
-                {answer?.answer?.status=='evaluated' || 'assigned' ?
+                {answer?.answer?.status=='evaluated'?
                 <>
+                 <button
+              onClick={() => openModal("evaluate", answer, student)}
+              className="bg-slate-600 rounded text-white p-3 hover-bg-slate-400"
+     disabled
+              >Evaluated</button>
                 </>
               :
               <button

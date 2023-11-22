@@ -39,7 +39,7 @@ useEffect(()=>{
 <LineChart/> */}
   <div>
   <p className='text-2xl font-bold m-auto w-fit'>Activity</p><br />
-    <Activity/>
+    {/* <Activity id={studentid}/> */}
   </div>
     
     </div>
