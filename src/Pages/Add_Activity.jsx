@@ -63,8 +63,8 @@ const AdminAddActivity = () => {
       courseRef: selectedCourseRefId, // Update to use selectedCourseRefId
       trainersRef: id,
       mode:presenttype,
-      meetlink:meetlink,
-      venue:venue
+      modeLinkOrPlace:meetlink,
+ 
       // Add other data properties as needed
     };
   
@@ -132,7 +132,7 @@ const AdminAddActivity = () => {
       // If it's not selected, add it
       setSelectedStudentIds([...selectedStudentIds, studentId]);
       // Set the selectedCourseRefId to the provided courseRefId
-      setSelectedCourseRefId([...selectedCourseRefId, courseRefId]);
+      setSelectedCourseRefId([courseRefId]);
     }
     console.log(selectedStudentIds, "student ids");
     console.log(selectedCourseRefId, "course ids");
@@ -283,7 +283,7 @@ const AdminAddActivity = () => {
                 name="" 
                 id="" 
                 onChange={(e) => setpresenttype(e.target.value)}>
-                  <option disabled value="">Select mode</option>
+                  <option readonly value="">Select mode</option>
                   <option value="online">Online</option>
                   <option value="offline">Offline</option>
                 </select>
@@ -303,8 +303,7 @@ const AdminAddActivity = () => {
                 <div className="mb-4">
                 <input
                   type="text"
-                  value={venue}
-                  onChange={(e) => setvenue(e.target.value)}
+                  onChange={(e) => setmeetlink(e.target.value)}
                   placeholder="Venue"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />
@@ -487,8 +486,7 @@ const AdminAddActivity = () => {
                 <div className="mb-4">
                 <input
                   type="text"
-                  value={venue}
-                  onChange={(e) => setvenue(e.target.value)}
+                  onChange={(e) => setmeetlink(e.target.value)}
                   placeholder="Venue"
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 />
@@ -644,7 +642,7 @@ const AdminAddActivity = () => {
                   <TableCell>{student.phoneNumber}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>
-                    <Link to={`/trainer/detail/${student._id}`}>
+                    <Link to={`/admin/StudentReport/${student._id}`}>
                       <IconButton
                         size="small"
                         title="View more"
