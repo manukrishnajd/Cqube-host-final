@@ -56,7 +56,6 @@ const Trainers = () => {
       setdata(response);
       setLoader(false);
     } catch (error) {
-      errorToastify(error?.message);
       setLoader(false);
     }
   };

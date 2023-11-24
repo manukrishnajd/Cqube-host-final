@@ -14,11 +14,7 @@ import { AiFillDelete } from 'react-icons/ai'
 import { errorToastify, successToastify } from '../Components/Student/toastify'
 
 import { Header } from '../Components'
-import {
-  addcourse,
-  deleteCourse,
-  getCourse,
-} from '../service/apiService'
+import { addcourse, deleteCourse, getCourse } from '../service/apiService'
 import Loader from '../Components/Loader'
 
 const Courses = () => {
@@ -35,7 +31,13 @@ const Courses = () => {
   const [rowsPerPage] = useState(10)
   const [refresh, setRefresh] = useState(false)
   const [courses, setCourses] = useState([])
-  const tableHeaders = ['Name', 'Created date', 'Updated date', 'Details', '']
+  const tableHeaders = [
+    'Name',
+    'Created date',
+    'Updated date',
+    'Details',
+    'Delete',
+  ]
   const indexOfLastRow = currentPage * rowsPerPage
   const indexOfFirstRow = indexOfLastRow - rowsPerPage
   const currentData = courses.slice(indexOfFirstRow, indexOfLastRow)
@@ -58,8 +60,7 @@ const Courses = () => {
   const [gridKey, setGridKey] = useState(0)
 
   const [newCourse, setNewCourse] = useState({
-    name: '',
-    syllabus: null,
+    name: null,
     details: null,
   })
   const [editingIndex, setEditingIndex] = useState(null)
@@ -86,6 +87,7 @@ const Courses = () => {
 
   // add course
   const handleAddCourse = async (e) => {
+    e.preventDefault()
     setLoader(true)
     try {
       await addcourse(newCourse)
@@ -98,7 +100,6 @@ const Courses = () => {
     }
   }
   // -------
-
 
   const handleEditRow = (course) => {
     setNewCourse({ ...course })
@@ -127,46 +128,43 @@ const Courses = () => {
     setIsModalVisible(true)
   }
 
-
   useEffect(() => {
     setLoader(true)
     fetchCourses()
   }, [refresh])
 
-
-
   const UiForAddingBranch = (
     <>
       <div className="mb-4">
         <h2 className="text-xl font-bold mb-2">Add Course</h2>
-        <div className="flex flex-wrap mb-4">
-          <input
-            className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-            type="text"
-            placeholder="Course Name"
-            name="name"
-            value={newCourse.name}
-            onChange={handleInputChange}
-          />
+        <form onSubmit={handleAddCourse}>
+          <div className="flex flex-wrap mb-4">
+            <input
+              required
+              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder="Course Name"
+              name="name"
+              value={newCourse.name}
+              onChange={handleInputChange}
+            />
+            <input
+              className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
+              type="text"
+              placeholder="Details"
+              name="details"
+              value={newCourse.details}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          <input
-            className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-            type="text"
-            placeholder="Details"
-            name="details"
-            value={newCourse.details}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        
           <button
+            type="submit"
             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
-            onClick={handleAddCourse}
           >
             Add Course
           </button>
-        
+        </form>
       </div>
     </>
   )
@@ -178,7 +176,7 @@ const Courses = () => {
         {new Date(student.createdAt).toLocaleDateString('en-GB')}
       </TableCell>
       <TableCell>{student.updatedAt}</TableCell>
-      <TableCell>{student.details}</TableCell>
+      <TableCell>{student.details || '-'}</TableCell>
       <TableCell>
         <IconButton
           size="small"
@@ -193,60 +191,59 @@ const Courses = () => {
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
-      {
-        loader ?  <Loader/> :<>
-        
-      <Header category="Page" title="Courses" />
+      {loader ? (
+        <Loader />
+      ) : (
+        <>
+          <Header category="Page" title="Courses" />
 
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-4">Course Management</h1>
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold mb-4">Course Management</h1>
 
-        {UiForAddingBranch}
+            {UiForAddingBranch}
 
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow className="h-fit">
-                {tableHeaders?.map((header, index) => (
-                  <TableCell
-                    key={index}
-                    style={{
-                      backgroundColor: '#475569',
-                      fontSize: '17px',
-                      color: 'white',
-                    }}
-                  >
-                    {header}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody className="text-lg">
-            {UiForViewData}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow className="h-fit">
+                    {tableHeaders?.map((header, index) => (
+                      <TableCell
+                        key={index}
+                        style={{
+                          backgroundColor: '#475569',
+                          fontSize: '17px',
+                          color: 'white',
+                        }}
+                      >
+                        {header}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody className="text-lg">{UiForViewData}</TableBody>
+              </Table>
+            </TableContainer>
 
-        <div className="pagination-container text-black">
-          <Button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </Button>
-          <span className="page-number">
-            Page {currentPage} of {totalPages}
-          </span>
-          <Button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
-    </>
-    }
+            <div className="pagination-container text-black">
+              <Button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span className="page-number">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

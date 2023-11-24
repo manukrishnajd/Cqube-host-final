@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://137.184.230.216/api/";
+const BASE_URL = "http://localhost:4000/api/";
 
 
 
@@ -30,7 +30,7 @@ export const useTokenVerification = () => {
 // login section
 export const loginAdmin = async (email, password) => {
   try {
-    const response = await axios.post(`http://137.184.230.216/api/auth/login`, email,  password );
+    const response = await axios.post(`http://localhost:4000/api/auth/login`, email,  password );
     localStorage.setItem("token", response?.data?.token);
     localStorage.setItem("id", response?.data?.otherDetails?._id);
     return response.data;
@@ -48,7 +48,7 @@ export const loginAdmin = async (email, password) => {
 export const createBranch = async (name) => {
   try {
     const response = await axios.post(
-      "http://137.184.230.216/api/branch",
+      "http://localhost:4000/api/branch",
       {name},
       {
         headers: {
@@ -65,7 +65,7 @@ export const createBranch = async (name) => {
 // view all branchs
 export const getAllBranches = async () => {
   try {
-    const response = await axios.get("http://137.184.230.216/api/branch");
+    const response = await axios.get("http://localhost:4000/api/branch");
     return response.data.result;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -74,7 +74,7 @@ export const getAllBranches = async () => {
 // delete branch
 export const deleteBranch = async (id) => {
   try {
-    const response = await axios.delete(`http://137.184.230.216/api/branch/${id}`, {
+    const response = await axios.delete(`http://localhost:4000/api/branch/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ export const deleteBranch = async (id) => {
 
 export const viewbranch = async () => {
   try {
-    const response = await axios.get("http://137.184.230.216/api/branch", {
+    const response = await axios.get("http://localhost:4000/api/branch", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -102,7 +102,8 @@ export const viewbranch = async () => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+        throw new Error(error.response.data.message)
+
   }
 };
 
@@ -116,7 +117,7 @@ export const viewbranch = async () => {
 export const addStudent = async (studentData) => {
   try {
     const response = await axios.post(
-      "http://137.184.230.216/api/student/register",
+      "http://localhost:4000/api/student/register",
       studentData,
       {
         headers: {
@@ -129,7 +130,8 @@ export const addStudent = async (studentData) => {
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+        throw new Error(error.response.data.message)
+
   }
 };
 
@@ -137,7 +139,7 @@ export const addStudent = async (studentData) => {
 export const getStudent = async () => {
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/student?status=true",
+      "http://localhost:4000/api/student?status=true",
       
       {
         headers: {
@@ -157,7 +159,7 @@ export const getStudent = async () => {
 export const getStudentbyid = async (id) => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/student/${id}`,
+      `http://localhost:4000/api/student/${id}`,
       
       {
         headers: {
@@ -179,7 +181,7 @@ export const getStudentbyid = async (id) => {
 export const updateStudentById = async (studentId, updatedStudentData) => {
   try {
     const response = await axios.put(
-      `http://137.184.230.216/api/student/${studentId}`,
+      `http://localhost:4000/api/student/${studentId}`,
       updatedStudentData,
       {
         headers: {
@@ -198,7 +200,7 @@ export const Addnotification = async (data) => {
   try {
     console.log(data,'kjiuhgy');
     const response = await axios.post(
-      `http://137.184.230.216/api/notification`,
+      `http://localhost:4000/api/notification`,
       data,
       {
         headers: {
@@ -216,7 +218,7 @@ export const Addnotification = async (data) => {
 export const getnotification = async () => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/notification`,
+      `http://localhost:4000/api/notification`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -233,7 +235,7 @@ export const getnotification = async () => {
 export const deletenotification = async (id) => {
   try {
     const response = await axios.delete(
-      `http://137.184.230.216/api/notification/${id}`,
+      `http://localhost:4000/api/notification/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -252,7 +254,7 @@ export const deletenotification = async (id) => {
 export const deleteStudentById = async (studentId) => {
   try {
     const response = await axios.delete(
-      `http://137.184.230.216/api/student/${studentId}`,
+      `http://localhost:4000/api/student/${studentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -271,7 +273,7 @@ export const deleteStudentById = async (studentId) => {
 export const getCountOfSubCourse = async () => {
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/counts/subcoursecount",
+      "http://localhost:4000/api/counts/subcoursecount",
       {
         headers: {
           "Content-Type": "application/json",
@@ -291,7 +293,7 @@ export const getCountOfSubCourse = async () => {
 export const getCountOfstudent = async () => {
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/counts/studentcount",
+      "http://localhost:4000/api/counts/studentcount",
       {
         headers: {
           "Content-Type": "application/json",
@@ -312,7 +314,7 @@ export const getCountOfstudent = async () => {
 export const getCountOftrainer = async () => {
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/counts/trainercount",
+      "http://localhost:4000/api/counts/trainercount",
       {
         headers: {
           "Content-Type": "application/json",
@@ -332,7 +334,7 @@ export const getCountOftrainer = async () => {
 export const studentCountbyCourse = async () => {
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/counts/piecoursecount",
+      "http://localhost:4000/api/counts/piecoursecount",
       {
         headers: {
           "Content-Type": "application/json",
@@ -362,7 +364,7 @@ export const  getCourse = async () => {
   // getAllCourses
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/course?ismaincourse=true",
+      "http://localhost:4000/api/course?ismaincourse=true",
       {
         headers: {
           "Content-Type": "application/json",
@@ -378,7 +380,7 @@ export const  getCourse = async () => {
 export const getSubcourse = async () => { // getAllCourses
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/course?ismaincourse=false",
+      "http://localhost:4000/api/course?ismaincourse=false",
       {
         headers: {
           "Content-Type": "application/json",
@@ -400,7 +402,7 @@ export const getSubcourse = async () => { // getAllCourses
 export const addcourse = async (newCourse) => {
   try {
     const response = await axios.post(
-      "http://137.184.230.216/api/course",
+      "http://localhost:4000/api/course",
       newCourse,
       {
         headers: {
@@ -416,12 +418,12 @@ export const addcourse = async (newCourse) => {
   }
 };
 //add course
-export const addSubcourse = async ({name},id) => {
-  console.log(name,id,'inside api');
+export const addSubcourse = async (course,id) => {
   try {
     const response = await axios.post(
-      `http://137.184.230.216/api/subcourse/${id}`,
-      {name:name},
+      `http://localhost:4000/api/subcourse/${id}`,
+      course
+      ,
       {
         headers: {
           "Content-Type": "application/json",
@@ -432,13 +434,13 @@ export const addSubcourse = async ({name},id) => {
 
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.response.data.message);
+    throw new Error(error.response.data.message);
   }
 };
 export const deleteSubcourse = async (id) => {
   try {
     const response = await axios.delete(
-      `http://137.184.230.216/api/subcourse/${id}`,
+      `http://localhost:4000/api/subcourse/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -494,7 +496,7 @@ export const deleteCourse = async (courseId) => {
 export const getSubCourse = async () => {
   try {
     const response = await axios.get(
-      "http://137.184.230.216/api/course?ismaincourse=false",
+      "http://localhost:4000/api/course?ismaincourse=false",
       {
         headers: {
           "Content-Type": "application/json",
@@ -515,7 +517,7 @@ export const getSubCourse = async () => {
 export const getcoursebytrainer = async (trid) => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/course/coursebytrainer/${trid}`,
+      `http://localhost:4000/api/course/coursebytrainer/${trid}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -535,7 +537,7 @@ export const getcoursebytrainer = async (trid) => {
 export const getgraphdata = async (year) => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/reports/yearwise?year=${year}`,
+      `http://localhost:4000/api/reports/yearwise?year=${year}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -557,7 +559,7 @@ export const getgraphdata = async (year) => {
 export const addTrainer = async (trainerData) => {
   try {
     const response = await axios.post(
-      `http://137.184.230.216/api/trainer/register/`,
+      `http://localhost:4000/api/trainer/register/`,
       trainerData,
       {
         headers: {
@@ -566,17 +568,18 @@ export const addTrainer = async (trainerData) => {
         },
       }
     );
-    // return response.data;
+    return response.data;
     console.log(response.data);
   } catch (error) {
-    throw new Error("Failed to get branch: " + error.message);
+        throw new Error(error.response.data.message);
+
   }
 };
 
 export const trainerdetailupdate=async (id,data)=>{
   console.log(token,'ghjks');
   try {
-    const response = await axios.put(`http://137.184.230.216/api/trainer/${id}`,data, {
+    const response = await axios.put(`http://localhost:4000/api/trainer/${id}`,data, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // Use the token for authorization
@@ -586,7 +589,8 @@ export const trainerdetailupdate=async (id,data)=>{
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+        throw new Error(error.response.data.message)
+
   }
 
 }
@@ -597,7 +601,7 @@ export const trainerdetailupdate=async (id,data)=>{
 
 export const trainerdetaildelete=async (id)=>{
   try {
-    const response = await axios.delete(`http://137.184.230.216/api/trainer/${id}`, {
+    const response = await axios.delete(`http://localhost:4000/api/trainer/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // Use the token for authorization
@@ -607,7 +611,8 @@ export const trainerdetaildelete=async (id)=>{
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+        throw new Error(error.response.data.message)
+
   }
 
 }
@@ -617,7 +622,7 @@ export const trainerdetaildelete=async (id)=>{
 
 export const getAllTrainers = async () => {
   try {
-    const response = await axios.get("http://137.184.230.216/api/trainer", {
+    const response = await axios.get("http://localhost:4000/api/trainer", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -633,7 +638,7 @@ export const getAllTrainers = async () => {
 
 export const updateTrainer = async () => {
   try {
-    const response = await axios.get(`http://137.184.230.216/api/trainer`, {
+    const response = await axios.get(`http://localhost:4000/api/trainer`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -643,7 +648,8 @@ export const updateTrainer = async () => {
     // console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+        throw new Error(error.response.data.message)
+
   }
 };
 
@@ -652,7 +658,7 @@ export const updateTrainer = async () => {
 export const addbranch = async (branch) => {
   try {
     const response = await axios.post(
-      "http://137.184.230.216/api/branch",
+      "http://localhost:4000/api/branch",
       branch,
       {
         headers: {
@@ -663,7 +669,8 @@ export const addbranch = async (branch) => {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Failed to add student: " + error.message);
+        throw new Error(error.response.data.message)
+
   }
 };
 
@@ -672,7 +679,7 @@ export const addbranch = async (branch) => {
 //view all branches
 export const getBranch = async (pageNo) => {
   try {
-    const response = await axios.get(`http://137.184.230.216/api/branch?page=${pageNo}`, {
+    const response = await axios.get(`http://localhost:4000/api/branch?page=${pageNo}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -680,14 +687,15 @@ export const getBranch = async (pageNo) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to get branch: " + error.message);
+        throw new Error(error.response.data.message);
+
   }
 };
 
 //activity get
 export const getActivitybyadmin = async (id) => {
   try {
-    const response = await axios.get(`http://137.184.230.216/api/activity?stid=${id}`, {
+    const response = await axios.get(`http://localhost:4000/api/activity?stid=${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -695,7 +703,8 @@ export const getActivitybyadmin = async (id) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to get branch: " + error.message);
+        throw new Error(error.response.data.message);
+
   }
 };
 
@@ -703,7 +712,7 @@ export const getActivitybyadmin = async (id) => {
 
 export const evaluateanswer = async (data) => {
   try {
-    const response = await axios.post(`http://137.184.230.216/api/activity/evaluate`,data,{
+    const response = await axios.post(`http://localhost:4000/api/activity/evaluate`,data,{
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -711,7 +720,8 @@ export const evaluateanswer = async (data) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to get branch: " + error.message);
+        throw new Error(error.response.data.message);
+
   }
 };
 
@@ -722,7 +732,7 @@ export const evaluateanswer = async (data) => {
 export const AttendenceByCountid = async (id) => {
 console.log(id,'oie');
   try {
-    const response = await axios.get(`http://137.184.230.216/api/attendance/admincounts/${id}`,{
+    const response = await axios.get(`http://localhost:4000/api/attendance/admincounts/${id}`,{
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // Use the token for authorization
@@ -738,7 +748,7 @@ console.log(id,'oie');
 
 export const AttendenceByCountfilterAdmin = async (stdate,enddate,id) => {
   try {
-    const response = await axios.get(`http://137.184.230.216/api/attendance/admincounts/${id}?startDate=${stdate}&endDate=${enddate}`,{
+    const response = await axios.get(`http://localhost:4000/api/attendance/admincounts/${id}?startDate=${stdate}&endDate=${enddate}`,{
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}` // Use the token for authorization
@@ -755,7 +765,7 @@ export const AttendenceByCountfilterAdmin = async (stdate,enddate,id) => {
 export const getreports = async () => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/reports`,
+      `http://localhost:4000/api/reports`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -772,7 +782,7 @@ export const getreports = async () => {
 export const getStudentFilterReports = async (stdate,enddate) => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/reports?startDate=${stdate}&endDate=${enddate}`,
+      `http://localhost:4000/api/reports?startDate=${stdate}&endDate=${enddate}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -789,7 +799,7 @@ export const getStudentFilterReports = async (stdate,enddate) => {
 export const getcoursereports = async () => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/reports/course`,
+      `http://localhost:4000/api/reports/course`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -806,7 +816,7 @@ export const getcoursereports = async () => {
 export const addrequest = async (data) => {
   try {
     const response = await axios.post(
-      `http://137.184.230.216/api/request`,data,
+      `http://localhost:4000/api/request`,data,
       {
         headers: {
           "Content-Type": "application/json",
@@ -823,7 +833,7 @@ export const addrequest = async (data) => {
 export const viewrequestadmin = async () => {
   try {
     const response = await axios.get(
-      `http://137.184.230.216/api/request`,
+      `http://localhost:4000/api/request`,
       {
         headers: {
           "Content-Type": "application/json",
