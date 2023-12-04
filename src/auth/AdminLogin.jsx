@@ -2,54 +2,64 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import  "./Login.css";
 import logo from '../../src/logo.png'
-import { BiSupport } from 'react-icons/bi';
-import { IoIosNotifications } from 'react-icons/io';
 import { loginAdmin } from '../service/apiService';
+import { errorToastify } from '../Components/Student/toastify';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [auth, setAuth] = useState(false);
-  const [disabledOfWhileLoading, setDisabledOfWhileLoading] = useState(false);
-  const [message, setMessage] = useState('');
+
+
+  //state for email and password
+  const [authData, setAuthData] = useState(
+    {
+      email:null,
+      password:null
+    }
+    );
+    // state for while click disable loading
+    const [disabledOfWhileLoading, setDisabledOfWhileLoading] = useState(false);
+
 
   const handleLogin = async (e) => {
     e.preventDefault()
 
-    if(!(email || password)){
-      return alert("field is empty")
+    if(!authData.email){
+     errorToastify('Email required')
     }
-
+    if(!authData.password){
+      errorToastify('password required')
+    }
     setDisabledOfWhileLoading(true)
- 
-    const data = { email: email, password: password };
-     
+
     try {
-      const response = await loginAdmin(data);
-      if (response && response.token) {
+      const response = await loginAdmin(authData);
+
+      if(response.token && localStorage.getItem("token") && localStorage.getItem("id") ){
+
         navigate('/admin/dash');
-        window.location.reload()
+      //     window.location.reload()
+
       }
       setDisabledOfWhileLoading(false)
     } catch (error) {
-      setMessage(error.message)
-    setDisabledOfWhileLoading(false)
-
-      setAuth(true);
+      errorToastify(error.message)
+      setDisabledOfWhileLoading(false)
     }
   };
+
+
+  const handleChange = (event) =>{
+    const { value, name } = event.target
+    setAuthData({...authData,[name]:value})
+  }
 
   return (
     <>
       <div className='flex flex-wrap bottom justify-between pl-20 pr-24 items-center'>
         <Link to='/'><img src={logo} width="150px" alt="" /></Link>
         <div className='flex items-center '>
-          {/* <BiSupport className='pr-5 bg ' size={50} />
-          <IoIosNotifications className='pr-5 bg' size={50} /> */}
         </div>
       </div>
-
       <div className="min-h-screen margin flex flex-wrap justify-evenly items-center  bg-ash-400">
         <div class="box">
           <div class="form">
@@ -60,9 +70,10 @@ const AdminLogin = () => {
                   type="email"
                   placeholder="Email"
                   className="w-full p-2 loginInput rounded"
-                  value={email}
+                  value={authData.email}
                   required
-                  onChange={(e) => setEmail(e.target.value)}
+                  name='email'
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-7">
@@ -70,25 +81,21 @@ const AdminLogin = () => {
                   type="password"
                   required
                   placeholder="Password"
+                  name='password'
                   className="w-full p-2 loginInput rounded"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={authData.password}
+                  onChange={handleChange}
                 />
               </div>
               <button
                 type="submit"
-                disabled={disabledOfWhileLoading}
                 style={disabledOfWhileLoading ? { opacity:"0.2"} : { opacity:"1"}}
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded"
+                disabled={disabledOfWhileLoading}
               >
                 Login
               </button>
-          
             </form>
-
-            {auth && (
-              <p className="text-red-500 text-center">{message}</p>
-            )}
           </div>
         </div>
       </div>

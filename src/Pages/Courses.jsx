@@ -34,7 +34,6 @@ const Courses = () => {
   const tableHeaders = [
     'Name',
     'Created date',
-    'Updated date',
     'Details',
     'Delete',
   ]
@@ -43,7 +42,7 @@ const Courses = () => {
   const currentData = courses.slice(indexOfFirstRow, indexOfLastRow)
   const totalPages = Math.ceil(courses.length / rowsPerPage)
 
-  // add course
+  // delete course
   const handledelete = async (id) => {
     try {
       const response = await deleteCourse(id)
@@ -51,19 +50,15 @@ const Courses = () => {
 
       successToastify(response.message)
     } catch (error) {
-      console.log(error, '--err')
       errorToastify(error?.message)
     }
   }
   //  -------------------
 
-  const [gridKey, setGridKey] = useState(0)
-
   const [newCourse, setNewCourse] = useState({
     name: null,
     details: null,
   })
-  const [editingIndex, setEditingIndex] = useState(null)
 
   // Function to fetch courses and update the state
   const fetchCourses = async () => {
@@ -88,7 +83,10 @@ const Courses = () => {
   // add course
   const handleAddCourse = async (e) => {
     e.preventDefault()
+
+    if(!newCourse.name) return errorToastify("Course required")
     setLoader(true)
+
     try {
       await addcourse(newCourse)
       setRefresh(!refresh)
@@ -101,32 +99,6 @@ const Courses = () => {
   }
   // -------
 
-  const handleEditRow = (course) => {
-    setNewCourse({ ...course })
-    setEditingIndex(courses.indexOf(course))
-  }
-
-  const handleDeleteCourse = async (courseId) => {
-    setLoader(true)
-    try {
-      await deleteCourse(courseId)
-      const updatedCourses = courses.filter((course) => course.id !== courseId)
-      setCourses(updatedCourses)
-      setGridKey((prevKey) => prevKey + 1)
-      setLoader(false)
-    } catch (error) {
-      setLoader(false)
-      errorToastify(error.message)
-    }
-  }
-
-  const [selectedCourse, setSelectedCourse] = useState(null)
-  const [isModalVisible, setIsModalVisible] = useState(false)
-
-  const handleViewRow = (course) => {
-    setSelectedCourse(course)
-    setIsModalVisible(true)
-  }
 
   useEffect(() => {
     setLoader(true)
@@ -175,7 +147,6 @@ const Courses = () => {
       <TableCell>
         {new Date(student.createdAt).toLocaleDateString('en-GB')}
       </TableCell>
-      <TableCell>{student.updatedAt}</TableCell>
       <TableCell>{student.details || '-'}</TableCell>
       <TableCell>
         <IconButton

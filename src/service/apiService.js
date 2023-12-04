@@ -388,8 +388,6 @@ export const getSubcourse = async () => { // getAllCourses
         },
       }
     );
-    console.log("response", response);
-    // console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

@@ -22,17 +22,20 @@ import Loader from "../Components/Loader";
 import "./Loader.css"; // Import the CSS file for the loader
 
 const Trainers = () => {
-  const [name, setName] = useState("");
+  
   //reuse
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
   const [loader, setLoader] = useState(false);
   //loader state
   const [data, setdata] = useState([]);
+  const [name, setName] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   // add branch function
   const handleBranch = async () => {
+
+    if(!name) return errorToastify('Email required')
     setLoader(true);
 
   
@@ -81,7 +84,7 @@ const Trainers = () => {
   };
   //  -----------------------------
 
-  const tableHeaders = ["Name", "Created date", "Updated date", "Delete"];
+  const tableHeaders = ["Name", "Created date", "Delete"];
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -94,6 +97,7 @@ const Trainers = () => {
     }
   };
 
+  // ui for add branch
   const UiForAddingBranch = (
     <>
       <div className="mb-8">
@@ -121,18 +125,10 @@ const Trainers = () => {
 
   const UiForViewData = currentData.map((student) => {
     const createdAtDate = new Date(student.createdAt);
-    console.log(createdAtDate.getFullYear(),'-yyyy')
-    console.log(createdAtDate.getDate(),'-day  ')
-    console.log(createdAtDate.getMonth(),'-yyyy')
-    const updatedAtDate = new Date(student.updatedAt);
-    console.log(updatedAtDate.getFullYear(),'-yyyy')
-    console.log(updatedAtDate.getDate(),'-day  ')
-    console.log(updatedAtDate.getMonth(),'-yyyy')
   
     return (
        <TableRow key={student._id}>
         <TableCell>{student.name}</TableCell>
-        <TableCell>{`${createdAtDate.getDate()} / ${createdAtDate.getMonth()} / ${createdAtDate.getFullYear()}  `}</TableCell>
         <TableCell>{`${createdAtDate.getDate()} / ${createdAtDate.getMonth()} / ${createdAtDate.getFullYear()}  `}</TableCell>
         <TableCell>
           <IconButton

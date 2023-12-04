@@ -15,7 +15,6 @@ import { errorToastify, successToastify } from '../Components/Student/toastify'
 
 import { Header } from '../Components'
 import {
-  updateCourse,
   deleteCourse,
   getCourse,
   addSubcourse,
@@ -39,28 +38,26 @@ const Courses = () => {
 
   // ------------------
   const [courseForAdding, setCourseForAdding] = useState([])
-  const tableHeaders = ['Name','Day by day syllabus','Course Materials', 'Created date', 'Updated date', 'Delete']
+  const tableHeaders = ['Name','Created date','Day by day syllabus','Course Materials', 'Delete']
   const totalPages = Math.ceil(courses.length / rowsPerPage)
 
   const handledelete = async (id) => {
     setLoader(true)
     try {
-      const response = await deleteCourse(id)
+      await deleteCourse(id)
       setRefresh(!refresh)
       setLoader(false)
+      successToastify('Deleted Subcourse')
 
-      successToastify(response.message)
     } catch (error) {
       setLoader(false)
-      errorToastify(error?.message)
+      errorToastify(error.message)
     }
   }
 
-  const [gridKey, setGridKey] = useState(0)
 
   const [newCourse, setNewCourse] = useState({ name: null,syllabus:null,details:null })
-  const [editingIndex, setEditingIndex] = useState(null)
-  console.log(newCourse, '-courseee by typing')
+
   // Function to fetch courses and update the state
   const fetchDetails = async () => {
     setLoader(true)
@@ -74,8 +71,6 @@ const Courses = () => {
       setLoader(false)
     }
   }
-
-  console.log(courses, 'asdfg')
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -95,27 +90,7 @@ const Courses = () => {
       setLoader(false)
     } catch (err) {
       setLoader(false)
-
       errorToastify(err.message)
-    }
-  }
-
-  const handleUpdateCourse = async () => {
-    try {
-      await updateCourse(newCourse.id, newCourse) // Assuming newCourse has an 'id' property
-      const updatedCourses = courses.map((course) =>
-        course.id === newCourse.id ? { ...course, ...newCourse } : course
-      )
-      setCourses(updatedCourses)
-      setGridKey((prevKey) => prevKey + 1)
-      setNewCourse({
-        name: '',
-        syllabusFile: null,
-        courseMaterialFile: null,
-      })
-      setEditingIndex(null)
-    } catch (error) {
-      console.error('Failed to update course: ', error.message)
     }
   }
 
@@ -123,8 +98,6 @@ const Courses = () => {
     setLoader(true)
     fetchDetails()
   }, [refresh])
-
-  // }));
 
   return (
     <div className="container mx-auto p-10 bg-white rounded-3xl">
@@ -217,14 +190,11 @@ const Courses = () => {
                   {subcourse.map((item) => (
                     <TableRow key={item._id}>
                       <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.details}</TableCell>
-                      <TableCell>{item.syllabus}</TableCell>
                       <TableCell>
                         {new Date(item.createdAt).toLocaleDateString('en-GB')}
                       </TableCell>
-                      <TableCell>
-                        {new Date(item.updatedAt).toLocaleDateString('en-GB')}
-                      </TableCell>
+                      <TableCell>{item.details}</TableCell>
+                      <TableCell>{item.syllabus}</TableCell>
                       <TableCell>
                         <IconButton
                           size="small"
