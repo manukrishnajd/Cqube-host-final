@@ -626,8 +626,6 @@ export const getAllTrainers = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("response", response);
-    // console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message)

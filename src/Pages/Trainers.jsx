@@ -36,7 +36,7 @@ const Trainers = () => {
   const [courseRef, setCourse] = useState('')
   const [gridData, setGridData] = useState()
   const [joinedDate, setJoinedDate] = useState()
-  const [image, setimage] = useState()
+  const [image, setimage] = useState(null)
   const [git, setgit] = useState()
   const [loading, setLoading] = useState(false)
   const [linkedin, setlinkedin] = useState()
@@ -52,6 +52,18 @@ const Trainers = () => {
   const [trainerdata, settrainerdata] = useState([])
   let [updateddata, setupdateddata] = useState()
 
+  // states
+  const [createTrainer,setCreateTrainer] = useState({
+    name: null,
+    joinedDate : null, 
+    email : null, 
+    phoneNumber:null, 
+    branchRef:null,
+    courseRef:[],
+    linkedin: null,
+    github:null
+  })
+
   const [data, setdata] = useState([])
   const tableHeaders = [
     'Profile Pic',
@@ -63,13 +75,14 @@ const Trainers = () => {
     'Github',
     'Course',
     'Created date',
-    'Updated date',
     'Action',
     ' '
   ]
   const indexOfLastRow = currentPage * rowsPerPage
   const indexOfFirstRow = indexOfLastRow - rowsPerPage
+  console.log(trainerdata,'rainrdata')
   const currentData = trainerdata.slice(indexOfFirstRow, indexOfLastRow)
+  console.log(currentData,'fkfkk')
   const totalPages = Math.ceil(trainerdata.length / rowsPerPage)
 
   const handlePageChange = (newPage) => {
@@ -94,26 +107,38 @@ const Trainers = () => {
     })
   }
 
-  const handleAddTrainer = async () => {
+  const handleAddTrainer = async (e) => {
+    e.preventDefault()
     setLoading(true)
     try {
-      const newTrainer = {
-        name,
-        password,
-        phoneNumber,
-        email,
-        branchRef,
-        joinedDate,
-        courseRef: selectedcourse,
-        profilePic: image,
-        github: git,
-        linkedin,
-      }
 
-      await addTrainer(newTrainer)
+      
+      // const newTrainer = {
+      //   name,
+      //   password,
+      //   phoneNumber,
+      //   email,
+      //   branchRef,
+      //   joinedDate,
+      //   courseRef: selectedcourse,
+      //   profilePic: image,
+      //   github: git,
+      //   linkedin,
+      // }
 
-      setGridData(data)
+let data = {...createTrainer,courseRef:selectedcourse,profilePic:image}
+
+      await addTrainer(data)
+// console.log(createTrainer,'createTrainer')
+// console.log(selectedcourse,'dddd')
+
+// console.log(data,'data');
+
+      // return true
+
+      // setGridData(data)
       clearFields()
+      setimage(null)
       setrefresh(!refresh)
       setLoading(false)
       successToastify('Trainer created')
@@ -148,18 +173,14 @@ const Trainers = () => {
       const responseForCourse = await getCourse()
       console.log(response, 'rcccrr')
       setviewCourse(responseForCourse.result)
-      const trainersdata = await getAllTrainers()
-      settrainerdata(trainersdata)
       setLoading(false)
-    } catch (error) {
-      setLoading(false)
+    } catch (errr) {
     }
   }
 
   useEffect(() => {
-    setLoading(true)
-
-    fetchData()
+    // setLoading(true)
+    fetchTrainers()
   }, [refresh])
 
   const fetchAllDetails = async () => {
@@ -172,8 +193,23 @@ const Trainers = () => {
 
   const [course_data, setCourseData] = useState([])
 
+
+  const fetchTrainers = async()=>{
+    setLoading(true);
+    try {
+      const trainersdata = await getAllTrainers()
+      settrainerdata(trainersdata)
+    setLoading(false);
+
+    }catch(err){
+      setLoading(false);
+    }
+  }
+
+
   useEffect(() => {
     setLoading(true)
+    fetchData()
 
     getCourse()
       .then((res) => {
@@ -194,7 +230,7 @@ const Trainers = () => {
   const handledelete = async (id) => {
     try {
       await trainerdetaildelete(id)
-      successToastify('deleted succesffully')
+      successToastify('Deleted Successfully')
       setrefresh(!refresh)
     } catch (error) {
       setrefresh(!refresh)
@@ -225,6 +261,13 @@ const Trainers = () => {
 
   const handleUpdateInputChange = (e) => {
     setupdateddata({ ...updateddata, [e.target.name]: e.target.value })
+  }
+
+  const handleChange = (e)=>{
+    // if(!e.target.value === ''){
+      setCreateTrainer({ ...createTrainer, [e.target.name]: e.target.value })
+    // }
+
   }
 
   const handleupdateCourseChange = (e) => {
@@ -274,73 +317,84 @@ const Trainers = () => {
                       className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
                       type="text"
                       placeholder="Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      name='name'
+                      value={createTrainer.name}
+                      onChange={handleChange}
                     />
-                    <FileBase64
-                      onDone={(res) => {
-                        console.log(res.base64, 'responsesd')
-                        setimage(res.base64)
-                      }}
-                    />
+                   
                     <input
                       required
                       className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
                       type="number"
                       placeholder="Phone"
-                      value={phoneNumber}
-                      onChange={(e) => setPhone(e.target.value)}
+                      name='phoneNumber'
+                      value={createTrainer.phoneNumber}
+                      onChange={handleChange}
+
                     />
                     <input
                       required
                       className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
                       type="email"
                       placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      name='email'
+                      value={createTrainer.email}
+                      onChange={handleChange}
                     />
                     <input
                       required
                       className="border rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
                       type="password"
                       placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      name='password'
+                      value={createTrainer.password}
+                      onChange={handleChange}
+                    />
+
+                     <FileBase64 
+                      onDone={(res) => {
+                        setimage(res.base64)
+                      }}
                     />
 
                     <input
                       required
                       className="border h-9 rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
                       type="date"
+                      name='joinedDate'
                       placeholder="date"
-                      value={joinedDate}
-                      onChange={(e) => setJoinedDate(e.target.value)}
+                      value={createTrainer.joinedDate}
+                      onChange={handleChange}
                     />
                     <input
                       className="border h-9 rounded p-2 mr-2 mb-2 sm:mb-0"
                       type="text"
                       placeholder="Git"
-                      value={git}
-                      onChange={(e) => setgit(e.target.value)}
+                      name='github'
+                      value={createTrainer.github}
+                      onChange={handleChange}
                     />
                     <input
                       className="border h-9 rounded p-2 mr-2 mb-2 sm:mb-0"
                       type="text"
                       placeholder="Linkedin"
-                      value={linkedin}
-                      onChange={(e) => setlinkedin(e.target.value)}
+                      name='linkedin'
+                      value={createTrainer.linkedin}
+                      onChange={handleChange}
                     />
 
                     <select
                       required
+                      name='branchRef'
+                      
                       className="border h-9 rounded px-2 py-1 mr-2 mb-2 sm:mb-0"
-                      value={branchRef}
-                      onChange={(e) => setBranch(e.target.value)}
+                      value={createTrainer.branchRef}
+                      onChange={handleChange}
                     >
-                      <option value="" disabled>
+                      <option value="">
                         Select Branch
                       </option>
-                      {viewBranch.map((item, index) => (
+                      {viewBranch.map((item) => (
                         <>
                           <option key={item._id} value={item._id}>
                             {item.name}
@@ -380,7 +434,7 @@ const Trainers = () => {
               </div>
             )}
 
-            {view && (
+            {/* {view && (
               <div className="mb-4">
                 <h2 className="text-xl font-bold mb-2">Update Trainer</h2>
                 <form
@@ -423,10 +477,8 @@ const Trainers = () => {
                       onChange={handleUpdateInputChange}
                     />
                     <label htmlFor="">
-                      {/* {`Date joined: ${updateddata.joinedDate}`} */}
                       <span>Joined Date : </span> {new Date(updateddata.joinedDate).toLocaleDateString('en-GB')}
                     </label>
-                    {/* <input type="date" value={editviewdata.joinedDate} /> */}
                     <FileBase64
                       onDone={(res) => {
                         console.log(res.base64, 'responsesd')
@@ -491,7 +543,7 @@ const Trainers = () => {
                   </button>
                 </form>
               </div>
-            )}
+            )} */}
 
             <TableContainer component={Paper}>
               <Table>
@@ -512,44 +564,41 @@ const Trainers = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody className="text-lg">
-                  {currentData.map((student) => (
-                    <TableRow key={student._id}>
+                  
+                  {currentData.map((trainer) => (
+                    <TableRow key={trainer._id}>
                       <TableCell>
                         <img
-                          src={student.profilePic}
+                          src={trainer.profilePic}
                           className="max-w-none profile"
-                          alt=""
+                          alt="profile"
                         />
                       </TableCell>
 
-                      <TableCell>{student.name}</TableCell>
-                      <TableCell>{student.email}</TableCell>
+                      <TableCell>{trainer.name}</TableCell>
+                      <TableCell>{trainer.email}</TableCell>
                       
-                      <TableCell>{student.branchName}</TableCell>
-                      <TableCell>{student.phoneNumber}</TableCell>
-                      <TableCell>{student.linkedin}</TableCell>
-                      <TableCell>{student.github}</TableCell>
+                      <TableCell>{trainer.branchName}</TableCell>
+                      <TableCell>{trainer.phoneNumber}</TableCell>
+                      <TableCell>{trainer.linkedin}</TableCell>
+                      <TableCell>{trainer.github}</TableCell>
 
                       <TableCell>
-                        {student.courses.map((item) => (
-                          <li className="list-none">{item.courseName}</li>
+                        {trainer.courses.map((item) => (
+                          <li className="list-none">{item.name}</li>
                         ))}
                       </TableCell>
                       <TableCell>
-                        {new Date(student.createdAt).toLocaleDateString(
+                        {new Date(trainer.createdAt).toLocaleDateString(
                           'en-GB'
                         )}
                       </TableCell>
-                      <TableCell>
-                        {new Date(student.updatedAt).toLocaleDateString(
-                          'en-GB'
-                        )}
-                      </TableCell>
+
                       <TableCell>
                         <IconButton
                           size="small"
                           title="Delete"
-                          onClick={() => handledelete(student._id)}
+                          onClick={() => handledelete(trainer._id)}
                         >
                           <AiFillDelete size={25} />
                         </IconButton>
@@ -558,7 +607,7 @@ const Trainers = () => {
                         <IconButton
                           size="small"
                           title="View more"
-                          onClick={() => handleedit(student._id)}
+                          onClick={() => handleedit(trainer._id)}
                         >
                           <AiFillEdit size={25} />
                         </IconButton>
